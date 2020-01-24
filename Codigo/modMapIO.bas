@@ -243,7 +243,7 @@ Public Sub NuevoMapa()
 
     On Error Resume Next
 
-    Dim loopc As Integer
+    Dim LoopC As Integer
 
     Dim Y     As Integer
 
@@ -259,8 +259,8 @@ Public Sub NuevoMapa()
 
     MapaCargado = False
 
-    For loopc = 0 To frmMain.MapPest.count - 1
-        frmMain.MapPest(loopc).Enabled = False
+    For LoopC = 0 To frmMain.MapPest.count - 1
+        frmMain.MapPest(LoopC).Enabled = False
     Next
 
     frmMain.MousePointer = 11
@@ -352,7 +352,7 @@ Public Sub MapaV2_Guardar(ByVal SaveAs As String)
 
     Dim FreeFileInf As Long
 
-    Dim loopc       As Long
+    Dim LoopC       As Long
 
     Dim TempInt     As Integer
 
@@ -432,10 +432,10 @@ Public Sub MapaV2_Guardar(ByVal SaveAs As String)
                 
             Put FreeFileMap, , MapData(X, Y).Graphic(1).GrhIndex
                 
-            For loopc = 2 To 4
+            For LoopC = 2 To 4
 
-                If MapData(X, Y).Graphic(loopc).GrhIndex Then Put FreeFileMap, , MapData(X, Y).Graphic(loopc).GrhIndex
-            Next loopc
+                If MapData(X, Y).Graphic(LoopC).GrhIndex Then Put FreeFileMap, , MapData(X, Y).Graphic(LoopC).GrhIndex
+            Next LoopC
                 
             If MapData(X, Y).Trigger Then Put FreeFileMap, , MapData(X, Y).Trigger
                 
@@ -507,7 +507,7 @@ Public Sub MapaV2_Cargar(ByVal Map As String)
 
     On Error Resume Next
 
-    Dim loopc       As Integer
+    Dim LoopC       As Integer
     Dim TempInt     As Integer
     Dim Body        As Integer
     Dim Head        As Integer
@@ -717,25 +717,23 @@ Public Sub MapInfo_Cargar(ByVal Archivo As String)
     On Error Resume Next
 
     Dim Leer  As New clsIniManager
-
-    Dim loopc As Integer
-
+    Dim LoopC As Integer
     Dim Path  As String
 
     MapTitulo = Empty
     
     If FileExist(Archivo, vbNormal) = False Then
-        Call AddtoRichTextBox(frmMain.StatTxt, "Error en el Mapa " & Map & ", no se ha encontrado al archivo .dat", 255, 0, 0)
+        Call AddtoRichTextBox(frmMain.StatTxt, "Error en el Mapa " & Archivo & ", no se ha encontrado al archivo .dat", 255, 0, 0)
         Exit Sub
 
     End If
     
-    Leer.Initialize Archivo
+    Call Leer.Initialize(Archivo)
 
-    For loopc = Len(Archivo) To 1 Step -1
+    For LoopC = Len(Archivo) To 1 Step -1
 
-        If mid(Archivo, loopc, 1) = "\" Then
-            Path = Left(Archivo, loopc)
+        If mid(Archivo, LoopC, 1) = "\" Then
+            Path = Left(Archivo, LoopC)
             Exit For
 
         End If
@@ -814,12 +812,12 @@ Public Sub Pestañas(ByVal Map As String, ByVal formato As String)
     '*************************************************
     On Error Resume Next
 
-    Dim loopc As Integer
+    Dim LoopC As Integer
 
-    For loopc = Len(Map) To 1 Step -1
+    For LoopC = Len(Map) To 1 Step -1
 
-        If mid(Map, loopc, 1) = "\" Then
-            PATH_Save = Left(Map, loopc)
+        If mid(Map, LoopC, 1) = "\" Then
+            PATH_Save = Left(Map, LoopC)
             Exit For
 
         End If
@@ -827,25 +825,25 @@ Public Sub Pestañas(ByVal Map As String, ByVal formato As String)
     Next
     Map = Right(Map, Len(Map) - (Len(PATH_Save)))
 
-    For loopc = Len(Left(Map, Len(Map) - 4)) To 1 Step -1
+    For LoopC = Len(Left(Map, Len(Map) - 4)) To 1 Step -1
 
-        If IsNumeric(mid(Left(Map, Len(Map) - 4), loopc, 1)) = False Then
-            NumMap_Save = Right(Left(Map, Len(Map) - 4), Len(Left(Map, Len(Map) - 4)) - loopc)
-            NameMap_Save = Left(Map, loopc)
+        If IsNumeric(mid(Left(Map, Len(Map) - 4), LoopC, 1)) = False Then
+            NumMap_Save = Right(Left(Map, Len(Map) - 4), Len(Left(Map, Len(Map) - 4)) - LoopC)
+            NameMap_Save = Left(Map, LoopC)
             Exit For
 
         End If
 
     Next
 
-    For loopc = (NumMap_Save - 7) To (NumMap_Save + 10)
+    For LoopC = (NumMap_Save - 7) To (NumMap_Save + 10)
 
-        If FileExist(PATH_Save & NameMap_Save & loopc & formato, vbArchive) = True Then
-            frmMain.MapPest(loopc - NumMap_Save + 7).Visible = True
-            frmMain.MapPest(loopc - NumMap_Save + 7).Enabled = True
-            frmMain.MapPest(loopc - NumMap_Save + 7).Caption = NameMap_Save & loopc
+        If FileExist(PATH_Save & NameMap_Save & LoopC & formato, vbArchive) = True Then
+            frmMain.MapPest(LoopC - NumMap_Save + 7).Visible = True
+            frmMain.MapPest(LoopC - NumMap_Save + 7).Enabled = True
+            frmMain.MapPest(LoopC - NumMap_Save + 7).Caption = NameMap_Save & LoopC
         Else
-            frmMain.MapPest(loopc - NumMap_Save + 7).Visible = False
+            frmMain.MapPest(LoopC - NumMap_Save + 7).Visible = False
 
         End If
 
@@ -1307,7 +1305,7 @@ Public Sub MapaInteger_Cargar(ByVal Map As String)
 
     On Error Resume Next
 
-    Dim loopc       As Integer
+    Dim LoopC       As Integer
 
     Dim TempInt     As Integer
 

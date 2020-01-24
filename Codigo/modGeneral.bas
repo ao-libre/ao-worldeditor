@@ -370,8 +370,7 @@ Public Sub Main()
     Dim OffsetCounterX As Integer
     Dim OffsetCounterY As Integer
     Dim Chkflag        As Integer
-    
-    Windows_Temp_Dir = General_Get_Temp_Dir
+
     Call CargarMapIni
     
     With frmCargando
