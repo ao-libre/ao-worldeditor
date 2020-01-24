@@ -9,3 +9,7 @@ Codigo/*.log
 *.png
 *.jpg
 *.bmp
+*.psd
+*.ind
+*.ani
+*.ico

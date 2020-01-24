@@ -3,11 +3,6 @@ Option Explicit
 
 Public Const PI     As Single = 3.14159265358979 'Numero PI
 
-'Particle Groups
-Public TotalStreams As Integer
-
-Public StreamData() As Stream
- 
 'RGB Type
 Public Type RGB
 
@@ -16,10 +11,14 @@ Public Type RGB
     B As Long
 
 End Type
- 
+
+'Particle Groups
+Public TotalStreams As Integer
+Public StreamData() As Stream
+
 Public Type Stream
 
-    name As String
+    Name As String
     NumOfParticles As Long
     NumGrhs As Long
     ID As Long
@@ -65,66 +64,39 @@ Public MapData_Adyacente() As MapBlock
 Public LightIluminado(3)   As Long
 
 Public Const MSGMod        As String = "Este mapa há sido modificado." & vbCrLf & "Si no lo guardas perderas todos los cambios ¿Deseas guardarlo?"
-
 Public Const MSGDang       As String = "CUIDADO! Este comando puede arruinar el mapa." & vbCrLf & "¿Estas seguro que desea continuar?"
-
 Public Const ENDL          As String * 2 = vbCrLf
 
 '[Loopzer]
 Public SeleccionIX         As Integer
-
 Public SeleccionFX         As Integer
-
 Public SeleccionIY         As Integer
-
 Public SeleccionFY         As Integer
-
 Public SeleccionAncho      As Integer
-
 Public SeleccionAlto       As Integer
-
 Public Seleccionando       As Boolean
-
 Public SeleccionMap()      As MapBlock
 
 Public DeSeleccionOX       As Integer
-
 Public DeSeleccionOY       As Integer
-
 Public DeSeleccionIX       As Integer
-
 Public DeSeleccionFX       As Integer
-
 Public DeSeleccionIY       As Integer
-
 Public DeSeleccionFY       As Integer
-
 Public DeSeleccionAncho    As Integer
-
 Public DeSeleccionAlto     As Integer
-
 Public DeSeleccionando     As Boolean
-
 Public DeSeleccionMap()    As MapBlock
 
 Public VerBlockeados       As Boolean
-
 Public VerTriggers         As Boolean
-
 Public VerGrilla           As Boolean ' grilla
-
 Public VerCapa1            As Boolean
-
 Public VerCapa2            As Boolean
-
 Public VerCapa3            As Boolean
-
 Public VerCapa4            As Boolean
-
 Public VerTranslados       As Boolean
-
 Public VerObjetos          As Boolean
-
 Public VerNpcs             As Boolean
 '[/Loopzer]
 
@@ -187,7 +159,7 @@ Public bRefreshRadar As Boolean
 
 Type SupData
 
-    name As String
+    Name As String
     Grh As Long
     Width As Byte
     Height As Byte
@@ -202,7 +174,7 @@ Public SupData() As SupData
 
 Public Type NpcData
 
-    name As String
+    Name As String
     Body As Integer
     Head As Integer
     Heading As Byte
@@ -216,7 +188,7 @@ Public NpcData() As NpcData
 
 Public Type ObjData
 
-    name As String 'Nombre del obj
+    Name As String 'Nombre del obj
     ObjType As Integer 'Tipo enum que determina cuales son las caract del obj
     GrhIndex As Long ' Indice del grafico que representa el obj
     GrhSecundario As Integer
@@ -244,7 +216,7 @@ Public dLastWalk   As Double
 Public Type MapInfo
 
     Music As String
-    name As String
+    Name As String
     MapVersion As Integer
     PK As Boolean
     MagiaSinEfecto As Byte
@@ -265,20 +237,14 @@ End Type
 '********** CONSTANTS ***********
 'Heading Constants
 Public Const NORTH       As Byte = 1
-
 Public Const EAST        As Byte = 2
-
 Public Const SOUTH       As Byte = 3
-
 Public Const WEST        As Byte = 4
 
 'Map sizes in tiles
 Public Const XMaxMapSize As Integer = 100
-
 Public Const XMinMapSize As Integer = 1
-
 Public Const YMaxMapSize As Integer = 100
-
 Public Const YMinMapSize As Integer = 1
 
 '********** TYPES ***********
@@ -431,11 +397,8 @@ Public Type D3D8Textures
 End Type
 
 Public dX        As DirectX8
-
 Public D3D       As Direct3D8
-
 Public D3DDevice As Direct3DDevice8
-
 Public D3DX      As D3DX8
 
 Public Type TLVERTEX
@@ -467,18 +430,14 @@ Public Type TLVERTEX2
 End Type
 
 Public SurfaceDB                                                                                  As clsTexManager 'DX8
-
 Public Texto                                                                                      As New clsDX8Font 'Textos renderizados
 '*******************************
 
 '********** Public VARS ***********
 'Where the map borders are.. Set during load
 Public MinXBorder                                                                                 As Integer
-
 Public MaxXBorder                                                                                 As Integer
-
 Public MinYBorder                                                                                 As Integer
-
 Public MaxYBorder                                                                                 As Integer
 
 'Object Constants
@@ -486,7 +445,6 @@ Public Const MAX_INVENORY_OBJS                                                  
 
 ' Deshacer
 Public Const maxDeshacer                                                                          As Integer = 10
-
 Public MapData_Deshacer(1 To maxDeshacer, XMinMapSize To XMaxMapSize, YMinMapSize To YMaxMapSize) As MapBlock
 
 Type tDeshacerInfo
@@ -500,11 +458,8 @@ Public MapData_Deshacer_Info(1 To maxDeshacer) As tDeshacerInfo
 
 '********** Public ARRAYS ***********
 Public GrhData()                               As GrhData 'Holds all the grh data
-
 Public MapData()                               As MapBlock 'Holds map data for current map
-
 Public MapInfo                                 As MapInfo 'Holds map info for current map
-
 Public CharList(1 To 10000)                    As Char 'Holds info about all characters on map
 
 'Encabezado bmp
@@ -536,38 +491,27 @@ Type BITMAPINFOHEADER
 End Type
 
 Public gDespX              As Integer
-
 Public gDespY              As Integer
 
 'User status vars
 Public CurMap              As Integer 'Current map loaded
-
 Public UserIndex           As Integer
-
 Global UserBody            As Integer
-
 Global UserHead            As Integer
-
 Public UserPos             As Position 'Holds current user pos
-
 Public AddtoUserPos        As Position 'For moving user
-
 Public UserCharIndex       As Integer
 
 Public EngineRun           As Boolean
-
 Public FramesPerSec        As Integer
-
 Public FramesPerSecCounter As Long
 
 'Main view size size in tiles
 Public WindowTileWidth     As Integer
-
 Public WindowTileHeight    As Integer
 
 'Pixel offset of main view screen from 0,0
 Public MainViewTop         As Integer
-
 Public MainViewLeft        As Integer
 
 'How many tiles the engine "looks ahead" when
@@ -579,7 +523,6 @@ Public DisplayFormhWnd     As Long
 
 'Tile size in pixels
 Public TilePixelHeight     As Integer
-
 Public TilePixelWidth      As Integer
 
 'Map editor variables
@@ -587,15 +530,10 @@ Public WalkMode            As Boolean
 
 'Totals
 Public NumMaps             As Integer 'Number of maps
-
 Public Numheads            As Integer
-
 Public NumGrhFiles         As Integer 'Number of bmps
-
 Public MaxGrhs             As Integer 'Number of Grhs
-
 Global NumChars            As Integer
-
 Global LastChar            As Integer
 
 '********** OUTSIDE FUNCTIONS ***********

@@ -36,6 +36,7 @@ Module=Mod_TileEngine; Codigo\modDirectDraw.bas
 Class=clsTexManager; Codigo\clsTexManager.cls
 Class=clsDX8Font; Codigo\clsDX8Font.cls
 Class=clsIniManager; Codigo\clsIniManager.cls
+Module=Particulas; Codigo\Particulas.bas
 IconForm="frmMain"
 Startup="Sub Main"
 HelpFile=""
