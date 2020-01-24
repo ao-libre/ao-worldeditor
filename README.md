@@ -1,3 +1,5 @@
+**WorldEditor by Lorwik**
+
 - Carga de .PNG's descomprimidos. (jopiortiz)
 - Ahora en el Dialog para abrir/guardar mapa se muestra primero los ".map" (jopiortiz)
 - Carga de Graficos.ini, si no existe, carga Graficos.ind (jopiortiz-Wyr0X)
