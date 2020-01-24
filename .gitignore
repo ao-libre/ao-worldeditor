@@ -2,6 +2,9 @@ Codigo/*.log
 Conversor/Mapas CSM/**
 Conversor/Mapas Integer/**
 Conversor/Mapas Long/**
+Recursos/Graficos/**
+Recursos/Init/**
+Dats/**
 .DS_Store
 *.vbw
 *.lvw
