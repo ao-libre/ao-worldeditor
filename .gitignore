@@ -1,7 +1,7 @@
 Codigo/*.log
-Conversor\Mapas CSM\**
-Conversor\Mapas Integer\**
-Conversor\Mapas Long\**
+Conversor/Mapas CSM/**
+Conversor/Mapas Integer/**
+Conversor/Mapas Long/**
 .DS_Store
 *.vbw
 *.lvw
