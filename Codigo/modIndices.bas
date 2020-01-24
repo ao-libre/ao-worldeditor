@@ -617,94 +617,101 @@ Public Sub CargarParticulas()
     
     On Error GoTo ErrorHandler
     
-    Dim loopc      As Long
-
+    Dim LoopC      As Long
     Dim i          As Long
-
     Dim GrhListing As String
-
     Dim TempSet    As String
-
     Dim ColorSet   As Long
-
     Dim StreamFile As String
-
     Dim Leer       As New clsIniManager
-    
-    If Not Extract_File(Scripts, App.Path & "\Recursos", "particulas.ini", Windows_Temp_Dir, False) Then
-        Err.Description = "¡No se puede cargar el archivo de recurso!"
-        GoTo ErrorHandler
 
-    End If
-    
-    StreamFile = Windows_Temp_Dir & "Particulas.ini"
-    Leer.Initialize StreamFile
+    Call Leer.Initialize(App.Path & "\Recursos\Init\Particulas.ini")
     
     TotalStreams = Val(Leer.GetValue("INIT", "Total"))
     
     'resize StreamData array
     ReDim StreamData(1 To TotalStreams) As Stream
     
-    For loopc = 1 To TotalStreams
-        StreamData(loopc).Name = Leer.GetValue(Val(loopc), "Name")
-        frmMain.lstParticle.AddItem loopc & "-" & StreamData(loopc).Name
-        StreamData(loopc).NumOfParticles = Leer.GetValue(Val(loopc), "NumOfParticles")
-        StreamData(loopc).X1 = Leer.GetValue(Val(loopc), "X1")
-        StreamData(loopc).Y1 = Leer.GetValue(Val(loopc), "Y1")
-        StreamData(loopc).X2 = Leer.GetValue(Val(loopc), "X2")
-        StreamData(loopc).Y2 = Leer.GetValue(Val(loopc), "Y2")
-        StreamData(loopc).angle = Leer.GetValue(Val(loopc), "Angle")
-        StreamData(loopc).vecx1 = Leer.GetValue(Val(loopc), "VecX1")
-        StreamData(loopc).vecx2 = Leer.GetValue(Val(loopc), "VecX2")
-        StreamData(loopc).vecy1 = Leer.GetValue(Val(loopc), "VecY1")
-        StreamData(loopc).vecy2 = Leer.GetValue(Val(loopc), "VecY2")
-        StreamData(loopc).life1 = Leer.GetValue(Val(loopc), "Life1")
-        StreamData(loopc).life2 = Leer.GetValue(Val(loopc), "Life2")
-        StreamData(loopc).friction = Leer.GetValue(Val(loopc), "Friction")
-        StreamData(loopc).spin = Leer.GetValue(Val(loopc), "Spin")
-        StreamData(loopc).spin_speedL = Leer.GetValue(Val(loopc), "Spin_SpeedL")
-        StreamData(loopc).spin_speedH = Leer.GetValue(Val(loopc), "Spin_SpeedH")
-        StreamData(loopc).AlphaBlend = Leer.GetValue(Val(loopc), "AlphaBlend")
-        StreamData(loopc).gravity = Leer.GetValue(Val(loopc), "Gravity")
-        StreamData(loopc).grav_strength = Leer.GetValue(Val(loopc), "Grav_Strength")
-        StreamData(loopc).bounce_strength = Leer.GetValue(Val(loopc), "Bounce_Strength")
-        StreamData(loopc).XMove = Leer.GetValue(Val(loopc), "XMove")
-        StreamData(loopc).YMove = Leer.GetValue(Val(loopc), "YMove")
-        StreamData(loopc).move_x1 = Leer.GetValue(Val(loopc), "move_x1")
-        StreamData(loopc).move_x2 = Leer.GetValue(Val(loopc), "move_x2")
-        StreamData(loopc).move_y1 = Leer.GetValue(Val(loopc), "move_y1")
-        StreamData(loopc).move_y2 = Leer.GetValue(Val(loopc), "move_y2")
-        StreamData(loopc).Radio = Val(Leer.GetValue(Val(loopc), "Radio"))
-        StreamData(loopc).life_counter = Leer.GetValue(Val(loopc), "life_counter")
-        StreamData(loopc).Speed = Val(Leer.GetValue(Val(loopc), "Speed"))
-        StreamData(loopc).NumGrhs = Leer.GetValue(Val(loopc), "NumGrhs")
-           
-        ReDim StreamData(loopc).grh_list(1 To StreamData(loopc).NumGrhs)
-        GrhListing = Leer.GetValue(Val(loopc), "Grh_List")
-           
-        For i = 1 To StreamData(loopc).NumGrhs
-            StreamData(loopc).grh_list(i) = ReadField(Str(i), GrhListing, 44)
-        Next i
+    For LoopC = 1 To TotalStreams
 
-        StreamData(loopc).grh_list(i - 1) = StreamData(loopc).grh_list(i - 1)
-
-        For ColorSet = 1 To 4
-            TempSet = Leer.GetValue(Val(loopc), "ColorSet" & ColorSet)
-            StreamData(loopc).colortint(ColorSet - 1).R = ReadField(1, TempSet, 44)
-            StreamData(loopc).colortint(ColorSet - 1).G = ReadField(2, TempSet, 44)
-            StreamData(loopc).colortint(ColorSet - 1).B = ReadField(3, TempSet, 44)
-        Next ColorSet
+        With StreamData(LoopC)
         
-    Next loopc
-    
-    Delete_File Windows_Temp_Dir & "particulas.ini"
+            .Name = Leer.GetValue(Val(LoopC), "Name")
+        
+            Call frmMain.lstParticle.AddItem(LoopC & "-" & .Name)
+        
+            .NumOfParticles = Leer.GetValue(Val(LoopC), "NumOfParticles")
+            .X1 = Leer.GetValue(Val(LoopC), "X1")
+            .Y1 = Leer.GetValue(Val(LoopC), "Y1")
+            .X2 = Leer.GetValue(Val(LoopC), "X2")
+            .Y2 = Leer.GetValue(Val(LoopC), "Y2")
+            .angle = Leer.GetValue(Val(LoopC), "Angle")
+            .vecx1 = Leer.GetValue(Val(LoopC), "VecX1")
+            .vecx2 = Leer.GetValue(Val(LoopC), "VecX2")
+            .vecy1 = Leer.GetValue(Val(LoopC), "VecY1")
+            .vecy2 = Leer.GetValue(Val(LoopC), "VecY2")
+            .life1 = Leer.GetValue(Val(LoopC), "Life1")
+            .life2 = Leer.GetValue(Val(LoopC), "Life2")
+            .friction = Leer.GetValue(Val(LoopC), "Friction")
+            .spin = Leer.GetValue(Val(LoopC), "Spin")
+            .spin_speedL = Leer.GetValue(Val(LoopC), "Spin_SpeedL")
+            .spin_speedH = Leer.GetValue(Val(LoopC), "Spin_SpeedH")
+            .AlphaBlend = Leer.GetValue(Val(LoopC), "AlphaBlend")
+            .gravity = Leer.GetValue(Val(LoopC), "Gravity")
+            .grav_strength = Leer.GetValue(Val(LoopC), "Grav_Strength")
+            .bounce_strength = Leer.GetValue(Val(LoopC), "Bounce_Strength")
+            .XMove = Leer.GetValue(Val(LoopC), "XMove")
+            .YMove = Leer.GetValue(Val(LoopC), "YMove")
+            .move_x1 = Leer.GetValue(Val(LoopC), "move_x1")
+            .move_x2 = Leer.GetValue(Val(LoopC), "move_x2")
+            .move_y1 = Leer.GetValue(Val(LoopC), "move_y1")
+            .move_y2 = Leer.GetValue(Val(LoopC), "move_y2")
+            .Radio = Val(Leer.GetValue(Val(LoopC), "Radio"))
+            .life_counter = Leer.GetValue(Val(LoopC), "life_counter")
+            .Speed = Val(Leer.GetValue(Val(LoopC), "Speed"))
+            .NumGrhs = Leer.GetValue(Val(LoopC), "NumGrhs")
+           
+            ReDim .grh_list(1 To .NumGrhs)
+            GrhListing = Leer.GetValue(Val(LoopC), "Grh_List")
+           
+            For i = 1 To .NumGrhs
+                .grh_list(i) = ReadField(Str(i), GrhListing, 44)
+            Next i
+
+            .grh_list(i - 1) = .grh_list(i - 1)
+
+            For ColorSet = 1 To 4
+                TempSet = Leer.GetValue(Val(LoopC), "ColorSet" & ColorSet)
+                .colortint(ColorSet - 1).R = ReadField(1, TempSet, 44)
+                .colortint(ColorSet - 1).G = ReadField(2, TempSet, 44)
+                .colortint(ColorSet - 1).B = ReadField(3, TempSet, 44)
+            Next ColorSet
+        
+        End With
+        
+    Next LoopC
+
     Set Leer = Nothing
     
     Exit Sub
     
 ErrorHandler:
 
-    If FileExist(Windows_Temp_Dir & "particulas.ini", vbNormal) Then Delete_File Windows_Temp_Dir & "particulas.ini"
+    If Err.Number <> 0 Then
+        
+        Select Case Err.Number
+        
+            Case 9
+                Call MsgBox("Se han encontrado valores invalidos en el Particulas.ini - Index: " & LoopC)
+                Exit Sub
+                
+            Case 53
+                Call MsgBox("No se encuentra el archivo Particulas.ini en Recursos\Init", vbApplicationModal)
+                Exit Sub
+                
+        End Select
+
+    End If
     
 End Sub
 
