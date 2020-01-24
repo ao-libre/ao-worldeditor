@@ -1,0 +1,11 @@
+Codigo/*.log
+.DS_Store
+*.vbw
+*.lvw
+*.csi
+*.OBJ
+*.map
+*.csm
+*.png
+*.jpg
+*.bmp
