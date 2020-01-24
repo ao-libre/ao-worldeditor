@@ -695,12 +695,12 @@ End Sub
 
 Public Sub Render()
 
-    Static re As RECT
+    Static RE As RECT
 
-    re.Left = 0
-    re.Top = 0
-    re.Bottom = frmMain.Renderer.ScaleHeight
-    re.Right = frmMain.Renderer.ScaleWidth
+    RE.Left = 0
+    RE.Top = 0
+    RE.Bottom = frmMain.Renderer.ScaleHeight
+    RE.Right = frmMain.Renderer.ScaleWidth
 
     Engine_ActFPS
     
@@ -713,7 +713,7 @@ Public Sub Render()
     Texto.Engine_Text_Draw 5, 5, POSX, vbWhite
     
     D3DDevice.EndScene
-    D3DDevice.Present re, ByVal 0, 0, ByVal 0
+    D3DDevice.Present RE, ByVal 0, 0, ByVal 0
     
     lFrameLimiter = GetTickCount
     FramesPerSecCounter = FramesPerSecCounter + 1
@@ -1114,34 +1114,35 @@ Public Sub MapCapture(ByRef Format As Boolean)
     Dim D3DWindow        As D3DPRESENT_PARAMETERS
 
     Dim Y                As Long     'Keeps track of where on map we are
-
     Dim X                As Long     'Keeps track of where on map we are
 
     Dim PixelOffsetXTemp As Integer 'For centering grhs
-
     Dim PixelOffsetYTemp As Integer 'For centering grhs
           
     Dim Grh              As Grh      'Temp Grh for show tile and blocked
 
-    Static re            As RECT
-
-    re.Left = 0
-    re.Top = 0
-    re.Bottom = 3200
-    re.Right = 3200
-
-    frmRender.pgbProgress.Value = 0
-    frmRender.pgbProgress.max = 50000
-            
-    D3DDevice.Clear 0, ByVal 0, D3DCLEAR_TARGET, 0, 0#, 0
-    D3DDevice.BeginScene
+    Static RE            As RECT
+    
+    With RE
+        .Left = 0
+        .Top = 0
+        .Bottom = 3200
+        .Right = 3200
+    End With
+    
+    With frmRender.pgbProgress
+        .Value = 0
+        .Max = 50000
+    End With
+         
+    Call D3DDevice.Clear(0, ByVal 0, D3DCLEAR_TARGET, 0, 0#, 0)
+    Call D3DDevice.BeginScene
+    
     'Draw floor layer
-
     For Y = 1 To 100
         For X = 1 To 100
             
             'Layer 1 **********************************
-
             If MapData(X, Y).Graphic(1).GrhIndex <> 0 Then
                 Call Draw_Grh(MapData(X, Y).Graphic(1), (X - 1) * 32 + TilePixelWidth, (Y - 1) * 32 + TilePixelHeight, 0, 1, MapData(X, Y).light_value())
 
@@ -1155,12 +1156,10 @@ Public Sub MapCapture(ByRef Format As Boolean)
     Next Y
         
     'Draw floor layer 2
-
     For Y = 1 To 100
         For X = 1 To 100
             
             'Layer 2 **********************************
-
             If (MapData(X, Y).Graphic(2).GrhIndex <> 0) And VerCapa2 Then
                 Call Draw_Grh(MapData(X, Y).Graphic(2), (X - 1) * 32 + TilePixelWidth, (Y - 1) * 32 + TilePixelHeight, 1, 1, MapData(X, Y).light_value())
 
@@ -1174,7 +1173,6 @@ Public Sub MapCapture(ByRef Format As Boolean)
     Next Y
     
     'Draw Transparent Layers
-
     For Y = 1 To 100
         For X = 1 To 100
                     
@@ -1182,8 +1180,8 @@ Public Sub MapCapture(ByRef Format As Boolean)
             PixelOffsetYTemp = (Y - 1) * 32 + TilePixelHeight
             
             With MapData(X, Y)
+                
                 'Object Layer **********************************
-
                 If (.ObjGrh.GrhIndex <> 0) And VerObjetos Then
                     Call Draw_Grh(.ObjGrh, PixelOffsetXTemp, PixelOffsetYTemp, 1, 1, MapData(X, Y).light_value())
 
@@ -1192,7 +1190,6 @@ Public Sub MapCapture(ByRef Format As Boolean)
                 '***********************************************
                 
                 'Layer 3 *****************************************
-
                 If (.Graphic(3).GrhIndex <> 0) And VerCapa3 Then
                     Call Draw_Grh(.Graphic(3), PixelOffsetXTemp, PixelOffsetYTemp, 1, 1, MapData(X, Y).light_value())
 
@@ -1208,17 +1205,17 @@ Public Sub MapCapture(ByRef Format As Boolean)
     Next Y
         
     'Draw layer 4
-
     For Y = 1 To 100
         For X = 1 To 100
 
             With MapData(X, Y)
+                
                 'Layer 4 **********************************
-
                 If (.Graphic(4).GrhIndex <> 0) And VerCapa4 Then
+                        
                     'Draw
                     Call Draw_Grh(.Graphic(4), (X - 1) * 32 + TilePixelWidth, (Y - 1) * 32 + TilePixelHeight, 1, 1, MapData(X, Y).light_value())
-
+                        
                 End If
 
                 '**********************************
@@ -1231,7 +1228,6 @@ Public Sub MapCapture(ByRef Format As Boolean)
     Next Y
     
     'Draw trans, bloqs, triggers and select tiles
-
     For Y = 1 To 100
         For X = 1 To 100
 
@@ -1251,10 +1247,8 @@ Public Sub MapCapture(ByRef Format As Boolean)
                 End If
                 
                 'Show blocked tiles
-
                 If (.blocked = 1) And VerBlockeados Then
                     Grh.GrhIndex = 4
-                    
                     Call Draw_Grh(Grh, PixelOffsetXTemp, PixelOffsetYTemp, 1, 0, MapData(X, Y).light_value())
 
                 End If
@@ -1268,13 +1262,20 @@ Public Sub MapCapture(ByRef Format As Boolean)
         Next X
     Next Y
           
-    D3DDevice.EndScene
-    D3DDevice.Present re, ByVal 0, frmRender.picMap.hwnd, ByVal 0
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    '''''''''''''''''''Guardo la imagen'''''''''''''''''''''
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    Call D3DDevice.EndScene
+    Call D3DDevice.Present(RE, ByVal 0, frmRender.picMap.hwnd, ByVal 0)
+    
+    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    '''''''''''''''''''''''''''''Guardo la imagen''''''''''''''''''''''''''''
+    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     Call frmRender.Capturar_Imagen(frmRender.picMap, frmRender.picMap)
-    SavePicture frmRender.picMap, App.Path & "\Renderizados\" & NumMap_Save & ".bmp"
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
+    'Si no existe la carpeta de MiniMapas, la hacemos.
+    If Not FileExist(DirMinimapas, vbDirectory) Then
+        Call MkDir(DirMinimapas)
+    End If
+    
+    Call SavePicture(frmRender.picMap, DirMinimapas & NumMap_Save & ".bmp")
+    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         
 End Sub

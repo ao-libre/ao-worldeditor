@@ -115,8 +115,8 @@ Public Cfg_TrOBJ             As Integer
 
 'Path
 Public IniPath               As String
-
 Public DirDats               As String
+Public DirMinimapas          As String
 
 Public bAutoGuardarMapa      As Byte
 Public bAutoGuardarMapaCount As Byte

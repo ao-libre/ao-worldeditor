@@ -576,67 +576,82 @@ Sub DrawGrhtoHdc(picX As PictureBox, Grh As Long, ByVal X As Integer, ByVal Y As
 
     Dim destRect As RECT
     
-    destRect.Bottom = picX.ScaleHeight / 16
-    destRect.Right = picX.ScaleWidth / 16
-    destRect.Left = 0
-    destRect.Top = 0
+    With destRect
+        .Bottom = picX.ScaleHeight / 16
+        .Right = picX.ScaleWidth / 16
+        .Left = 0
+        .Top = 0
+    End With
     
-    D3DDevice.BeginScene
-    'D3DDevice.Clear 0, ByVal 0, D3DCLEAR_TARGET, 0, 1#, 0
-    Draw_GrhIndex Grh, X, Y, LightIluminado()
-    D3DDevice.EndScene
-    D3DDevice.Present destRect, ByVal 0, picX.hwnd, ByVal 0
+    Call D3DDevice.BeginScene
+    
+        Call Draw_GrhIndex(Grh, X, Y, LightIluminado())
+    
+    Call D3DDevice.EndScene
+    Call D3DDevice.Present(destRect, ByVal 0, picX.hwnd, ByVal 0)
 
 End Sub
 
 '**************************************************************
 Public Sub DibujarMiniMapa()
-
-    Dim map_x, map_y, Capas As Byte
-
-    Dim loopc As Long
+    
+    'Si no existe "MiniMap.dat", ni nos molestamos en tratar de renderizarlo.
+    If Not FileExist(InitPath & "minimap.dat", vbNormal) Then
+        
+        'Pero si hay un ".BMP", lo renderizamos.
+        If FileExist(DirMinimapas & CStr(CurMap) & ".bmp", vbNormal) Then
+            frmMain.Minimap.Picture = LoadPicture(DirMinimapas & CStr(CurMap) & ".bmp")
+            Exit Sub
+        End If
+        
+    End If
+    
+    Dim map_x As Byte, map_y As Byte, Capas As Byte
+    Dim loopC As Long
 
     For map_y = 1 To 100
         For map_x = 1 To 100
             For Capas = 1 To 2
 
                 If MapData(map_x, map_y).Graphic(Capas).GrhIndex > 0 Then
-                    SetPixel frmMain.Minimap.hdc, map_x - 1, map_y - 1, GrhData(MapData(map_x, map_y).Graphic(Capas).GrhIndex).MiniMap_color
-
+                    Call SetPixel(frmMain.Minimap.hdc, map_x - 1, map_y - 1, GrhData(MapData(map_x, map_y).Graphic(Capas).GrhIndex).MiniMap_color)
                 End If
 
                 If MapData(map_x, map_y).Graphic(4).GrhIndex > 0 And VerCapa4 And Not bTecho Then
-                    SetPixel frmMain.Minimap.hdc, map_x - 1, map_y - 1, GrhData(MapData(map_x, map_y).Graphic(4).GrhIndex).MiniMap_color
-
+                    Call SetPixel(frmMain.Minimap.hdc, map_x - 1, map_y - 1, GrhData(MapData(map_x, map_y).Graphic(4).GrhIndex).MiniMap_color)
                 End If
 
             Next Capas
         Next map_x
     Next map_y
     
-    For loopc = 1 To LastChar
+    For loopC = 1 To LastChar
 
-        If CharList(loopc).Active = 1 Then
-            MapData(CharList(loopc).Pos.X, CharList(loopc).Pos.Y).CharIndex = loopc
+        If CharList(loopC).Active = 1 Then
+            MapData(CharList(loopC).Pos.X, CharList(loopC).Pos.Y).CharIndex = loopC
 
-            If CharList(loopc).Heading <> 0 Then
-                SetPixel frmMain.Minimap.hdc, 0 + CharList(loopc).Pos.X, 0 + CharList(loopc).Pos.Y, RGB(0, 255, 0)
-                SetPixel frmMain.Minimap.hdc, 0 + CharList(loopc).Pos.X, 1 + CharList(loopc).Pos.Y, RGB(0, 255, 0)
-
+            If CharList(loopC).Heading <> 0 Then
+                Call SetPixel(frmMain.Minimap.hdc, 0 + CharList(loopC).Pos.X, 0 + CharList(loopC).Pos.Y, RGB(0, 255, 0))
+                Call SetPixel(frmMain.Minimap.hdc, 0 + CharList(loopC).Pos.X, 1 + CharList(loopC).Pos.Y, RGB(0, 255, 0))
             End If
 
         End If
 
-    Next loopc
+    Next loopC
    
     frmMain.Minimap.Refresh
 
 End Sub
 
 Public Sub ActualizaMinimap()
-    frmMain.UserArea.Left = UserPos.X - 9
-    frmMain.UserArea.Top = UserPos.Y - 8
-
+    
+    With frmMain.UserArea
+    
+        .Left = UserPos.X - 9
+        .Top = UserPos.Y - 8
+    
+    End With
+    
 End Sub
 
 '***********************************************************

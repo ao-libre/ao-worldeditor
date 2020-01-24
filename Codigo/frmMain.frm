@@ -2622,7 +2622,6 @@ Begin VB.Form frmMain
       _ExtentY        =   2037
       _Version        =   393217
       BackColor       =   0
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -3939,7 +3938,6 @@ Private Sub COPIAR_GRH_Click(index As Integer)
     On Error Resume Next
 
     Dim Y As Integer
-
     Dim X As Integer
  
     Select Case index
@@ -4542,6 +4540,7 @@ Private Sub MapPest_Click(index As Integer)
         End If
 
         Call modMapIO.NuevoMapa
+        
         DoEvents
         
         Select Case frmMain.Dialog.FilterIndex
@@ -4556,12 +4555,12 @@ Private Sub MapPest_Click(index As Integer)
         
         EngineRun = True
         
+    End If
+    
         Exit Sub
     
 ErrHandler:
-        MsgBox Err.Description
-
-    End If
+        Call MsgBox(Err.Description)
 
 End Sub
 
@@ -4570,9 +4569,11 @@ Private Sub MemoriaAuxiliar_Click()
     On Error GoTo Error
  
     MapData_Adyacente = MapData
+    
     Call AddtoRichTextBox(frmMain.StatTxt, "Mapa copiado a la memoria", 0, 255, 0)
      
     Exit Sub
+    
 Error:
     Call AddtoRichTextBox(frmMain.StatTxt, "Error guardando mapa", 255, 0, 0)
 

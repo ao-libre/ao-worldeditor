@@ -101,21 +101,16 @@ Private Declare Function GetWindowDC Lib "user32" (ByVal hwnd As Long) As Long
 
 Private Sub cmdAceptar_Click()
     Call MapCapture(1)
-
 End Sub
 
 '*************************************************************
-      
 ' Sub que copia la imagen del control en un picturebox
 '*************************************************************
 Public Sub Capturar_Imagen(Control As Control, Destino As Object)
           
     Dim hdc             As Long
-
     Dim Escala_Anterior As Integer
-
     Dim ancho           As Long
-
     Dim alto            As Long
           
     ' Para que se mantenga la imagen por si se repinta la ventana
@@ -136,7 +131,6 @@ Public Sub Capturar_Imagen(Control As Control, Destino As Object)
         Control.Container.ScaleMode = vbPixels
         ancho = Control.Width
         alto = Control.Height
-
     End If
           
     ' limpia el error
@@ -144,12 +138,15 @@ Public Sub Capturar_Imagen(Control As Control, Destino As Object)
 
     ' Captura el área de pantalla correspondiente al control
     hdc = GetWindowDC(Control.hwnd)
+    
     ' Copia esa área al picturebox
-    BitBlt Destino.hdc, 0, 0, ancho, alto, hdc, 0, 0, vbSrcCopy
+    Call BitBlt(Destino.hdc, 0, 0, ancho, alto, hdc, 0, 0, vbSrcCopy)
+    
     ' Convierte la imagen anterior en un Mapa de bits
     Destino.Picture = Destino.Image
+    
     ' Borra la imagen ya que ahora usa el Picture
-    Destino.Cls
+    Call Destino.Cls
           
     On Error Resume Next
 
@@ -163,5 +160,4 @@ End Sub
 
 Private Sub Command1_Click()
     Unload Me
-
 End Sub

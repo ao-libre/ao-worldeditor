@@ -389,6 +389,7 @@ Public Sub Main()
             IniPath = App.Path & "\"
             InitPath = App.Path & "\Recursos\Init\"
             DirDats = App.Path & "\Dats\"
+            DirMinimapas = App.Path & "\Recursos\Graficos\MiniMapa\"
         DoEvents
         
         .X.Caption = "Cargando Indice de Superficies..."
@@ -411,7 +412,6 @@ Public Sub Main()
             .YMax = YMaxMapSize
             .YMin = YMinMapSize
             ReDim MapData(.XMin To .XMax, .YMin To .YMax)
-
         End With
 
         Call .SetFocus
@@ -613,14 +613,18 @@ Public Function General_Get_Free_Ram() As Double
     'Return Value in Megabytes
     Dim dblAns As Double
 
-    GlobalMemoryStatus pUdtMemStatus
+    Call GlobalMemoryStatus(pUdtMemStatus)
+    
     dblAns = pUdtMemStatus.dwAvailPhys
+    
     General_Get_Free_Ram = General_Bytes_To_Megabytes(dblAns)
 
 End Function
 
 Public Function General_Get_Free_Ram_Bytes() As Long
-    GlobalMemoryStatus pUdtMemStatus
+    
+    Call GlobalMemoryStatus(pUdtMemStatus)
+    
     General_Get_Free_Ram_Bytes = pUdtMemStatus.dwAvailPhys
 
 End Function
@@ -629,7 +633,6 @@ Public Function ColorToDX8(ByVal long_color As Long) As Long
 
     ' DX8 engine
     Dim temp_color As String
-
     Dim red        As Integer, blue As Integer, green As Integer
     
     temp_color = Hex$(long_color)
@@ -637,7 +640,6 @@ Public Function ColorToDX8(ByVal long_color As Long) As Long
     If Len(temp_color) < 6 Then
         'Give is 6 digits for easy RGB conversion.
         temp_color = String(6 - Len(temp_color), "0") + temp_color
-
     End If
     
     red = CLng("&H" + mid$(temp_color, 1, 2))
@@ -646,4 +648,19 @@ Public Function ColorToDX8(ByVal long_color As Long) As Long
     
     ColorToDX8 = D3DColorXRGB(red, green, blue)
 
+End Function
+
+'Solo se usa para el minimapa
+Public Function ReturnNumberFromString(ByVal sString As String) As String
+   
+   Dim i As Integer
+   
+   For i = 1 To LenB(sString)
+   
+       If mid(sString, i, 1) Like "[0-9]" Then
+           ReturnNumberFromString = ReturnNumberFromString + mid(sString, i, 1)
+       End If
+       
+   Next i
+   
 End Function
