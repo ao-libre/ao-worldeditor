@@ -2622,6 +2622,7 @@ Begin VB.Form frmMain
       _ExtentY        =   2037
       _Version        =   393217
       BackColor       =   0
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -3599,22 +3600,16 @@ Private Sub PonerAlAzar(ByVal n As Integer, T As Byte)
     'Last modified: 20/05/06 by GS
     '*************************************************
     Dim objindex As Long
-
     Dim NPCIndex As Long
-
     Dim X, Y, i
-
     Dim Head    As Integer
-
     Dim Body    As Integer
-
     Dim Heading As Byte
-
     Dim Leer    As New clsIniManager
 
     i = n
 
-    modEdicion.Deshacer_Add "Aplicar " & IIf(T = 0, "Objetos", "NPCs") & " al Azar" ' Hago deshacer
+    Call modEdicion.Deshacer_Add("Aplicar " & IIf(T = 0, "Objetos", "NPCs") & " al Azar") ' Hago deshacer
 
     Do While i > 0
         X = CInt(RandomNumber(XMinMapSize, XMaxMapSize - 1))
@@ -5030,12 +5025,12 @@ Private Sub mnuNuevoMapa_Click()
     '*************************************************
     On Error Resume Next
 
-    Dim loopc As Integer
+    Dim loopC As Integer
 
     Call DeseaGuardarMapa(Dialog.FileName)
 
-    For loopc = 0 To frmMain.MapPest.count
-        frmMain.MapPest(loopc).Visible = False
+    For loopC = 0 To frmMain.MapPest.count
+        frmMain.MapPest(loopC).Visible = False
     Next
 
     frmMain.Dialog.FileName = Empty

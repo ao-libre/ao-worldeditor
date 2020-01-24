@@ -7,3 +7,6 @@
 - Tabule y aprolije bastante el codigo. (jopiortiz)
 - Los recursos del cliente se cargan desde la carpeta Recursos. (jopiortiz)
 - Saqué la carga de recursos comprimida en archivos .DRAG (jopiortiz)
+
+
+![imagen](https://cdn.discordapp.com/attachments/668202050743435265/670359756040437812/WE_Demo.png)
