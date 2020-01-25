@@ -434,18 +434,20 @@ Public Sub MapaV2_Guardar(ByVal SaveAs As String)
                 If .Graphic(3).GrhIndex Then ByFlags = ByFlags Or 4
                 If .Graphic(4).GrhIndex Then ByFlags = ByFlags Or 8
                 If .Trigger Then ByFlags = ByFlags Or 16
+                If .particle_group_index Then ByFlags = ByFlags Or 32
                     
                 Put FreeFileMap, , ByFlags
                     
                 Put FreeFileMap, , .Graphic(1).GrhIndex
                     
                 For loopC = 2 To 4
-    
                     If .Graphic(loopC).GrhIndex Then Put FreeFileMap, , .Graphic(loopC).GrhIndex
                 Next loopC
                     
                 If .Trigger Then Put FreeFileMap, , .Trigger
-                    
+                
+                If .particle_group_index Then Put FreeFileMap, , .particle_Index
+                
                 'Escribimos el archivo ".INF"
                 ByFlags = 0
                     
@@ -600,6 +602,12 @@ Public Sub MapaV2_Cargar(ByVal Map As String)
                     Get FreeFileMap, , .Trigger
                 Else
                     .Trigger = 0
+                End If
+                
+                'Particles used?
+                If ByFlags And 32 Then
+                    Get FreeFileMap, , TempInt
+                    .particle_group_index = General_Particle_Create(TempInt, X, Y, -1)
                 End If
             
                 'Cargamos el archivo ".INF"
