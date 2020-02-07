@@ -408,7 +408,7 @@ End Function
 '    Next Y
 '
 '    D3DDevice.EndScene
-'    D3DDevice.Present destRect, ByVal 0, frmRenderer.Picture1.hwnd, ByVal 0
+'    D3DDevice.Present destRect, ByVal 0, frmRender.picMap.hwnd, ByVal 0
 'End Sub
 
 Public Sub Draw_GrhIndexMiniMap(ByVal grh_index As Integer, ByVal X As Integer, ByVal Y As Integer, ByVal PixelWidth As Long, ByVal PixelHeight As Long, ByVal Radio As Integer, Optional ByVal Center As Byte = 0)
@@ -1436,21 +1436,21 @@ Public Sub MapCapture(ByRef Format As Boolean, ByVal ToWorldMapJPG As Boolean)
     End If 'If que cierra el ToWorldMapJPG
     
     Call D3DDevice.EndScene
-    Call D3DDevice.Present(RE, ByVal 0, frmRenderer.Picture1.hwnd, ByVal 0)
+    Call D3DDevice.Present(RE, ByVal 0, frmRender.picMap.hwnd, ByVal 0)
     
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     '''''''''''''''''''''''''''''Guardo la imagen''''''''''''''''''''''''''''
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     
-    Call frmRender.Capturar_Imagen(frmRenderer.Picture1, frmRenderer.Picture1)
+    Call frmRender.Capturar_Imagen(frmRender.picMap, frmRender.picMap)
     
     'Si no existe la carpeta de MiniMapas, la hacemos.
     If Not FileExist(DirMinimapas, vbDirectory) Then
         Call MkDir(DirMinimapas)
     End If
     
-    Call SavePicture(frmRenderer.Picture1, DirMinimapas & NumMap_Save & ".bmp")
-    'Call SavePicture(frmRenderer.Picture1.Image, App.Path & NumMap_Save & ".bmp")
+    Call SavePicture(frmRender.picMap, DirMinimapas & NumMap_Save & ".bmp")
+    'Call SavePicture(frmRender.picMap.Image, App.Path & NumMap_Save & ".bmp")
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         
 End Sub

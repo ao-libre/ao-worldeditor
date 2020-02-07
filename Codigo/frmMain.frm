@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.ocx"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
 Begin VB.Form frmMain 
    Appearance      =   0  'Flat
    BackColor       =   &H00FFFFFF&
@@ -2622,7 +2622,6 @@ Begin VB.Form frmMain
       _ExtentY        =   2037
       _Version        =   393217
       BackColor       =   16777215
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -5344,10 +5343,10 @@ Radio = Val(InputBox("Escriba la escala de 1 a 5 en la que generemos su mapa", "
 If Radio = 0 Then Radio = 1
 If Radio >= 5 Then Radio = 5
 
-frmRenderer.Picture1.Width = (Radio * 100)
-frmRenderer.Picture1.Height = (Radio * 100)
+frmRender.picMap.Width = (Radio * 100)
+frmRender.picMap.Height = (Radio * 100)
 
-frmRenderer.Show
+frmRender.Show
 End Sub
 
 Private Sub mnuSalir_Click()
