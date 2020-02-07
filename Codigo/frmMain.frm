@@ -2622,6 +2622,7 @@ Begin VB.Form frmMain
       _ExtentY        =   2037
       _Version        =   393217
       BackColor       =   16777215
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -3233,9 +3234,6 @@ Begin VB.Form frmMain
       End
       Begin VB.Menu mnuRenderMapa 
          Caption         =   "Renderizar Mapa"
-      End
-      Begin VB.Menu mnuSacaFoto 
-         Caption         =   "Saca la Foto"
       End
       Begin VB.Menu mnuArchivoLine7 
          Caption         =   "-"
@@ -5338,15 +5336,16 @@ Private Sub mnuRealizarOperacion_Click()
 
 End Sub
 
-Private Sub mnuSacaFoto_Click()
-Radio = Val(InputBox("Escriba la escala de 1 a 5 en la que generemos su mapa", "la escala se multiplica x 32"))
-If Radio = 0 Then Radio = 1
-If Radio >= 5 Then Radio = 5
+Private Sub mnuRenderMapa_Click()
+    Radio = Val(InputBox("Escriba la escala de 1 a 5 en la que generemos su mapa", "la escala se multiplica x 32"))
 
-frmRender.picMap.Width = (Radio * 100)
-frmRender.picMap.Height = (Radio * 100)
+    If Radio = 0 Then Radio = 1
+    If Radio >= 5 Then Radio = 5
 
-frmRender.Show
+    frmRender.picMap.Width = (Radio * 100)
+    frmRender.picMap.Height = (Radio * 100)
+
+    frmRender.Show
 End Sub
 
 Private Sub mnuSalir_Click()

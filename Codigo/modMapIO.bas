@@ -684,7 +684,7 @@ Public Sub MapaV2_Cargar(ByVal Map As String)
     
     CurMap = ReturnNumberFromString(Map)
     
-    'frmMain.Minimap.Picture = LoadPicture(DirMinimapas & CStr(CurMap) & ".bmp")
+    frmMain.Minimap.Picture = LoadPicture(DirMinimapas & CStr(CurMap) & ".bmp")
     
     MapaCargado = True
 

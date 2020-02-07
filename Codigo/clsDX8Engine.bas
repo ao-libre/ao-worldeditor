@@ -371,71 +371,36 @@ Function InMapBounds(X As Integer, Y As Integer) As Boolean
 
 End Function
 
-'Public Sub RenderToPicture()
-'    Dim Y As Integer
-'    Dim X As Integer
-'
-'    Dim destRect As RECT
-'
-'    destRect.Bottom = 3200 '100 * Radio
-'    destRect.Right = 3200 '100 * Radio
-'    destRect.Left = 0
-'    destRect.Top = 0
-'
-'    D3DDevice.BeginScene
-'    D3DDevice.Clear 0, ByVal 0, D3DCLEAR_TARGET, 0, 0, 0
-'
-'    'Capa 1 y 2
-'    For Y = 1 To 100
-'        For X = 1 To 100
-'            If MapData(X, Y).Graphic(1).grhindex > 0 Then Draw_GrhIndexMiniMap GrhData(MapData(X, Y).Graphic(1).grhindex).Frames(1), (X * Radio) - Radio, (Y * Radio) - Radio, (GrhData(GrhData(MapData(X, Y).Graphic(1).grhindex).Frames(1)).PixelWidth / 32) * Radio, (GrhData(GrhData(MapData(X, Y).Graphic(1).grhindex).Frames(1)).PixelHeight / 32) * Radio, Radio
-'            If MapData(X, Y).Graphic(2).grhindex > 0 Then Draw_GrhIndexMiniMap GrhData(MapData(X, Y).Graphic(2).grhindex).Frames(1), (X * Radio) - Radio, (Y * Radio) - Radio, (GrhData(GrhData(MapData(X, Y).Graphic(2).grhindex).Frames(1)).PixelWidth / 32) * Radio, (GrhData(GrhData(MapData(X, Y).Graphic(2).grhindex).Frames(1)).PixelHeight / 32) * Radio, Radio
-'        Next X
-'    Next Y
-'
-'    'Capa 3
-'    For Y = 1 To 100
-'        For X = 1 To 100
-'            If MapData(X, Y).Graphic(3).grhindex > 0 Then Draw_GrhIndexMiniMap GrhData(MapData(X, Y).Graphic(3).grhindex).Frames(1), (X * Radio) - (Radio / 2), (Y * Radio) + Radio, (GrhData(GrhData(MapData(X, Y).Graphic(3).grhindex).Frames(1)).PixelWidth / 32) * Radio, (GrhData(GrhData(MapData(X, Y).Graphic(3).grhindex).Frames(1)).PixelHeight / 32) * Radio, Radio, 1
-'        Next X
-'    Next Y
-'
-'    'capa 4 (si no quieres techos elimina estos for completos hasta el next)
-'    For Y = 1 To 100
-'        For X = 1 To 100
-'            If MapData(X, Y).Graphic(4).grhindex > 0 Then Draw_GrhIndexMiniMap GrhData(MapData(X, Y).Graphic(4).grhindex).Frames(1), (X * Radio) - (Radio / 2), (Y * Radio) + Radio, (GrhData(GrhData(MapData(X, Y).Graphic(4).grhindex).Frames(1)).PixelWidth / 32) * Radio, (GrhData(GrhData(MapData(X, Y).Graphic(4).grhindex).Frames(1)).PixelHeight / 32) * Radio, Radio, 1
-'        Next X
-'    Next Y
-'
-'    D3DDevice.EndScene
-'    D3DDevice.Present destRect, ByVal 0, frmRender.picMap.hwnd, ByVal 0
-'End Sub
+Public Sub Draw_GrhIndexMiniMap(ByVal grh_index As Integer, _
+                                ByVal X As Integer, _
+                                ByVal Y As Integer, _
+                                ByVal PixelWidth As Long, _
+                                ByVal PixelHeight As Long, _
+                                ByVal Radio As Integer, _
+                                Optional ByVal Center As Byte = 0)
 
-Public Sub Draw_GrhIndexMiniMap(ByVal grh_index As Integer, ByVal X As Integer, ByVal Y As Integer, ByVal PixelWidth As Long, ByVal PixelHeight As Long, ByVal Radio As Integer, Optional ByVal Center As Byte = 0)
-If grh_index <= 0 Then Exit Sub
-Dim rgb_list(3) As Long
+    If grh_index <= 0 Then Exit Sub
+    Dim rgb_list(3) As Long
 
-rgb_list(0) = D3DColorXRGB(255, 255, 255)
-rgb_list(1) = D3DColorXRGB(255, 255, 255)
-rgb_list(2) = D3DColorXRGB(255, 255, 255)
-rgb_list(3) = D3DColorXRGB(255, 255, 255)
+    rgb_list(0) = D3DColorXRGB(255, 255, 255)
+    rgb_list(1) = D3DColorXRGB(255, 255, 255)
+    rgb_list(2) = D3DColorXRGB(255, 255, 255)
+    rgb_list(3) = D3DColorXRGB(255, 255, 255)
 
-If Center Then
+    If Center Then
         If GrhData(grh_index).TileWidth <> 1 Then
             X = X - Int(PixelWidth / 2)
         End If
+
         If GrhData(grh_index).TileHeight <> 1 Then
             Y = Y - Int(PixelHeight + Radio)
         End If
-End If
+    End If
 
-Device_Box_Textured_Render grh_index, _
-X, Y, _
-GrhData(grh_index).PixelWidth, GrhData(grh_index).PixelHeight, _
-rgb_list, _
-GrhData(grh_index).sX, GrhData(grh_index).sY, PixelWidth, PixelHeight
+    Call Device_Box_Textured_Render(grh_index, X, Y, GrhData(grh_index).PixelWidth, GrhData(grh_index).PixelHeight, rgb_list, GrhData(grh_index).sX, GrhData(grh_index).sY, PixelWidth, PixelHeight)
 
 End Sub
+
 Public Sub Draw_GrhIndex(ByVal grh_index As Integer, _
                          ByVal X As Integer, _
                          ByVal Y As Integer, _
@@ -446,7 +411,7 @@ Public Sub Draw_GrhIndex(ByVal grh_index As Integer, _
     '********************************************
     If grh_index <= 0 Then Exit Sub
     
-    Device_Box_Textured_Render grh_index, X, Y, GrhData(grh_index).PixelWidth, GrhData(grh_index).PixelHeight, Light, GrhData(grh_index).sX, GrhData(grh_index).sY
+    Call Device_Box_Textured_Render(grh_index, X, Y, GrhData(grh_index).PixelWidth, GrhData(grh_index).PixelHeight, Light, GrhData(grh_index).sX, GrhData(grh_index).sY)
 
 End Sub
 
@@ -472,7 +437,6 @@ Public Sub Draw_Grh(ByRef Grh As Grh, _
     If Grh.GrhIndex = 0 Then Exit Sub
     
     If Grh.GrhIndex > UBound(GrhData) Or GrhData(Grh.GrhIndex).NumFrames = 0 And GrhData(Grh.GrhIndex).FileNum = 0 Then
-        'Call InitGrh(Grh, 20299)
         Call AddtoRichTextBox(frmMain.StatTxt, "Error en Grh. Posicion: X:" & map_x & " Y:" & map_y, 255, 0, 0)
     End If
     
@@ -546,17 +510,14 @@ Private Sub Geometry_Create_Box(ByRef verts() As TLVERTEX, _
     ' * v0      * v2
     '**************************************************************
     Dim x_center    As Single
-
     Dim y_center    As Single
 
     Dim radius      As Single
 
     Dim x_Cor       As Single
-
     Dim y_Cor       As Single
 
     Dim left_point  As Single
-
     Dim right_point As Single
 
     Dim temp        As Single
@@ -1157,6 +1118,7 @@ Public Sub MapCapture(ByRef Format As Boolean, ByVal ToWorldMapJPG As Boolean)
     'Author: Torres Patricio(Pato)
     'Last modified:12/03/11
     '*************************************************
+    
     Dim D3DWindow        As D3DPRESENT_PARAMETERS
     Dim Y                As Long     'Keeps track of where on map we are
     Dim X                As Long     'Keeps track of where on map we are
@@ -1171,269 +1133,245 @@ Public Sub MapCapture(ByRef Format As Boolean, ByVal ToWorldMapJPG As Boolean)
         .Bottom = 3200
         .Right = 3200
     End With
-    
-    'With frmRender.pgbProgress
-    '    .Value = 0
-    '    .Max = 50000
-    'End With
-         
+
     Call D3DDevice.Clear(0, ByVal 0, D3DCLEAR_TARGET, 0, 0#, 0)
     Call D3DDevice.BeginScene
     
-    If ToWorldMapJPG = False Then
+    If ToWorldMapJPG Then
     
-    'Draw floor layer
-    For Y = 1 To 100
-        For X = 1 To 100
+        For Y = 10 To 91
+            For X = 10 To 91
             
-            'Layer 1 **********************************
-            If MapData(X, Y).Graphic(1).GrhIndex <> 0 Then
-                Call Draw_Grh(MapData(X, Y).Graphic(1), (X - 1) * 32 + TilePixelWidth - 35, (Y - 1) * 32 + TilePixelHeight - 35, 0, 1, MapData(X, Y).light_value())
-
-            End If
-
-            '******************************************
-            
-            'frmRender.pgbProgress.Value = frmRender.pgbProgress.Value + 1
-
-        Next X
-    Next Y
-        
-    'Draw floor layer 2
-    For Y = 1 To 100
-        For X = 1 To 100
-            
-            'Layer 2 **********************************
-            If (MapData(X, Y).Graphic(2).GrhIndex <> 0) And VerCapa2 Then
-                Call Draw_Grh(MapData(X, Y).Graphic(2), (X - 1) * 32 + TilePixelWidth - 35, (Y - 1) * 32 + TilePixelHeight - 35, 1, 1, MapData(X, Y).light_value())
-
-            End If
-
-            '******************************************
-            
-            'frmRender.pgbProgress.Value = frmRender.pgbProgress.Value + 1
-
-        Next X
-    Next Y
-    
-    'Draw Transparent Layers
-    For Y = 1 To 100
-        For X = 1 To 100
-                    
-            PixelOffsetXTemp = (X - 1) * 32 + TilePixelWidth
-            PixelOffsetYTemp = (Y - 1) * 32 + TilePixelHeight
-            
-            With MapData(X, Y)
-                
-                'Object Layer **********************************
-                If (.ObjGrh.GrhIndex <> 0) And VerObjetos Then
-                    Call Draw_Grh(.ObjGrh, PixelOffsetXTemp - 35, PixelOffsetYTemp - 35, 1, 1, MapData(X, Y).light_value())
-
-                End If
-
-                '***********************************************
-                
-                'Layer 3 *****************************************
-                If (.Graphic(3).GrhIndex <> 0) And VerCapa3 Then
-                    Call Draw_Grh(.Graphic(3), PixelOffsetXTemp - 35, PixelOffsetYTemp - 35, 1, 1, MapData(X, Y).light_value())
-
-                End If
-
-                '************************************************
-                
-                'frmRender.pgbProgress.Value = frmRender.pgbProgress.Value + 1
-
-            End With
-
-        Next X
-    Next Y
-        
-    'Draw layer 4
-    For Y = 1 To 100
-        For X = 1 To 100
-
-            With MapData(X, Y)
-                
-                'Layer 4 **********************************
-                If (.Graphic(4).GrhIndex <> 0) And VerCapa4 Then
-                        
-                    'Draw
-                    Call Draw_Grh(.Graphic(4), (X - 1) * 32 + TilePixelWidth - 35, (Y - 1) * 32 + TilePixelHeight - 35, 1, 1, MapData(X, Y).light_value())
-                        
-                End If
-
-                '**********************************
-                
-                'frmRender.pgbProgress.Value = frmRender.pgbProgress.Value + 1
-
-            End With
-
-        Next X
-    Next Y
-    
-    'Draw trans, bloqs, triggers and select tiles
-    For Y = 1 To 100
-        For X = 1 To 100
-
-            With MapData(X, Y)
-                PixelOffsetXTemp = (X - 1) * 32 + TilePixelWidth
-                PixelOffsetYTemp = (Y - 1) * 32 + TilePixelHeight
-                
-                '**********************************
-                Grh.FrameCounter = 1
-                Grh.Started = 0
-
-                If (.TileExit.Map <> 0) And VerTranslados Then
-                    Grh.GrhIndex = 3
-                    
-                    Call Draw_Grh(Grh, PixelOffsetXTemp - 35, PixelOffsetYTemp - 35, 1, 0, MapData(X, Y).light_value())
-
-                End If
-                
-                'Show blocked tiles
-                If (.blocked = 1) And VerBlockeados Then
-                    Grh.GrhIndex = 4
-                    Call Draw_Grh(Grh, PixelOffsetXTemp - 35, PixelOffsetYTemp - 35, 1, 0, MapData(X, Y).light_value())
+                'Layer 1 **********************************
+                If MapData(X, Y).Graphic(1).GrhIndex <> 0 Then
+                    Call Draw_Grh(MapData(X, Y).Graphic(1), (X - 1) * 32 + TilePixelWidth - 35, (Y - 1) * 32 + TilePixelHeight - 35, 0, 1, MapData(X, Y).light_value())
 
                 End If
 
                 '******************************************
-                
-                'frmRender.pgbProgress.Value = frmRender.pgbProgress.Value + 1
-
-            End With
-    
-        Next X
-    Next Y
-    
-    ToWorldMap2 = False
-    ElseIf ToWorldMapJPG = True Then
-    
-    For Y = 10 To 91
-        For X = 10 To 91
             
-            'Layer 1 **********************************
-            If MapData(X, Y).Graphic(1).GrhIndex <> 0 Then
-                Call Draw_Grh(MapData(X, Y).Graphic(1), (X - 1) * 32 + TilePixelWidth - 35, (Y - 1) * 32 + TilePixelHeight - 35, 0, 1, MapData(X, Y).light_value())
-
-            End If
-
-            '******************************************
-            
-            'frmRender.pgbProgress.Value = frmRender.pgbProgress.Value + 1
-
-        Next X
-    Next Y
+            Next X
+        Next Y
         
-    'Draw floor layer 2
-    For Y = 10 To 91
-        For X = 10 To 91
+        'Draw floor layer 2
+        For Y = 10 To 91
+            For X = 10 To 91
             
-            'Layer 2 **********************************
-            If (MapData(X, Y).Graphic(2).GrhIndex <> 0) And VerCapa2 Then
-                Call Draw_Grh(MapData(X, Y).Graphic(2), (X - 1) * 32 + TilePixelWidth - 35, (Y - 1) * 32 + TilePixelHeight - 35, 1, 1, MapData(X, Y).light_value())
-
-            End If
-
-            '******************************************
-            
-            'frmRender.pgbProgress.Value = frmRender.pgbProgress.Value + 1
-
-        Next X
-    Next Y
-    
-    'Draw Transparent Layers
-    For Y = 10 To 91
-        For X = 10 To 91
-                    
-            PixelOffsetXTemp = (X - 1) * 32 + TilePixelWidth
-            PixelOffsetYTemp = (Y - 1) * 32 + TilePixelHeight
-            
-            With MapData(X, Y)
-                
-                'Object Layer **********************************
-                If (.ObjGrh.GrhIndex <> 0) And VerObjetos Then
-                    Call Draw_Grh(.ObjGrh, PixelOffsetXTemp - 35, PixelOffsetYTemp - 35, 1, 1, MapData(X, Y).light_value())
-
-                End If
-
-                '***********************************************
-                
-                'Layer 3 *****************************************
-                If (.Graphic(3).GrhIndex <> 0) And VerCapa3 Then
-                    Call Draw_Grh(.Graphic(3), PixelOffsetXTemp - 35, PixelOffsetYTemp - 35, 1, 1, MapData(X, Y).light_value())
-
-                End If
-
-                '************************************************
-                
-                'frmRender.pgbProgress.Value = frmRender.pgbProgress.Value + 1
-
-            End With
-
-        Next X
-    Next Y
-        
-    'Draw layer 4
-    For Y = 10 To 91
-        For X = 10 To 91
-
-            With MapData(X, Y)
-                
-                'Layer 4 **********************************
-                If (.Graphic(4).GrhIndex <> 0) And VerCapa4 Then
-                        
-                    'Draw
-                    Call Draw_Grh(.Graphic(4), (X - 1) * 32 + TilePixelWidth - 35, (Y - 1) * 32 + TilePixelHeight - 35, 1, 1, MapData(X, Y).light_value())
-                        
-                End If
-
-                '**********************************
-                
-                'frmRender.pgbProgress.Value = frmRender.pgbProgress.Value + 1
-
-            End With
-
-        Next X
-    Next Y
-    
-    'Draw trans, bloqs, triggers and select tiles
-    For Y = 10 To 91
-        For X = 10 To 91
-
-            With MapData(X, Y)
-                PixelOffsetXTemp = (X - 1) * 32 + TilePixelWidth
-                PixelOffsetYTemp = (Y - 1) * 32 + TilePixelHeight
-                
-                '**********************************
-                Grh.FrameCounter = 1
-                Grh.Started = 0
-
-                If (.TileExit.Map <> 0) And VerTranslados Then
-                    Grh.GrhIndex = 3
-                    
-                    Call Draw_Grh(Grh, PixelOffsetXTemp - 35, PixelOffsetYTemp - 35, 1, 0, MapData(X, Y).light_value())
-
-                End If
-                
-                'Show blocked tiles
-                If (.blocked = 1) And VerBlockeados Then
-                    Grh.GrhIndex = 4
-                    Call Draw_Grh(Grh, PixelOffsetXTemp - 35, PixelOffsetYTemp - 35, 1, 0, MapData(X, Y).light_value())
+                'Layer 2 **********************************
+                If (MapData(X, Y).Graphic(2).GrhIndex <> 0) And VerCapa2 Then
+                    Call Draw_Grh(MapData(X, Y).Graphic(2), (X - 1) * 32 + TilePixelWidth - 35, (Y - 1) * 32 + TilePixelHeight - 35, 1, 1, MapData(X, Y).light_value())
 
                 End If
 
                 '******************************************
+            
+            Next X
+        Next Y
+    
+        'Draw Transparent Layers
+        For Y = 10 To 91
+            For X = 10 To 91
+                    
+                PixelOffsetXTemp = (X - 1) * 32 + TilePixelWidth
+                PixelOffsetYTemp = (Y - 1) * 32 + TilePixelHeight
+            
+                With MapData(X, Y)
                 
-                'frmRender.pgbProgress.Value = frmRender.pgbProgress.Value + 1
+                    'Object Layer **********************************
+                    If (.ObjGrh.GrhIndex <> 0) And VerObjetos Then
+                        Call Draw_Grh(.ObjGrh, PixelOffsetXTemp - 35, PixelOffsetYTemp - 35, 1, 1, MapData(X, Y).light_value())
 
-            End With
+                    End If
+
+                    '***********************************************
+                
+                    'Layer 3 *****************************************
+                    If (.Graphic(3).GrhIndex <> 0) And VerCapa3 Then
+                        Call Draw_Grh(.Graphic(3), PixelOffsetXTemp - 35, PixelOffsetYTemp - 35, 1, 1, MapData(X, Y).light_value())
+
+                    End If
+
+                    '************************************************
+                
+                End With
+
+            Next X
+        Next Y
+        
+        'Draw layer 4
+        For Y = 10 To 91
+            For X = 10 To 91
+
+                With MapData(X, Y)
+                
+                    'Layer 4 **********************************
+                    If (.Graphic(4).GrhIndex <> 0) And VerCapa4 Then
+                        
+                        'Draw
+                        Call Draw_Grh(.Graphic(4), (X - 1) * 32 + TilePixelWidth - 35, (Y - 1) * 32 + TilePixelHeight - 35, 1, 1, MapData(X, Y).light_value())
+                        
+                    End If
+
+                    '**********************************
+                
+                End With
+
+            Next X
+        Next Y
     
-        Next X
-    Next Y
+        'Draw trans, bloqs, triggers and select tiles
+        For Y = 10 To 91
+            For X = 10 To 91
+
+                With MapData(X, Y)
+                    PixelOffsetXTemp = (X - 1) * 32 + TilePixelWidth
+                    PixelOffsetYTemp = (Y - 1) * 32 + TilePixelHeight
+                
+                    '**********************************
+                    Grh.FrameCounter = 1
+                    Grh.Started = 0
+
+                    If (.TileExit.Map <> 0) And VerTranslados Then
+                        Grh.GrhIndex = 3
+                    
+                        Call Draw_Grh(Grh, PixelOffsetXTemp - 35, PixelOffsetYTemp - 35, 1, 0, MapData(X, Y).light_value())
+
+                    End If
+                
+                    'Show blocked tiles
+                    If (.blocked = 1) And VerBlockeados Then
+                        Grh.GrhIndex = 4
+                        Call Draw_Grh(Grh, PixelOffsetXTemp - 35, PixelOffsetYTemp - 35, 1, 0, MapData(X, Y).light_value())
+
+                    End If
+
+                    '******************************************
+                
+                End With
     
-    ToWorldMap2 = True
-    End If 'If que cierra el ToWorldMapJPG
+            Next X
+        Next Y
+    
+        ToWorldMap2 = True
+    
+    Else
+    
+        'Draw floor layer
+        For Y = 1 To 100
+            For X = 1 To 100
+            
+                'Layer 1 **********************************
+                If MapData(X, Y).Graphic(1).GrhIndex <> 0 Then
+                    Call Draw_Grh(MapData(X, Y).Graphic(1), (X - 1) * 32 + TilePixelWidth - 35, (Y - 1) * 32 + TilePixelHeight - 35, 0, 1, MapData(X, Y).light_value())
+
+                End If
+
+                '******************************************
+
+            Next X
+        Next Y
+        
+        'Draw floor layer 2
+        For Y = 1 To 100
+            For X = 1 To 100
+            
+                'Layer 2 **********************************
+                If (MapData(X, Y).Graphic(2).GrhIndex <> 0) And VerCapa2 Then
+                    Call Draw_Grh(MapData(X, Y).Graphic(2), (X - 1) * 32 + TilePixelWidth - 35, (Y - 1) * 32 + TilePixelHeight - 35, 1, 1, MapData(X, Y).light_value())
+
+                End If
+
+                '******************************************
+            Next X
+        Next Y
+    
+        'Draw Transparent Layers
+        For Y = 1 To 100
+            For X = 1 To 100
+                    
+                PixelOffsetXTemp = (X - 1) * 32 + TilePixelWidth
+                PixelOffsetYTemp = (Y - 1) * 32 + TilePixelHeight
+            
+                With MapData(X, Y)
+                
+                    'Object Layer **********************************
+                    If (.ObjGrh.GrhIndex <> 0) And VerObjetos Then
+                        Call Draw_Grh(.ObjGrh, PixelOffsetXTemp - 35, PixelOffsetYTemp - 35, 1, 1, MapData(X, Y).light_value())
+
+                    End If
+
+                    '***********************************************
+                
+                    'Layer 3 *****************************************
+                    If (.Graphic(3).GrhIndex <> 0) And VerCapa3 Then
+                        Call Draw_Grh(.Graphic(3), PixelOffsetXTemp - 35, PixelOffsetYTemp - 35, 1, 1, MapData(X, Y).light_value())
+
+                    End If
+
+                    '************************************************
+                    
+                End With
+
+            Next X
+        Next Y
+        
+        'Draw layer 4
+        For Y = 1 To 100
+            For X = 1 To 100
+
+                With MapData(X, Y)
+                
+                    'Layer 4 **********************************
+                    If (.Graphic(4).GrhIndex <> 0) And VerCapa4 Then
+                        
+                        'Draw
+                        Call Draw_Grh(.Graphic(4), (X - 1) * 32 + TilePixelWidth - 35, (Y - 1) * 32 + TilePixelHeight - 35, 1, 1, MapData(X, Y).light_value())
+                        
+                    End If
+
+                    '**********************************
+                
+                End With
+
+            Next X
+        Next Y
+    
+        'Draw trans, bloqs, triggers and select tiles
+        For Y = 1 To 100
+            For X = 1 To 100
+
+                With MapData(X, Y)
+                    PixelOffsetXTemp = (X - 1) * 32 + TilePixelWidth
+                    PixelOffsetYTemp = (Y - 1) * 32 + TilePixelHeight
+                
+                    '**********************************
+                    Grh.FrameCounter = 1
+                    Grh.Started = 0
+
+                    If (.TileExit.Map <> 0) And VerTranslados Then
+                        Grh.GrhIndex = 3
+                    
+                        Call Draw_Grh(Grh, PixelOffsetXTemp - 35, PixelOffsetYTemp - 35, 1, 0, MapData(X, Y).light_value())
+
+                    End If
+                
+                    'Show blocked tiles
+                    If (.blocked = 1) And VerBlockeados Then
+                        Grh.GrhIndex = 4
+                        Call Draw_Grh(Grh, PixelOffsetXTemp - 35, PixelOffsetYTemp - 35, 1, 0, MapData(X, Y).light_value())
+
+                    End If
+
+                    '******************************************
+                
+                End With
+    
+            Next X
+        Next Y
+    
+        ToWorldMap2 = False
+    
+    End If
     
     Call D3DDevice.EndScene
     Call D3DDevice.Present(RE, ByVal 0, frmRender.picMap.hwnd, ByVal 0)
@@ -1450,7 +1388,6 @@ Public Sub MapCapture(ByRef Format As Boolean, ByVal ToWorldMapJPG As Boolean)
     End If
     
     Call SavePicture(frmRender.picMap, DirMinimapas & NumMap_Save & ".bmp")
-    'Call SavePicture(frmRender.picMap.Image, App.Path & NumMap_Save & ".bmp")
     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         
 End Sub

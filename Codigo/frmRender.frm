@@ -1,36 +1,52 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.ocx"
 Begin VB.Form frmRender 
-   BorderStyle     =   0  'None
-   ClientHeight    =   14190
-   ClientLeft      =   0
-   ClientTop       =   45
-   ClientWidth     =   13950
+   BorderStyle     =   1  'Fixed Single
+   ClientHeight    =   8535
+   ClientLeft      =   15
+   ClientTop       =   60
+   ClientWidth     =   8760
    ClipControls    =   0   'False
    ControlBox      =   0   'False
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   946
+   ScaleHeight     =   569
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   930
-   ShowInTaskbar   =   0   'False
+   ScaleWidth      =   584
    StartUpPosition =   1  'CenterOwner
    Begin VB.CommandButton Command1 
       Caption         =   "Salir"
-      Height          =   195
-      Left            =   9120
-      TabIndex        =   4
-      Top             =   0
-      Width           =   975
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   12
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   315
+      Left            =   7080
+      TabIndex        =   3
+      Top             =   120
+      Width           =   1215
    End
    Begin VB.CommandButton cmdAceptar 
       Caption         =   "Renderizar"
-      Height          =   195
-      Left            =   7560
-      TabIndex        =   2
-      Top             =   0
-      Width           =   1455
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   315
+      Left            =   240
+      TabIndex        =   1
+      Top             =   120
+      Width           =   6615
    End
    Begin VB.PictureBox picMap 
       Appearance      =   0  'Flat
@@ -38,30 +54,19 @@ Begin VB.Form frmRender
       BackColor       =   &H80000005&
       BorderStyle     =   0  'None
       ForeColor       =   &H80000008&
-      Height          =   13755
-      Left            =   120
-      ScaleHeight     =   917
+      Height          =   7635
+      Left            =   360
+      ScaleHeight     =   509
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   917
-      TabIndex        =   1
-      Top             =   360
-      Width           =   13755
-   End
-   Begin MSComctlLib.ProgressBar pgbProgress 
-      Height          =   255
-      Left            =   0
+      ScaleWidth      =   541
       TabIndex        =   0
-      Top             =   0
-      Width           =   7455
-      _ExtentX        =   13150
-      _ExtentY        =   450
-      _Version        =   393216
-      Appearance      =   1
+      Top             =   600
+      Width           =   8115
    End
    Begin VB.Label lblmapa 
       Height          =   255
       Left            =   9120
-      TabIndex        =   3
+      TabIndex        =   2
       Top             =   0
       Width           =   3375
    End
@@ -100,7 +105,7 @@ Private Declare Function BitBlt _
 Private Declare Function GetWindowDC Lib "user32" (ByVal hwnd As Long) As Long
 
 Private Sub cmdAceptar_Click()
-    MapCapture False, False
+    Call MapCapture(False, False)
 End Sub
 
 '*************************************************************
@@ -140,14 +145,10 @@ Public Sub Capturar_Imagen(Control As Control, Destino As Object)
     hdc = GetWindowDC(Control.hwnd)
     
     ' Copia esa área al picturebox
-    If ToWorldMap2 = False Then
-    Call BitBlt(Destino.hdc, 0, 0, Ancho, Alto, hdc, 0, 0, vbSrcCopy)
-    'Call BitBlt(Destino.hdc, 0 + 50, 0 + 50, Ancho, Alto, hdc, 0, 0, vbSrcCopy)
-    'Call BitBlt(Destino.hdc, 0 - 50, 0 - 50, Ancho , Alto, hdc, 0, 0, vbSrcCopy)
-    'Call BitBlt(Destino.hdc, 0 - 50, 0 - 50, Ancho - 50, Alto - 50, hdc, 0, 0, vbSrcCopy)
-    'Call BitBlt(Destino.hdc, 0 - 50, 0 - 50, Ancho - 50, Alto - 50, hdc, 0 , 0 , vbSrcCopy)
-    ElseIf ToWorldMap2 = True Then
-    Call BitBlt(Destino.hdc, 0 - 50, 0 - 50, Ancho - 50, Alto - 50, hdc, 0, 0, vbSrcCopy)
+    If ToWorldMap2 Then
+        Call BitBlt(Destino.hdc, 0 - 50, 0 - 50, Ancho - 50, Alto - 50, hdc, 0, 0, vbSrcCopy)
+    Else
+        Call BitBlt(Destino.hdc, 0, 0, Ancho, Alto, hdc, 0, 0, vbSrcCopy)
     End If
     
     ' Convierte la imagen anterior en un Mapa de bits
@@ -161,7 +162,6 @@ Public Sub Capturar_Imagen(Control As Control, Destino As Object)
     If Err.Number = 0 Then
         ' Si el control no está en un  Frame, restaura la escala del contenedor
         Control.Container.ScaleMode = Escala_Anterior
-
     End If
           
 End Sub
@@ -169,4 +169,3 @@ End Sub
 Private Sub Command1_Click()
     Unload Me
 End Sub
-
