@@ -1,6 +1,9 @@
 Attribute VB_Name = "modDeclaraciones"
 Option Explicit
 
+Public ToWorldMap2 As Boolean
+Public Radio As Byte
+
 Public Const PI     As Single = 3.14159265358979 'Numero PI
 
 'RGB Type
@@ -287,8 +290,8 @@ Public Type GrhData
     
     FileNum As Long
     
-    pixelWidth As Integer
-    pixelHeight As Integer
+    PixelWidth As Integer
+    PixelHeight As Integer
     
     TileWidth As Single
     TileHeight As Single

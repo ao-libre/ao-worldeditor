@@ -105,7 +105,7 @@ Public Sub CheckKeys()
     '[/Loopzer]
     
     If GetKeyState(vbKeyUp) < 0 Then
-        If UserPos.Y < 1 Then Exit Sub ' 10
+        If UserPos.Y < 12 Then Exit Sub ' 10
         If LegalPos(UserPos.X, UserPos.Y - 1) And WalkMode = True Then
             If dLastWalk + 50 > GetTickCount Then Exit Sub
             UserPos.Y = UserPos.Y - 1
@@ -159,7 +159,7 @@ Public Sub CheckKeys()
     End If
 
     If GetKeyState(vbKeyLeft) < 0 Then
-        If UserPos.X < 1 Then Exit Sub ' 12
+        If UserPos.X < 17 Then Exit Sub ' 12
         If LegalPos(UserPos.X - 1, UserPos.Y) And WalkMode = True Then
             If dLastWalk + 50 > GetTickCount Then Exit Sub
             UserPos.X = UserPos.X - 1
@@ -272,7 +272,7 @@ Private Sub CargarMapIni()
 
     If FileExist(App.Path & "\WorldEditor.ini", vbArchive) = False Then
         frmMain.mnuGuardarUltimaConfig.Checked = True
-        MaxGrhs = 15000
+        MaxGrhs = 32000
         UserPos.X = 50
         UserPos.Y = 50
         PantallaX = 19
@@ -296,7 +296,7 @@ Private Sub CargarMapIni()
     ' Index
     MaxGrhs = Val(GetVar(App.Path & "\WorldEditor.ini", "INDEX", "MaxGrhs"))
 
-    If MaxGrhs < 1 Then MaxGrhs = 15000
+    If MaxGrhs < 1 Then MaxGrhs = 32000
     
     tStr = Leer.GetValue("MOSTRAR", "LastPos") ' x-y
     UserPos.X = Val(ReadField(1, tStr, Asc("-")))
@@ -423,6 +423,7 @@ Public Sub Main()
     
     End With
     
+    'If frmRenderer.Visible Then RenderToPicture
     frmMain.Show
     DoEvents
     
@@ -505,13 +506,13 @@ fin:
 
 End Sub
 
-Public Sub FixCoasts(ByVal GrhIndex As Long, ByVal X As Integer, ByVal Y As Integer)
+Public Sub FixCoasts(ByVal grhindex As Long, ByVal X As Integer, ByVal Y As Integer)
     '*************************************************
     'Author: Unkwown
     'Last modified: 20/05/06
     '*************************************************
 
-    If GrhIndex = 7284 Or GrhIndex = 7290 Or GrhIndex = 7291 Or GrhIndex = 7297 Or GrhIndex = 7300 Or GrhIndex = 7301 Or GrhIndex = 7302 Or GrhIndex = 7303 Or GrhIndex = 7304 Or GrhIndex = 7306 Or GrhIndex = 7308 Or GrhIndex = 7310 Or GrhIndex = 7311 Or GrhIndex = 7313 Or GrhIndex = 7314 Or GrhIndex = 7315 Or GrhIndex = 7316 Or GrhIndex = 7317 Or GrhIndex = 7319 Or GrhIndex = 7321 Or GrhIndex = 7325 Or GrhIndex = 7326 Or GrhIndex = 7327 Or GrhIndex = 7328 Or GrhIndex = 7332 Or GrhIndex = 7338 Or GrhIndex = 7339 Or GrhIndex = 7345 Or GrhIndex = 7348 Or GrhIndex = 7349 Or GrhIndex = 7350 Or GrhIndex = 7351 Or GrhIndex = 7352 Or GrhIndex = 7349 Or GrhIndex = 7350 Or GrhIndex = 7351 Or GrhIndex = 7354 Or GrhIndex = 7357 Or GrhIndex = 7358 Or GrhIndex = 7360 Or GrhIndex = 7362 Or GrhIndex = 7363 Or GrhIndex = 7365 Or GrhIndex = 7366 Or GrhIndex = 7367 Or GrhIndex = 7368 Or GrhIndex = 7369 Or GrhIndex = 7371 Or GrhIndex = 7373 Or GrhIndex = 7375 Or GrhIndex = 7376 Then MapData(X, Y).Graphic(2).GrhIndex = 0
+    If grhindex = 7284 Or grhindex = 7290 Or grhindex = 7291 Or grhindex = 7297 Or grhindex = 7300 Or grhindex = 7301 Or grhindex = 7302 Or grhindex = 7303 Or grhindex = 7304 Or grhindex = 7306 Or grhindex = 7308 Or grhindex = 7310 Or grhindex = 7311 Or grhindex = 7313 Or grhindex = 7314 Or grhindex = 7315 Or grhindex = 7316 Or grhindex = 7317 Or grhindex = 7319 Or grhindex = 7321 Or grhindex = 7325 Or grhindex = 7326 Or grhindex = 7327 Or grhindex = 7328 Or grhindex = 7332 Or grhindex = 7338 Or grhindex = 7339 Or grhindex = 7345 Or grhindex = 7348 Or grhindex = 7349 Or grhindex = 7350 Or grhindex = 7351 Or grhindex = 7352 Or grhindex = 7349 Or grhindex = 7350 Or grhindex = 7351 Or grhindex = 7354 Or grhindex = 7357 Or grhindex = 7358 Or grhindex = 7360 Or grhindex = 7362 Or grhindex = 7363 Or grhindex = 7365 Or grhindex = 7366 Or grhindex = 7367 Or grhindex = 7368 Or grhindex = 7369 Or grhindex = 7371 Or grhindex = 7373 Or grhindex = 7375 Or grhindex = 7376 Then MapData(X, Y).Graphic(2).grhindex = 0
 
 End Sub
 

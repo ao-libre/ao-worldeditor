@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.ocx"
 Begin VB.Form frmRender 
    BorderStyle     =   0  'None
    ClientHeight    =   14190
@@ -100,7 +100,7 @@ Private Declare Function BitBlt _
 Private Declare Function GetWindowDC Lib "user32" (ByVal hwnd As Long) As Long
 
 Private Sub cmdAceptar_Click()
-    Call MapCapture(1)
+    MapCapture False, False
 End Sub
 
 '*************************************************************
@@ -110,8 +110,8 @@ Public Sub Capturar_Imagen(Control As Control, Destino As Object)
           
     Dim hdc             As Long
     Dim Escala_Anterior As Integer
-    Dim ancho           As Long
-    Dim alto            As Long
+    Dim Ancho           As Long
+    Dim Alto            As Long
           
     ' Para que se mantenga la imagen por si se repinta la ventana
     Destino.AutoRedraw = True
@@ -124,13 +124,13 @@ Public Sub Capturar_Imagen(Control As Control, Destino As Object)
           
     If Err.Number = 438 Then
         ' Si el control está en un Frame, convierte la escala
-        ancho = ScaleX(Control.Width, vbTwips, vbPixels)
-        alto = ScaleY(Control.Height, vbTwips, vbPixels)
+        Ancho = ScaleX(Control.Width, vbTwips, vbPixels)
+        Alto = ScaleY(Control.Height, vbTwips, vbPixels)
     Else
         ' Si no cambia la escala del  contenedor a pixeles
         Control.Container.ScaleMode = vbPixels
-        ancho = Control.Width
-        alto = Control.Height
+        Ancho = Control.Width
+        Alto = Control.Height
     End If
           
     ' limpia el error
@@ -140,7 +140,15 @@ Public Sub Capturar_Imagen(Control As Control, Destino As Object)
     hdc = GetWindowDC(Control.hwnd)
     
     ' Copia esa área al picturebox
-    Call BitBlt(Destino.hdc, 0, 0, ancho, alto, hdc, 0, 0, vbSrcCopy)
+    If ToWorldMap2 = False Then
+    Call BitBlt(Destino.hdc, 0, 0, Ancho, Alto, hdc, 0, 0, vbSrcCopy)
+    'Call BitBlt(Destino.hdc, 0 + 50, 0 + 50, Ancho, Alto, hdc, 0, 0, vbSrcCopy)
+    'Call BitBlt(Destino.hdc, 0 - 50, 0 - 50, Ancho , Alto, hdc, 0, 0, vbSrcCopy)
+    'Call BitBlt(Destino.hdc, 0 - 50, 0 - 50, Ancho - 50, Alto - 50, hdc, 0, 0, vbSrcCopy)
+    'Call BitBlt(Destino.hdc, 0 - 50, 0 - 50, Ancho - 50, Alto - 50, hdc, 0 , 0 , vbSrcCopy)
+    ElseIf ToWorldMap2 = True Then
+    Call BitBlt(Destino.hdc, 0 - 50, 0 - 50, Ancho - 50, Alto - 50, hdc, 0, 0, vbSrcCopy)
+    End If
     
     ' Convierte la imagen anterior en un Mapa de bits
     Destino.Picture = Destino.Image
@@ -161,3 +169,4 @@ End Sub
 Private Sub Command1_Click()
     Unload Me
 End Sub
+
