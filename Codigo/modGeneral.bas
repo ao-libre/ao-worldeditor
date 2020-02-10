@@ -105,7 +105,7 @@ Public Sub CheckKeys()
     '[/Loopzer]
     
     If GetKeyState(vbKeyUp) < 0 Then
-        If UserPos.Y < 1 Then Exit Sub ' 10
+        If UserPos.Y < 12 Then Exit Sub ' 10
         If LegalPos(UserPos.X, UserPos.Y - 1) And WalkMode = True Then
             If dLastWalk + 50 > GetTickCount Then Exit Sub
             UserPos.Y = UserPos.Y - 1
@@ -159,7 +159,7 @@ Public Sub CheckKeys()
     End If
 
     If GetKeyState(vbKeyLeft) < 0 Then
-        If UserPos.X < 1 Then Exit Sub ' 12
+        If UserPos.X < 17 Then Exit Sub ' 12
         If LegalPos(UserPos.X - 1, UserPos.Y) And WalkMode = True Then
             If dLastWalk + 50 > GetTickCount Then Exit Sub
             UserPos.X = UserPos.X - 1
@@ -272,7 +272,7 @@ Private Sub CargarMapIni()
 
     If FileExist(App.Path & "\WorldEditor.ini", vbArchive) = False Then
         frmMain.mnuGuardarUltimaConfig.Checked = True
-        MaxGrhs = 15000
+        MaxGrhs = 32000
         UserPos.X = 50
         UserPos.Y = 50
         PantallaX = 19
@@ -296,7 +296,7 @@ Private Sub CargarMapIni()
     ' Index
     MaxGrhs = Val(GetVar(App.Path & "\WorldEditor.ini", "INDEX", "MaxGrhs"))
 
-    If MaxGrhs < 1 Then MaxGrhs = 15000
+    If MaxGrhs < 1 Then MaxGrhs = 32000
     
     tStr = Leer.GetValue("MOSTRAR", "LastPos") ' x-y
     UserPos.X = Val(ReadField(1, tStr, Asc("-")))
@@ -423,6 +423,7 @@ Public Sub Main()
     
     End With
     
+    'If frmRender.Visible Then RenderToPicture
     frmMain.Show
     DoEvents
     

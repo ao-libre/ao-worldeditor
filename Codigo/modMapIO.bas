@@ -665,7 +665,7 @@ Public Sub MapaV2_Cargar(ByVal Map As String)
     
     Call Pestañas(Map, ".map")
     
-    Call ActualizaMinimap ' Radar
+    'Call ActualizaMinimap ' Radar
     
     Map = Left$(Map, Len(Map) - 4) & ".dat"
     

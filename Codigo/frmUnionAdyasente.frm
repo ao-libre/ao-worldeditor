@@ -114,7 +114,7 @@ Begin VB.Form frmUnionAdyacente
       Index           =   7
       Left            =   360
       TabIndex        =   26
-      Text            =   "88"
+      Text            =   "90"
       Top             =   720
       Width           =   375
    End
@@ -134,7 +134,7 @@ Begin VB.Form frmUnionAdyacente
       Index           =   6
       Left            =   5640
       TabIndex        =   24
-      Text            =   "13"
+      Text            =   "10"
       Top             =   3120
       Width           =   375
    End
@@ -154,7 +154,7 @@ Begin VB.Form frmUnionAdyacente
       Index           =   5
       Left            =   5520
       TabIndex        =   22
-      Text            =   "11"
+      Text            =   "10"
       Top             =   3480
       Width           =   375
    End
@@ -306,7 +306,7 @@ Begin VB.Form frmUnionAdyacente
       Index           =   3
       Left            =   840
       TabIndex        =   13
-      Text            =   "12"
+      Text            =   "9"
       Top             =   3600
       Width           =   375
    End
@@ -326,7 +326,7 @@ Begin VB.Form frmUnionAdyacente
       Index           =   2
       Left            =   4800
       TabIndex        =   12
-      Text            =   "89"
+      Text            =   "91"
       Top             =   120
       Width           =   375
    End
@@ -346,7 +346,7 @@ Begin VB.Form frmUnionAdyacente
       Index           =   1
       Left            =   5640
       TabIndex        =   11
-      Text            =   "10"
+      Text            =   "9"
       Top             =   600
       Width           =   375
    End
@@ -1012,7 +1012,7 @@ Private Sub Aplicar_Click(index As Integer)
 
     For i = 0 To 3
 
-        If Aplicar(i).value = 1 Then cmdAplicar.Enabled = True
+        If Aplicar(i).Value = 1 Then cmdAplicar.Enabled = True
     Next
 
 End Sub
@@ -1037,7 +1037,7 @@ Private Sub cmdAplicar_Click()
     modEdicion.Deshacer_Add "Insertar Translados a mapas Adyasentes" ' Hago deshacer
 
     ' ARRIBA
-    If Mapa(0).Text > -1 And Aplicar(0).value = 1 Then
+    If Mapa(0).Text > -1 And Aplicar(0).Value = 1 Then
         Y = PosLim(1).Text
 
         For X = (PosLim(3).Text + 1) To (PosLim(2).Text - 1)
@@ -1061,7 +1061,7 @@ Private Sub cmdAplicar_Click()
     End If
 
     ' DERECHA
-    If Mapa(1).Text > -1 And Aplicar(1).value = 1 Then
+    If Mapa(1).Text > -1 And Aplicar(1).Value = 1 Then
         X = PosLim(2).Text
 
         For Y = (PosLim(1).Text + 1) To (PosLim(0).Text - 1)
@@ -1085,7 +1085,7 @@ Private Sub cmdAplicar_Click()
     End If
 
     ' ABAJO
-    If Mapa(2).Text > -1 And Aplicar(2).value = 1 Then
+    If Mapa(2).Text > -1 And Aplicar(2).Value = 1 Then
         Y = PosLim(0).Text
 
         For X = (PosLim(3).Text + 1) To (PosLim(2).Text - 1)
@@ -1109,7 +1109,7 @@ Private Sub cmdAplicar_Click()
     End If
 
     ' IZQUIERDA
-    If Mapa(3).Text > -1 And Aplicar(3).value = 1 Then
+    If Mapa(3).Text > -1 And Aplicar(3).Value = 1 Then
         X = PosLim(3).Text
 
         For Y = (PosLim(1).Text + 1) To (PosLim(0).Text - 1)
@@ -1169,9 +1169,7 @@ Private Sub LeerMapaExit()
     'Last modified: 20/05/06
     '*************************************************
     On Error Resume Next
-
     Dim X As Integer
-
     Dim Y As Integer
 
     ' ARRIBA
@@ -1187,7 +1185,7 @@ Private Sub LeerMapaExit()
         End If
 
     Next
-    Aplicar(0).value = 0
+    Aplicar(0).Value = 0
 
     ' DERECHA
     Mapa(1).Text = 0
@@ -1202,7 +1200,7 @@ Private Sub LeerMapaExit()
         End If
 
     Next
-    Aplicar(1).value = 0
+    Aplicar(1).Value = 0
 
     ' ABAJO
     Mapa(2).Text = 0
@@ -1217,7 +1215,7 @@ Private Sub LeerMapaExit()
         End If
 
     Next
-    Aplicar(2).value = 0
+    Aplicar(2).Value = 0
 
     ' IZQUIERDA
     Mapa(3).Text = 0
@@ -1228,11 +1226,9 @@ Private Sub LeerMapaExit()
         If MapData(X, Y).TileExit.Map > 0 Then
             Mapa(3).Text = MapData(X, Y).TileExit.Map
             Exit For
-
         End If
-
     Next
-    Aplicar(3).value = 0
+    Aplicar(3).Value = 0
 
 End Sub
 
@@ -1250,7 +1246,7 @@ Private Sub Mapa_Change(index As Integer)
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    Aplicar(index).value = 1
+    Aplicar(index).Value = 1
 
 End Sub
 
@@ -1285,13 +1281,13 @@ Private Sub mnuBasica_Click()
     'Last modified: 20/05/06
     '*************************************************
     PosLim(0).Text = 91
-    PosLim(1).Text = 10
-    PosLim(2).Text = 89
-    PosLim(3).Text = 12
+    PosLim(1).Text = 9
+    PosLim(2).Text = 91
+    PosLim(3).Text = 9
     PosLim(4).Text = 90
-    PosLim(5).Text = 11
-    PosLim(6).Text = 13
-    PosLim(7).Text = 88
+    PosLim(5).Text = 10
+    PosLim(6).Text = 10
+    PosLim(7).Text = 90
     Call LeerMapaExit
 
 End Sub
@@ -1318,14 +1314,14 @@ Private Sub mnuUlla_Click()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    PosLim(0).Text = 94
-    PosLim(1).Text = 7
-    PosLim(2).Text = 92
+    PosLim(0).Text = 91
+    PosLim(1).Text = 9
+    PosLim(2).Text = 91
     PosLim(3).Text = 9
-    PosLim(4).Text = 93
-    PosLim(5).Text = 8
+    PosLim(4).Text = 90
+    PosLim(5).Text = 10
     PosLim(6).Text = 10
-    PosLim(7).Text = 91
+    PosLim(7).Text = 90
     Call LeerMapaExit
 
 End Sub
@@ -1367,9 +1363,8 @@ Private Sub PosLim_KeyUp(index As Integer, KeyCode As Integer, Shift As Integer)
 
         If MapData(X, Y).TileExit.Map > 0 Then
             Mapa(0).Text = MapData(X, Y).TileExit.Map
-            Aplicar(0).value = 0
+            Aplicar(0).Value = 0
             Exit For
-
         End If
 
     Next
@@ -1381,7 +1376,7 @@ Private Sub PosLim_KeyUp(index As Integer, KeyCode As Integer, Shift As Integer)
 
         If MapData(X, Y).TileExit.Map > 0 Then
             Mapa(1).Text = MapData(X, Y).TileExit.Map
-            Aplicar(1).value = 0
+            Aplicar(1).Value = 0
             Exit For
 
         End If
@@ -1395,7 +1390,7 @@ Private Sub PosLim_KeyUp(index As Integer, KeyCode As Integer, Shift As Integer)
 
         If MapData(X, Y).TileExit.Map > 0 Then
             Mapa(2).Text = MapData(X, Y).TileExit.Map
-            Aplicar(2).value = 0
+            Aplicar(2).Value = 0
             Exit For
 
         End If
@@ -1409,7 +1404,7 @@ Private Sub PosLim_KeyUp(index As Integer, KeyCode As Integer, Shift As Integer)
 
         If MapData(X, Y).TileExit.Map > 0 Then
             Mapa(3).Text = MapData(X, Y).TileExit.Map
-            Aplicar(3).value = 0
+            Aplicar(3).Value = 0
             Exit For
 
         End If

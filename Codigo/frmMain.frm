@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "richtx32.ocx"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
 Begin VB.Form frmMain 
    Appearance      =   0  'Flat
    BackColor       =   &H00FFFFFF&
@@ -2621,7 +2621,8 @@ Begin VB.Form frmMain
       _ExtentX        =   33152
       _ExtentY        =   2037
       _Version        =   393217
-      BackColor       =   0
+      BackColor       =   16777215
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -2664,7 +2665,7 @@ Begin VB.Form frmMain
       Value           =   0   'False
       CustomClick     =   1
       ImgAlign        =   5
-      Image           =   "frmMain.frx":5F4F2
+      Image           =   "frmMain.frx":5F4F1
       ImgSize         =   24
       cBack           =   -2147483633
    End
@@ -2696,7 +2697,7 @@ Begin VB.Form frmMain
       Value           =   0   'False
       CustomClick     =   1
       ImgAlign        =   5
-      Image           =   "frmMain.frx":5FB33
+      Image           =   "frmMain.frx":5FB32
       ImgSize         =   24
       cBack           =   -2147483633
    End
@@ -2728,7 +2729,7 @@ Begin VB.Form frmMain
       Value           =   0   'False
       CustomClick     =   1
       ImgAlign        =   5
-      Image           =   "frmMain.frx":601B5
+      Image           =   "frmMain.frx":601B4
       ImgSize         =   24
       Enabled         =   0   'False
       cBack           =   -2147483633
@@ -4319,7 +4320,7 @@ Private Sub Form_Click()
 End Sub
 
 Private Sub Form_DblClick()
-
+    'MsgBox "Sos 1 pelotudo."
     '*************************************************
     'Author: ^[GS]^
     'Last modified: 28/05/06
@@ -5336,8 +5337,15 @@ Private Sub mnuRealizarOperacion_Click()
 End Sub
 
 Private Sub mnuRenderMapa_Click()
-    Call frmRender.Show(vbModal)
+    Radio = Val(InputBox("Escriba la escala de 1 a 5 en la que generemos su mapa", "la escala se multiplica x 32"))
 
+    If Radio = 0 Then Radio = 1
+    If Radio >= 5 Then Radio = 5
+
+    frmRender.picMap.Width = (Radio * 100)
+    frmRender.picMap.Height = (Radio * 100)
+
+    frmRender.Show
 End Sub
 
 Private Sub mnuSalir_Click()
@@ -5546,6 +5554,23 @@ Private Sub Form_MouseDown(Button As Integer, Shift As Integer, X As Single, Y A
         Call ClickEdit(Button, tX, tY)
     End If
 
+End Sub
+
+Private Sub Renderer_DblClick()
+
+'Author: ^[GS]^
+    'Last modified: 28/05/06
+    '*************************************************
+    Dim tX As Integer
+
+    Dim tY As Integer
+
+    If Not MapaCargado Then Exit Sub
+
+    If SobreX > 0 And SobreY > 0 Then
+        DobleClick Val(SobreX), Val(SobreY)
+    End If
+    
 End Sub
 
 Private Sub Renderer_MouseMove(Button As Integer, _
