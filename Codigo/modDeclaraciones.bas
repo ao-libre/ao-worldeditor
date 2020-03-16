@@ -443,12 +443,6 @@ Public MaxXBorder                                                               
 Public MinYBorder                                                                                 As Integer
 Public MaxYBorder                                                                                 As Integer
 
-' Nuevos bordes de mapa, considerando el nuevo tamanio del render
-Public NewMinXBorder                                                                              As Integer
-Public NewMaxXBorder                                                                              As Integer
-Public NewMinYBorder                                                                              As Integer
-Public NewMaxYBorder                                                                              As Integer
-
 'Object Constants
 Public Const MAX_INVENORY_OBJS                                                                    As Integer = 10000
 

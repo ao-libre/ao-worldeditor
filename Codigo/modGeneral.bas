@@ -292,9 +292,9 @@ Private Sub CargarMapIni()
     
     ' Guardar Ultima Configuracion
     frmMain.mnuGuardarUltimaConfig.Checked = Val(Leer.GetValue("CONFIGURACION", "GuardarConfig"))
-    
+
     ' Index
-    MaxGrhs = Val(GetVar(App.Path & "\WorldEditor.ini", "INDEX", "MaxGrhs"))
+    MaxGrhs = Val(Leer.GetValue("INDEX", "MaxGrhs"))
 
     If MaxGrhs < 1 Then MaxGrhs = 32000
     
@@ -334,8 +334,8 @@ Private Sub CargarMapIni()
     
     ' [GS] 02/10/06
     ' Tamaño de visualizacion en el cliente
-    ClienteHeight = Val(Leer.GetValue("MOSTRAR", "ClienteHeight"))
-    ClienteWidth = Val(Leer.GetValue("MOSTRAR", "ClienteWidth"))
+    ClienteHeight = Val(Leer.GetValue("RENDER", "ClienteHeight"))
+    ClienteWidth = Val(Leer.GetValue("RENDER", "ClienteWidth"))
 
     If ClienteHeight <= 0 Then ClienteHeight = 13
     If ClienteWidth <= 0 Then ClienteWidth = 17
