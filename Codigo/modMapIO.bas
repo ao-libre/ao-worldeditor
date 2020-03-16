@@ -353,7 +353,7 @@ End Sub
 '
 ' @param SaveAs Especifica donde guardar el mapa
 
-Public Sub MapaV2_Guardar(ByVal SaveAs As String)
+Public Sub MapaV2_Guardar(ByVal SaveAs As String, Optional ByVal Preguntar As Boolean = True)
     '*************************************************
     'Author: ^[GS]^
     'Last modified: 20/05/06
@@ -370,13 +370,15 @@ Public Sub MapaV2_Guardar(ByVal SaveAs As String)
     Dim ByFlags     As Byte
 
     If FileExist(SaveAs, vbNormal) = True Then
-        
-        If MsgBox("¿Desea sobrescribir " & SaveAs & "?", vbCritical + vbYesNo) = vbNo Then
-            Exit Sub
+        If Preguntar Then
+            If MsgBox("¿Desea sobrescribir " & SaveAs & "?", vbCritical + vbYesNo) = vbNo Then
+                Exit Sub
+            Else
+                Call Kill(SaveAs)
+            End If
         Else
             Call Kill(SaveAs)
         End If
-
     End If
 
     frmMain.MousePointer = 11

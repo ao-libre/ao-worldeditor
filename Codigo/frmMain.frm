@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "Richtx32.ocx"
 Begin VB.Form frmMain 
    Appearance      =   0  'Flat
    BackColor       =   &H00FFFFFF&
@@ -18,6 +18,14 @@ Begin VB.Form frmMain
    ScaleWidth      =   1273
    StartUpPosition =   1  'CenterOwner
    Visible         =   0   'False
+   Begin VB.CommandButton Magic 
+      Caption         =   "Magic Button"
+      Height          =   375
+      Left            =   17760
+      TabIndex        =   142
+      Top             =   120
+      Width           =   1095
+   End
    Begin VB.PictureBox Picture1 
       Appearance      =   0  'Flat
       BackColor       =   &H80000005&
@@ -2572,7 +2580,7 @@ Begin VB.Form frmMain
    End
    Begin MSComDlg.CommonDialog Dialog 
       Left            =   2565
-      Top             =   2025
+      Top             =   1905
       _ExtentX        =   847
       _ExtentY        =   847
       _Version        =   393216
@@ -2665,7 +2673,7 @@ Begin VB.Form frmMain
       Value           =   0   'False
       CustomClick     =   1
       ImgAlign        =   5
-      Image           =   "frmMain.frx":5F4F1
+      Image           =   "frmMain.frx":5F4F2
       ImgSize         =   24
       cBack           =   -2147483633
    End
@@ -2697,7 +2705,7 @@ Begin VB.Form frmMain
       Value           =   0   'False
       CustomClick     =   1
       ImgAlign        =   5
-      Image           =   "frmMain.frx":5FB32
+      Image           =   "frmMain.frx":5FB33
       ImgSize         =   24
       cBack           =   -2147483633
    End
@@ -2729,7 +2737,7 @@ Begin VB.Form frmMain
       Value           =   0   'False
       CustomClick     =   1
       ImgAlign        =   5
-      Image           =   "frmMain.frx":601B4
+      Image           =   "frmMain.frx":601B5
       ImgSize         =   24
       Enabled         =   0   'False
       cBack           =   -2147483633
@@ -4383,6 +4391,10 @@ Private Sub Form_KeyPress(KeyAscii As Integer)
 
 End Sub
 
+Private Sub Form_Load()
+    frmMain.Dialog.FilterIndex = 1
+End Sub
+
 Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
 
     'If Seleccionando Then CopiarSeleccion
@@ -4504,6 +4516,281 @@ End Sub
 Private Sub lvButtons_H4_Click()
     base_light = ARGB(165, 165, 165, 255)
 
+End Sub
+
+' Lee los traslados del mapa y retorna los mapas adyacentes o cero si no tiene en esa direccion
+Private Sub LeerAdyacentes(ByRef Norte As Integer, ByRef Sur As Integer, ByRef Este As Integer, ByRef Oeste As Integer)
+    Dim X As Integer
+    Dim Y As Integer
+
+    ' Norte
+    Y = MinYBorder
+    For X = (MinXBorder + 1) To (MaxXBorder - 1)
+        If MapData(X, Y).TileExit.Map > 0 Then
+            Norte = MapData(X, Y).TileExit.Map
+            Exit For
+        End If
+    Next
+
+    ' Este
+    X = MaxXBorder
+    For Y = (MinYBorder + 1) To (MaxYBorder - 1)
+        If MapData(X, Y).TileExit.Map > 0 Then
+            Este = MapData(X, Y).TileExit.Map
+            Exit For
+        End If
+    Next
+
+    ' Sur
+    Y = MaxYBorder
+    For X = (MinXBorder + 1) To (MaxXBorder - 1)
+        If MapData(X, Y).TileExit.Map > 0 Then
+            Sur = MapData(X, Y).TileExit.Map
+            Exit For
+        End If
+    Next
+
+    ' Oeste
+    X = MinXBorder
+    For Y = (MinYBorder + 1) To (MaxYBorder - 1)
+        If MapData(X, Y).TileExit.Map > 0 Then
+            Oeste = MapData(X, Y).TileExit.Map
+            Exit For
+        End If
+    Next
+End Sub
+
+Private Sub Magic_Click()
+    
+    Dim Path As String
+        Path = InputBox("Ingrese el path absoluto a la carpeta de mapas", "Que fiaca hacer un formulario de abrir jaja")
+    
+    If LenB(Path) = 0 Then Exit Sub
+    
+    Dim Files() As String, File As String
+    
+    File = Dir$(Path & "\*.MAP")
+    
+    Dim Iterator As Integer
+    
+    Do While File <> vbNullString
+        ReDim Preserve Files(Iterator) As String
+        Files(Iterator) = File
+        Iterator = Iterator + 1
+        File = Dir
+    Loop
+    
+    Dim Norte As Integer, Sur As Integer, Este As Integer, Oeste As Integer
+
+    For Iterator = 0 To UBound(Files)
+        File = Path & "\" & Files(Iterator)
+    
+        Call modMapIO.NuevoMapa
+        Call modMapIO.MapaV2_Cargar(File)
+    
+        Norte = 0
+        Sur = 0
+        Este = 0
+        Oeste = 0
+        
+        Call LeerAdyacentes(Norte, Sur, Este, Oeste)
+        
+        Call LimpiarTraslados(Norte, Sur, Este, Oeste)
+        
+        Call AplicarTraslados(Norte, Sur, Este, Oeste)
+        
+        Call BloquearBordes
+        
+        Call modMapIO.MapaV2_Guardar(File, False)
+    
+    Next
+        
+    Call modMapIO.NuevoMapa
+    Call modMapIO.MapaV2_Cargar(Dir$(Path & "\*.MAP"))
+    
+End Sub
+
+Private Sub LimpiarTraslados(ByVal Norte As Integer, ByVal Sur As Integer, ByVal Este As Integer, ByVal Oeste As Integer)
+    Dim Y As Integer
+    Dim X As Integer
+
+    ' Norte
+    If Norte > 0 Then
+        Y = MinYBorder
+
+        For X = (MinXBorder + 1) To (MaxXBorder - 1)
+
+            MapData(X, Y).TileExit.Map = 0
+
+            MapData(X, Y).TileExit.X = 0
+            MapData(X, Y).TileExit.Y = 0
+
+        Next
+
+    End If
+
+    ' Este
+    If Este > 0 Then
+        X = MaxXBorder
+
+        For Y = (MinYBorder + 1) To (MaxYBorder - 1)
+
+            MapData(X, Y).TileExit.Map = 0
+
+            MapData(X, Y).TileExit.X = 0
+            MapData(X, Y).TileExit.Y = 0
+
+        Next
+
+    End If
+
+    ' Sur
+    If Sur > 0 Then
+        Y = MaxYBorder
+
+        For X = (MinXBorder + 1) To (MaxXBorder - 1)
+
+            MapData(X, Y).TileExit.Map = 0
+
+            MapData(X, Y).TileExit.X = 0
+            MapData(X, Y).TileExit.Y = 0
+
+        Next
+
+    End If
+
+    ' Oeste
+    If Oeste > 0 Then
+        X = MinXBorder
+
+        For Y = (MinYBorder + 1) To (MaxYBorder - 1)
+
+            MapData(X, Y).TileExit.Map = 0
+
+            MapData(X, Y).TileExit.X = 0
+            MapData(X, Y).TileExit.Y = 0
+
+        Next
+
+    End If
+
+End Sub
+
+Private Sub AplicarTraslados(ByVal Norte As Integer, ByVal Sur As Integer, ByVal Este As Integer, ByVal Oeste As Integer)
+    Dim Y As Integer
+    Dim X As Integer
+
+    ' Norte
+    If Norte > 0 Then
+        Y = MinYBorder
+
+        For X = (MinXBorder + 1) To (MaxXBorder - 1)
+
+            If MapData(X, Y).blocked = 0 Then
+                MapData(X, Y).TileExit.Map = Norte
+                MapData(X, Y).TileExit.X = X
+                MapData(X, Y).TileExit.Y = MaxYBorder - 1
+            End If
+
+        Next
+        
+    Else
+        Y = MinYBorder
+        ' Si no tiene traslado para este lado, bloqueamos las posiciones
+        For X = (MinXBorder + 1) To (MaxXBorder - 1)
+            MapData(X, Y).blocked = 1
+        Next
+    End If
+
+    ' Este
+    If Este > 0 Then
+        X = MaxXBorder
+
+        For Y = (MinYBorder + 1) To (MaxYBorder - 1)
+
+            If MapData(X, Y).blocked = 0 Then
+                MapData(X, Y).TileExit.Map = Este
+                MapData(X, Y).TileExit.X = MinXBorder + 1
+                MapData(X, Y).TileExit.Y = Y
+            End If
+
+        Next
+    
+    Else
+        ' Si no tiene traslado para este lado, bloqueamos las posiciones
+        X = MaxXBorder
+        For Y = (MinYBorder + 1) To (MaxYBorder - 1)
+            MapData(X, Y).blocked = 1
+        Next
+    End If
+
+    ' Sur
+    If Sur > 0 Then
+        Y = MaxYBorder
+
+        For X = (MinXBorder + 1) To (MaxXBorder - 1)
+
+            If MapData(X, Y).blocked = 0 Then
+                MapData(X, Y).TileExit.Map = Sur
+                MapData(X, Y).TileExit.X = X
+                MapData(X, Y).TileExit.Y = MinYBorder + 1
+            End If
+
+        Next
+        
+    Else
+        ' Si no tiene traslado para este lado, bloqueamos las posiciones
+        Y = MaxYBorder
+        For X = (MinXBorder + 1) To (MaxXBorder - 1)
+            MapData(X, Y).blocked = 1
+        Next
+
+    End If
+
+    ' Oeste
+    If Oeste > 0 Then
+        X = MinXBorder
+
+        For Y = (MinYBorder + 1) To (MaxYBorder - 1)
+
+            If MapData(X, Y).blocked = 0 Then
+                MapData(X, Y).TileExit.Map = Oeste
+                MapData(X, Y).TileExit.X = MaxXBorder - 1
+                MapData(X, Y).TileExit.Y = Y
+            End If
+
+        Next
+        
+    Else
+        ' Si no tiene traslado para este lado, bloqueamos las posiciones
+        X = MinXBorder
+        For Y = (MinYBorder + 1) To (MaxYBorder - 1)
+            MapData(X, Y).blocked = 1
+        Next
+
+    End If
+
+End Sub
+
+Private Sub BloquearBordes()
+    Dim Y As Integer
+    Dim X As Integer
+
+    For Y = YMinMapSize To YMaxMapSize
+        For X = XMinMapSize To XMaxMapSize
+
+            If X < MinXBorder Or X > MaxXBorder Or Y < MinYBorder Or Y > MaxYBorder Then
+                MapData(X, Y).blocked = 1
+            End If
+
+        Next X
+    Next Y
+    
+    ' Bloqueo las 4 esquinitas que queda feo sino :v
+    MapData(MinXBorder, MinYBorder).blocked = 1
+    MapData(MaxXBorder, MinYBorder).blocked = 1
+    MapData(MinXBorder, MaxYBorder).blocked = 1
+    MapData(MaxXBorder, MaxYBorder).blocked = 1
 End Sub
 
 Private Sub MapPest_Click(index As Integer)
@@ -5647,6 +5934,9 @@ Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
         Call IniManager.ChangeValue("MOSTRAR", "Grilla", IIf(frmMain.mnuVerGrilla.Checked = True, "1", "0"))
         Call IniManager.ChangeValue("MOSTRAR", "Bloqueos", IIf(frmMain.mnuVerBloqueos.Checked = True, "1", "0"))
         Call IniManager.ChangeValue("MOSTRAR", "LastPos", UserPos.X & "-" & UserPos.Y)
+
+        Call IniManager.ChangeValue("RENDER", "ClienteWidth", ClienteWidth)
+        Call IniManager.ChangeValue("RENDER", "ClienteHeight", ClienteHeight)
         
         Call IniManager.ChangeValue("CONFIGURACION", "UtilizarDeshacer", IIf(frmMain.mnuUtilizarDeshacer.Checked = True, "1", "0"))
         Call IniManager.ChangeValue("CONFIGURACION", "AutoCapturarTrans", IIf(frmMain.mnuAutoCapturarTranslados.Checked = True, "1", "0"))
