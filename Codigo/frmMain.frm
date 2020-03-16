@@ -2630,7 +2630,6 @@ Begin VB.Form frmMain
       _ExtentY        =   2037
       _Version        =   393217
       BackColor       =   16777215
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -3215,8 +3214,14 @@ Begin VB.Form frmMain
          Caption         =   "&Nuevo Mapa"
          Shortcut        =   ^N
       End
+      Begin VB.Menu mnuBlank 
+         Caption         =   "-"
+      End
+      Begin VB.Menu mnuAbrirMapaInteger 
+         Caption         =   "&Abrir Mapa - Integer"
+      End
       Begin VB.Menu mnuAbrirMapaNew 
-         Caption         =   "&Abrir Mapa"
+         Caption         =   "&Abrir Mapa - Long"
       End
       Begin VB.Menu mnuArchivoLine2 
          Caption         =   "-"
@@ -4815,7 +4820,7 @@ Private Sub MapPest_Click(index As Integer)
     If (index + NumMap_Save - 4) <> NumMap_Save Then
         Dialog.CancelError = True
 
-        On Error GoTo ErrHandler
+        On Error GoTo errhandler
 
         Dialog.FileName = PATH_Save & NameMap_Save & (index + NumMap_Save - 7) & formato
 
@@ -4847,7 +4852,7 @@ Private Sub MapPest_Click(index As Integer)
     
         Exit Sub
     
-ErrHandler:
+errhandler:
         Call MsgBox(Err.Description)
 
 End Sub
@@ -4884,14 +4889,27 @@ Private Sub minimap_MouseDown(Button As Integer, _
 
 End Sub
 
+Private Sub mnuAbrirMapaInteger_Click()
+
+    Call AbrirMapa(2)
+
+End Sub
+
 Private Sub mnuAbrirMapaNew_Click()
+    
+    Call AbrirMapa(1)
+
+End Sub
+
+Private Sub AbrirMapa(ByVal Selector As Byte)
+    
     '*************************************************
     'Author: Lorwik
     'Last modified: 04/11/2015
     '*************************************************
     Dialog.CancelError = True
 
-    On Error GoTo ErrHandler
+    On Error GoTo errhandler
 
     Call DeseaGuardarMapa(Dialog.FileName)
 
@@ -4901,7 +4919,6 @@ Private Sub mnuAbrirMapaNew_Click()
 
     If WalkMode = True Then
         Call modGeneral.ToggleWalkMode
-
     End If
     
     Call modMapIO.NuevoMapa
@@ -4909,7 +4926,16 @@ Private Sub mnuAbrirMapaNew_Click()
     Select Case frmMain.Dialog.FilterIndex
     
         Case 1
-            Call modMapIO.MapaV2_Cargar(Dialog.FileName)
+        
+            Select Case Selector
+            
+                Case 1
+                    Call modMapIO.MapaV2_Cargar(Dialog.FileName)
+                    
+                Case 2
+                    Call modMapIO.MapaInteger_Cargar(Dialog.FileName)
+                    
+            End Select
             
         Case 2
             Call modMapIO.Cargar_CSM(Dialog.FileName)
@@ -4921,9 +4947,8 @@ Private Sub mnuAbrirMapaNew_Click()
     mnuReAbrirMapa.Enabled = True
     
     EngineRun = True
-    
-    Exit Sub
-ErrHandler:
+
+errhandler:
 
 End Sub
 
@@ -5577,7 +5602,7 @@ Private Sub mnuReAbrirMapa_Click()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    On Error GoTo ErrHandler
+    On Error GoTo errhandler
 
     If FileExist(Dialog.FileName, vbArchive) = False Then Exit Sub
     
@@ -5609,7 +5634,7 @@ Private Sub mnuReAbrirMapa_Click()
     
     Exit Sub
     
-ErrHandler:
+errhandler:
 
 End Sub
 

@@ -1425,10 +1425,10 @@ Public Sub MapaInteger_Cargar(ByVal Map As String)
                     .Trigger = 0
                 End If
             
+                'Particles used?
                 If ByFlags And 32 Then
                     Get FreeFileMap, , TempInt
                     .particle_group_index = General_Particle_Create(TempInt, X, Y, -1)
-                    .particle_Index = TempInt
                 End If
             
                 If ByFlags And 64 Then
