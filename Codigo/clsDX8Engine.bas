@@ -181,6 +181,10 @@ Public Function Engine_Init() As Boolean
     MinYBorder = YMinMapSize + (ClienteHeight \ 2)
     MaxYBorder = YMaxMapSize - (ClienteHeight \ 2)
     '***********************************
+    NewMinXBorder = XMinMapSize + (25 \ 2)
+    NewMaxXBorder = XMaxMapSize - (25 \ 2)
+    NewMinYBorder = YMinMapSize + (19 \ 2)
+    NewMaxYBorder = YMaxMapSize - (19 \ 2)
     
     ScrollPixelsPerFrameX = 8
     ScrollPixelsPerFrameY = 8
