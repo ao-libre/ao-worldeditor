@@ -714,7 +714,7 @@ Public Sub MapInfo_Guardar(ByVal Archivo As String)
     Dim IniManager As clsIniManager
     Set IniManager = New clsIniManager
 
-    Call IniManager.ChangeValue(MapTitulo, "Name", MapInfo.Name, True)
+    Call IniManager.ChangeValue(MapTitulo, "Name", MapInfo.Name)
     Call IniManager.ChangeValue(MapTitulo, "MusicNum", MapInfo.Music)
     Call IniManager.ChangeValue(MapTitulo, "MagiaSinefecto", Val(MapInfo.MagiaSinEfecto))
     Call IniManager.ChangeValue(MapTitulo, "InviSinEfecto", Val(MapInfo.InviSinEfecto))
