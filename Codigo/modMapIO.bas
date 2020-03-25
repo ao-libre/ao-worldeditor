@@ -434,18 +434,31 @@ Public Sub MapaV2_Guardar(ByVal SaveAs As String, Optional ByVal Preguntar As Bo
                 ByFlags = 0
                 
                 If .blocked = 1 Then ByFlags = ByFlags Or 1
+                
                 If .Graphic(2).GrhIndex Then ByFlags = ByFlags Or 2
                 If .Graphic(3).GrhIndex Then ByFlags = ByFlags Or 4
                 If .Graphic(4).GrhIndex Then ByFlags = ByFlags Or 8
+
                 If .Trigger Then ByFlags = ByFlags Or 16
+                
                 If .particle_group_index Then ByFlags = ByFlags Or 32
                     
                 Put FreeFileMap, , ByFlags
                     
-                Put FreeFileMap, , .Graphic(1).GrhIndex
-                    
+                If MapaCargado_Integer Then
+                    Put FreeFileMap, , .Graphic(1).GrhIndexIntg
+                Else
+                    Put FreeFileMap, , .Graphic(1).GrhIndex
+                End If
+                
                 For loopC = 2 To 4
-                    If .Graphic(loopC).GrhIndex Then Put FreeFileMap, , .Graphic(loopC).GrhIndex
+                    
+                    If MapaCargado_Integer Then
+                        If .Graphic(loopC).GrhIndex Then Put FreeFileMap, , .Graphic(loopC).GrhIndexIntg
+                    Else
+                        If .Graphic(loopC).GrhIndex Then Put FreeFileMap, , .Graphic(loopC).GrhIndex
+                    End If
+
                 Next loopC
                     
                 If .Trigger Then Put FreeFileMap, , .Trigger

@@ -179,7 +179,7 @@ Private Automatico As Boolean
 
 Private Sub Check1_Click()
 
-    If Check1.value = False Then
+    If Check1.Value = False Then
         Label6.Visible = False
         Label7.Visible = False
         Label8.Visible = False
@@ -202,7 +202,7 @@ Private Sub Command1_Click()
 
     If Automatico = False Then
         Call modMapIO.NuevoMapa
-        Call MapaV2_Cargar(App.Path & "\Conversor\Mapas Integer\Mapa" & Text1.Text & ".map",)
+        Call MapaV2_Cargar(App.Path & "\Conversor\Mapas Integer\Mapa" & Text1.Text & ".map", True)
         Call MapaV2_Guardar(App.Path & "\Conversor\Mapas Long\Mapa" & Text1.Text & ".map")
         
         Info.Caption = "Conversion realizada correctamente!"
@@ -216,6 +216,9 @@ Private Sub Command1_Click()
                 
                 'Abrimos el mapa integer.
                 Call MapaV2_Cargar(App.Path & "\Conversor\Mapas Integer\Mapa" & i & ".map", True)
+                
+                'Lo metemos forzosamente a False asi el sub lo guarda como Long.
+                MapaCargado_Integer = False
                 
                 Call MapaV2_Guardar(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map")
             
