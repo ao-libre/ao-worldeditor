@@ -179,7 +179,7 @@ Private Automatico As Boolean
 
 Private Sub Check1_Click()
 
-    If Check1.value = False Then
+    If Check1.Value = False Then
         Label6.Visible = False
         Label7.Visible = False
         Label8.Visible = False
@@ -202,7 +202,7 @@ Private Sub Command1_Click()
 
     If Automatico = False Then
         Call modMapIO.NuevoMapa
-        Call MapaInteger_Cargar(App.Path & "\Conversor\Mapas Integer\Mapa" & Text1.Text & ".map")
+        Call MapaV2_Cargar(App.Path & "\Conversor\Mapas Integer\Mapa" & Text1.Text & ".map", True)
         Call MapaV2_Guardar(App.Path & "\Conversor\Mapas Long\Mapa" & Text1.Text & ".map")
         
         Info.Caption = "Conversion realizada correctamente!"
@@ -211,8 +211,15 @@ Private Sub Command1_Click()
         For i = Text1.Text To Text2.Text
 
             If FileExist(App.Path & "\Conversor\Mapas Integer\Mapa" & i & ".map", vbNormal) = True Then
+                
                 Call modMapIO.NuevoMapa
-                Call MapaInteger_Cargar(App.Path & "\Conversor\Mapas Integer\Mapa" & i & ".map")
+                
+                'Abrimos el mapa integer.
+                Call MapaV2_Cargar(App.Path & "\Conversor\Mapas Integer\Mapa" & i & ".map", True)
+                
+                'Lo metemos forzosamente a False asi el sub lo guarda como Long.
+                MapaCargado_Integer = False
+                
                 Call MapaV2_Guardar(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map")
             
                 Info.Caption = "Mapa" & i & " convertido correctamente!"
@@ -230,16 +237,19 @@ Private Sub Command2_Click()
     Dim i As Integer
 
     If Automatico = False Then
+        
         Call modMapIO.NuevoMapa
-        Call MapaV2_Cargar(App.Path & "\Conversor\Mapas Long\Mapa" & Text1.Text & ".map")
+        Call modMapIO.MapaV2_Cargar(App.Path & "\Conversor\Mapas Long\Mapa" & Text1.Text & ".map", True)
         Call Save_CSM(App.Path & "\Conversor\Mapas CSM\Mapa" & Text1.Text & ".csm")
         
         Info.Caption = "Conversion realizada correctamente!"
+    
     Else
 
         For i = Text1.Text To Text2.Text
             
             If FileExist(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map", vbNormal) = True Then
+                
                 Call modMapIO.NuevoMapa
                 Call MapaV2_Cargar(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map")
                 Call Save_CSM(App.Path & "\Conversor\Mapas CSM\Mapa" & i & ".csm")
