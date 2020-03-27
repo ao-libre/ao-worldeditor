@@ -174,7 +174,7 @@ Private Sub cmdAplicarYCerrar_Click()
     On Error Resume Next
 
     If Len(MidiActual) >= 5 Then
-        MapInfo.Music = Left(MidiActual, Len(MidiActual) - 4)
+        MapInfo.Music = Left$(MidiActual, Len(MidiActual) - 4)
         frmMapInfo.txtMapMusica.Text = MapInfo.Music
         frmMain.lblMapMusica = MapInfo.Music
         frmMain.lblMapAmbient = MapInfo.ambient
