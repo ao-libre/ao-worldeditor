@@ -637,7 +637,7 @@ Public Function ColorToDX8(ByVal long_color As Long) As Long
 
     If Len(temp_color) < 6 Then
         'Give is 6 digits for easy RGB conversion.
-        temp_color = String(6 - Len(temp_color), "0") + temp_color
+        temp_color = String$(6 - Len(temp_color), "0") + temp_color
     End If
     
     red = CLng("&H" + mid$(temp_color, 1, 2))
@@ -655,8 +655,8 @@ Public Function ReturnNumberFromString(ByVal sString As String) As String
    
    For i = 1 To LenB(sString)
    
-       If mid(sString, i, 1) Like "[0-9]" Then
-           ReturnNumberFromString = ReturnNumberFromString + mid(sString, i, 1)
+       If mid$(sString, i, 1) Like "[0-9]" Then
+           ReturnNumberFromString = ReturnNumberFromString + mid$(sString, i, 1)
        End If
        
    Next i
