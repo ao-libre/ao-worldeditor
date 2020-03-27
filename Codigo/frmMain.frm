@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "ijl11.dll"
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.ocx"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
 Begin VB.Form frmMain 
    Appearance      =   0  'Flat
    BackColor       =   &H00FFFFFF&
@@ -24,6 +24,7 @@ Begin VB.Form frmMain
       Left            =   17760
       TabIndex        =   142
       Top             =   120
+      Visible         =   0   'False
       Width           =   1095
    End
    Begin VB.PictureBox Picture1 
@@ -31,14 +32,14 @@ Begin VB.Form frmMain
       BackColor       =   &H80000005&
       BorderStyle     =   0  'None
       ForeColor       =   &H80000008&
-      Height          =   660
-      Left            =   17640
+      Height          =   1020
+      Left            =   17880
       Picture         =   "frmMain.frx":628A
-      ScaleHeight     =   660
-      ScaleWidth      =   1455
+      ScaleHeight     =   1020
+      ScaleWidth      =   975
       TabIndex        =   123
-      Top             =   240
-      Width           =   1455
+      Top             =   0
+      Width           =   975
    End
    Begin VB.PictureBox Minimap 
       Appearance      =   0  'Flat
@@ -322,7 +323,7 @@ Begin VB.Form frmMain
       Value           =   0   'False
       CustomClick     =   1
       ImgAlign        =   5
-      Image           =   "frmMain.frx":9C38
+      Image           =   "frmMain.frx":8CFE
       ImgSize         =   24
       cBack           =   -2147483633
    End
@@ -354,7 +355,7 @@ Begin VB.Form frmMain
       Value           =   0   'False
       CustomClick     =   1
       ImgAlign        =   5
-      Image           =   "frmMain.frx":A1FE
+      Image           =   "frmMain.frx":92C4
       ImgSize         =   24
       cBack           =   -2147483633
    End
@@ -386,7 +387,7 @@ Begin VB.Form frmMain
       Value           =   0   'False
       CustomClick     =   1
       ImgAlign        =   5
-      Image           =   "frmMain.frx":A6FF
+      Image           =   "frmMain.frx":97C5
       ImgSize         =   24
       cBack           =   -2147483633
    End
@@ -418,7 +419,7 @@ Begin VB.Form frmMain
       Value           =   0   'False
       CustomClick     =   1
       ImgAlign        =   5
-      Image           =   "frmMain.frx":AAB3
+      Image           =   "frmMain.frx":9B79
       ImgSize         =   24
       cBack           =   -2147483633
    End
@@ -449,7 +450,7 @@ Begin VB.Form frmMain
       Mode            =   1
       Value           =   0   'False
       ImgAlign        =   5
-      Image           =   "frmMain.frx":AE34
+      Image           =   "frmMain.frx":9EFA
       ImgSize         =   24
       cBack           =   -2147483633
    End
@@ -481,7 +482,7 @@ Begin VB.Form frmMain
       Mode            =   1
       Value           =   0   'False
       ImgAlign        =   5
-      Image           =   "frmMain.frx":E494
+      Image           =   "frmMain.frx":D55A
       ImgSize         =   24
       cBack           =   -2147483633
    End
@@ -524,315 +525,41 @@ Begin VB.Form frmMain
       ForeColor       =   &H80000008&
       Height          =   5385
       Left            =   120
-      Picture         =   "frmMain.frx":119DA
+      Picture         =   "frmMain.frx":10AA0
       ScaleHeight     =   5355
       ScaleWidth      =   4425
       TabIndex        =   2
       Top             =   1800
       Width           =   4455
-      Begin VB.Frame cLuces 
-         BackColor       =   &H00000000&
-         Caption         =   "Luces"
-         ForeColor       =   &H00FFFFFF&
-         Height          =   4155
+      Begin VB.Frame MapasFrame 
+         BackColor       =   &H80000012&
+         Caption         =   "Mapas para "
+         ForeColor       =   &H8000000B&
+         Height          =   735
          Left            =   120
-         TabIndex        =   124
-         Top             =   120
-         Visible         =   0   'False
+         TabIndex        =   144
+         Top             =   4440
          Width           =   4095
-         Begin VB.Frame Frame3 
+         Begin VB.OptionButton Option1 
             BackColor       =   &H00000000&
-            Caption         =   "Luz Base"
-            ForeColor       =   &H00FFFFFF&
-            Height          =   1335
+            Caption         =   "Mapas para 1024"
+            ForeColor       =   &H8000000E&
+            Height          =   255
             Left            =   120
-            TabIndex        =   132
-            Top             =   2760
-            Width           =   3855
-            Begin WorldEditor.lvButtons_H lvButtons_H1 
-               Height          =   360
-               Left            =   360
-               TabIndex        =   133
-               Top             =   360
-               Width           =   1425
-               _ExtentX        =   2514
-               _ExtentY        =   635
-               Caption         =   "Mañana"
-               CapAlign        =   2
-               BackStyle       =   2
-               BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-                  Name            =   "Times New Roman"
-                  Size            =   9
-                  Charset         =   0
-                  Weight          =   400
-                  Underline       =   0   'False
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               cGradient       =   0
-               Mode            =   1
-               Value           =   0   'False
-               cBack           =   8438015
-            End
-            Begin WorldEditor.lvButtons_H lvButtons_H2 
-               Height          =   360
-               Left            =   2040
-               TabIndex        =   134
-               Top             =   360
-               Width           =   1425
-               _ExtentX        =   2514
-               _ExtentY        =   635
-               Caption         =   "Dia"
-               CapAlign        =   2
-               BackStyle       =   2
-               BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-                  Name            =   "Times New Roman"
-                  Size            =   9
-                  Charset         =   0
-                  Weight          =   400
-                  Underline       =   0   'False
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               cGradient       =   0
-               Mode            =   1
-               Value           =   0   'False
-               cBack           =   16777088
-            End
-            Begin WorldEditor.lvButtons_H lvButtons_H3 
-               Height          =   360
-               Left            =   360
-               TabIndex        =   135
-               Top             =   840
-               Width           =   1425
-               _ExtentX        =   2514
-               _ExtentY        =   635
-               Caption         =   "Tarde"
-               CapAlign        =   2
-               BackStyle       =   2
-               BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-                  Name            =   "Times New Roman"
-                  Size            =   9
-                  Charset         =   0
-                  Weight          =   400
-                  Underline       =   0   'False
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               cGradient       =   0
-               Mode            =   1
-               Value           =   0   'False
-               cBack           =   8421504
-            End
-            Begin WorldEditor.lvButtons_H lvButtons_H4 
-               Height          =   360
-               Left            =   2040
-               TabIndex        =   136
-               Top             =   840
-               Width           =   1425
-               _ExtentX        =   2514
-               _ExtentY        =   635
-               Caption         =   "Noche"
-               CapAlign        =   2
-               BackStyle       =   2
-               BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-                  Name            =   "Times New Roman"
-                  Size            =   9
-                  Charset         =   0
-                  Weight          =   400
-                  Underline       =   0   'False
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               cGradient       =   0
-               Mode            =   1
-               Value           =   0   'False
-               cBack           =   4210752
-            End
-         End
-         Begin VB.Frame Frame2 
-            BackColor       =   &H00000000&
-            Caption         =   "Rango"
-            ForeColor       =   &H00FFFFFF&
-            Height          =   660
-            Left            =   1320
-            TabIndex        =   129
-            Top             =   1080
-            Width           =   1380
-            Begin VB.TextBox cRango 
-               BackColor       =   &H00000000&
-               BeginProperty Font 
-                  Name            =   "Arial"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   400
-                  Underline       =   0   'False
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H80000014&
-               Height          =   315
-               Left            =   105
-               TabIndex        =   130
-               Text            =   "1"
-               Top             =   240
-               Width           =   555
-            End
-            Begin VB.Label Label3 
-               BackStyle       =   0  'Transparent
-               Caption         =   "(1 al 50)"
-               BeginProperty Font 
-                  Name            =   "Tahoma"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   400
-                  Underline       =   0   'False
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00FFFFFF&
-               Height          =   255
-               Left            =   720
-               TabIndex        =   131
-               Top             =   270
-               Width           =   615
-            End
-         End
-         Begin VB.Frame RGBCOLOR 
-            BackColor       =   &H00000000&
-            Caption         =   "RGB"
-            ForeColor       =   &H00FFFFFF&
-            Height          =   690
-            Left            =   1200
-            TabIndex        =   125
+            TabIndex        =   146
             Top             =   360
-            Width           =   1680
-            Begin VB.TextBox R 
-               BackColor       =   &H80000012&
-               BeginProperty Font 
-                  Name            =   "Arial"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   400
-                  Underline       =   0   'False
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H80000014&
-               Height          =   315
-               Left            =   105
-               TabIndex        =   128
-               Text            =   "1"
-               Top             =   270
-               Width           =   450
-            End
-            Begin VB.TextBox B 
-               BackColor       =   &H80000012&
-               BeginProperty Font 
-                  Name            =   "Arial"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   400
-                  Underline       =   0   'False
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H80000014&
-               Height          =   315
-               Left            =   1095
-               TabIndex        =   127
-               Text            =   "1"
-               Top             =   270
-               Width           =   450
-            End
-            Begin VB.TextBox G 
-               BackColor       =   &H80000012&
-               BeginProperty Font 
-                  Name            =   "Arial"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   400
-                  Underline       =   0   'False
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H80000014&
-               Height          =   315
-               Left            =   600
-               TabIndex        =   126
-               Text            =   "1"
-               Top             =   270
-               Width           =   450
-            End
+            Width           =   1815
          End
-         Begin WorldEditor.lvButtons_H cInsertarLuz 
-            Height          =   360
-            Left            =   2160
-            TabIndex        =   137
-            Top             =   1800
-            Width           =   1665
-            _ExtentX        =   2937
-            _ExtentY        =   635
-            Caption         =   "Insertar Luz"
-            CapAlign        =   2
-            BackStyle       =   2
-            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-               Name            =   "Times New Roman"
-               Size            =   9
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            cGradient       =   0
-            Mode            =   1
-            Value           =   0   'False
-            cBack           =   -2147483633
-         End
-         Begin WorldEditor.lvButtons_H cQuitarLuz 
-            Height          =   360
-            Left            =   360
-            TabIndex        =   138
-            Top             =   1800
-            Width           =   1665
-            _ExtentX        =   2937
-            _ExtentY        =   635
-            Caption         =   "Quitar Luz"
-            CapAlign        =   2
-            BackStyle       =   2
-            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-               Name            =   "Times New Roman"
-               Size            =   9
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            cGradient       =   0
-            Mode            =   1
-            Value           =   0   'False
-            cBack           =   -2147483633
-         End
-         Begin VB.Label Label1 
-            BackStyle       =   0  'Transparent
-            Caption         =   "Nota: Para quitar una luz ya guardada, insertar una luz encima y despues quitar."
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            ForeColor       =   &H00FFFFFF&
-            Height          =   495
-            Left            =   360
-            TabIndex        =   139
-            Top             =   2280
-            Width           =   3615
+         Begin VB.OptionButton Option2 
+            BackColor       =   &H00000000&
+            Caption         =   "Mapas para 680"
+            ForeColor       =   &H8000000E&
+            Height          =   255
+            Left            =   2280
+            TabIndex        =   145
+            Top             =   360
+            Value           =   -1  'True
+            Width           =   1695
          End
       End
       Begin VB.TextBox Life 
@@ -840,22 +567,12 @@ Begin VB.Form frmMain
          BackColor       =   &H00000000&
          ForeColor       =   &H00FFFFFF&
          Height          =   285
-         Left            =   2280
+         Left            =   2640
          TabIndex        =   118
          Text            =   "-1"
-         Top             =   2520
+         Top             =   2400
          Visible         =   0   'False
          Width           =   495
-      End
-      Begin VB.ListBox lstParticle 
-         BackColor       =   &H00000000&
-         ForeColor       =   &H00FFFFFF&
-         Height          =   2205
-         Left            =   120
-         TabIndex        =   117
-         Top             =   120
-         Visible         =   0   'False
-         Width           =   4095
       End
       Begin VB.Frame CopyBorder 
          BackColor       =   &H00000000&
@@ -867,6 +584,15 @@ Begin VB.Form frmMain
          Top             =   240
          Visible         =   0   'False
          Width           =   4095
+         Begin VB.TextBox Mapa 
+            Height          =   285
+            Left            =   3000
+            TabIndex        =   143
+            Text            =   "0"
+            Top             =   2520
+            Visible         =   0   'False
+            Width           =   495
+         End
          Begin VB.TextBox TXTArriba 
             Alignment       =   2  'Center
             Appearance      =   0  'Flat
@@ -877,6 +603,7 @@ Begin VB.Form frmMain
             TabIndex        =   103
             Text            =   "80"
             Top             =   960
+            Visible         =   0   'False
             Width           =   615
          End
          Begin VB.TextBox TxTAbajo 
@@ -888,7 +615,8 @@ Begin VB.Form frmMain
             Left            =   1680
             TabIndex        =   102
             Text            =   "80"
-            Top             =   2760
+            Top             =   2160
+            Visible         =   0   'False
             Width           =   615
          End
          Begin VB.TextBox TxTDerecha 
@@ -899,8 +627,9 @@ Begin VB.Form frmMain
             Height          =   285
             Left            =   3240
             TabIndex        =   101
-            Text            =   "78"
-            Top             =   1440
+            Text            =   "74"
+            Top             =   1200
+            Visible         =   0   'False
             Width           =   615
          End
          Begin VB.TextBox TxTIzquierda 
@@ -911,8 +640,9 @@ Begin VB.Form frmMain
             Height          =   285
             Left            =   360
             TabIndex        =   100
-            Text            =   "78"
-            Top             =   1440
+            Text            =   "74"
+            Top             =   1200
+            Visible         =   0   'False
             Width           =   615
          End
          Begin WorldEditor.lvButtons_H COPIAR_GRH 
@@ -920,7 +650,7 @@ Begin VB.Form frmMain
             Index           =   3
             Left            =   1320
             TabIndex        =   104
-            Top             =   2280
+            Top             =   2520
             Width           =   1455
             _ExtentX        =   2566
             _ExtentY        =   661
@@ -946,7 +676,7 @@ Begin VB.Form frmMain
             Index           =   1
             Left            =   2160
             TabIndex        =   105
-            Top             =   1800
+            Top             =   1560
             Width           =   1695
             _ExtentX        =   2990
             _ExtentY        =   661
@@ -972,7 +702,7 @@ Begin VB.Form frmMain
             Index           =   2
             Left            =   240
             TabIndex        =   106
-            Top             =   1800
+            Top             =   1560
             Width           =   1815
             _ExtentX        =   3201
             _ExtentY        =   661
@@ -998,7 +728,7 @@ Begin VB.Form frmMain
             Index           =   0
             Left            =   1320
             TabIndex        =   107
-            Top             =   1320
+            Top             =   480
             Width           =   1455
             _ExtentX        =   2566
             _ExtentY        =   661
@@ -1020,13 +750,13 @@ Begin VB.Form frmMain
             cBack           =   -2147483633
          End
          Begin WorldEditor.lvButtons_H MemoriaAuxiliar 
-            Height          =   495
-            Left            =   360
+            Height          =   2655
+            Left            =   120
             TabIndex        =   108
             Top             =   360
-            Width           =   3615
-            _ExtentX        =   6376
-            _ExtentY        =   873
+            Width           =   3855
+            _ExtentX        =   6800
+            _ExtentY        =   4683
             Caption         =   "Copiar bordes del mapa en memoria auxiliar"
             CapAlign        =   2
             BackStyle       =   2
@@ -1279,9 +1009,9 @@ Begin VB.Form frmMain
          EndProperty
          ForeColor       =   &H80000014&
          Height          =   330
-         ItemData        =   "frmMain.frx":5F074
+         ItemData        =   "frmMain.frx":5E13A
          Left            =   1080
-         List            =   "frmMain.frx":5F084
+         List            =   "frmMain.frx":5E14A
          TabIndex        =   1
          TabStop         =   0   'False
          Text            =   "1"
@@ -1344,9 +1074,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000014&
          Height          =   2580
          Index           =   0
-         ItemData        =   "frmMain.frx":5F094
+         ItemData        =   "frmMain.frx":5E15A
          Left            =   120
-         List            =   "frmMain.frx":5F096
+         List            =   "frmMain.frx":5E15C
          Sorted          =   -1  'True
          TabIndex        =   61
          Tag             =   "-1"
@@ -1447,9 +1177,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000014&
          Height          =   330
          Index           =   2
-         ItemData        =   "frmMain.frx":5F098
+         ItemData        =   "frmMain.frx":5E15E
          Left            =   3360
-         List            =   "frmMain.frx":5F09A
+         List            =   "frmMain.frx":5E160
          TabIndex        =   57
          Text            =   "1"
          Top             =   3120
@@ -1471,9 +1201,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000014&
          Height          =   330
          Index           =   2
-         ItemData        =   "frmMain.frx":5F09C
+         ItemData        =   "frmMain.frx":5E162
          Left            =   840
-         List            =   "frmMain.frx":5F09E
+         List            =   "frmMain.frx":5E164
          TabIndex        =   0
          Text            =   "1"
          Top             =   3120
@@ -1494,9 +1224,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000014&
          Height          =   2580
          Index           =   3
-         ItemData        =   "frmMain.frx":5F0A0
+         ItemData        =   "frmMain.frx":5E166
          Left            =   120
-         List            =   "frmMain.frx":5F0A2
+         List            =   "frmMain.frx":5E168
          TabIndex        =   56
          Tag             =   "-1"
          Top             =   120
@@ -1538,9 +1268,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000014&
          Height          =   330
          Index           =   0
-         ItemData        =   "frmMain.frx":5F0A4
+         ItemData        =   "frmMain.frx":5E16A
          Left            =   840
-         List            =   "frmMain.frx":5F0A6
+         List            =   "frmMain.frx":5E16C
          TabIndex        =   48
          Text            =   "1"
          Top             =   3120
@@ -1562,9 +1292,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000014&
          Height          =   330
          Index           =   0
-         ItemData        =   "frmMain.frx":5F0A8
+         ItemData        =   "frmMain.frx":5E16E
          Left            =   3360
-         List            =   "frmMain.frx":5F0AA
+         List            =   "frmMain.frx":5E170
          TabIndex        =   47
          Text            =   "1"
          Top             =   3120
@@ -1605,9 +1335,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000014&
          Height          =   2580
          Index           =   1
-         ItemData        =   "frmMain.frx":5F0AC
+         ItemData        =   "frmMain.frx":5E172
          Left            =   120
-         List            =   "frmMain.frx":5F0AE
+         List            =   "frmMain.frx":5E174
          TabIndex        =   45
          Tag             =   "-1"
          Top             =   120
@@ -1628,9 +1358,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000014&
          Height          =   3210
          Index           =   4
-         ItemData        =   "frmMain.frx":5F0B0
+         ItemData        =   "frmMain.frx":5E176
          Left            =   120
-         List            =   "frmMain.frx":5F0B2
+         List            =   "frmMain.frx":5E178
          TabIndex        =   44
          Tag             =   "-1"
          Top             =   120
@@ -2105,9 +1835,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000014&
          Height          =   330
          Index           =   1
-         ItemData        =   "frmMain.frx":5F0B4
+         ItemData        =   "frmMain.frx":5E17A
          Left            =   840
-         List            =   "frmMain.frx":5F0B6
+         List            =   "frmMain.frx":5E17C
          TabIndex        =   67
          Text            =   "1"
          Top             =   3120
@@ -2148,9 +1878,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000014&
          Height          =   2580
          Index           =   2
-         ItemData        =   "frmMain.frx":5F0B8
+         ItemData        =   "frmMain.frx":5E17E
          Left            =   120
-         List            =   "frmMain.frx":5F0BA
+         List            =   "frmMain.frx":5E180
          TabIndex        =   69
          Tag             =   "-1"
          Top             =   120
@@ -2172,9 +1902,9 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000014&
          Height          =   330
          Index           =   1
-         ItemData        =   "frmMain.frx":5F0BC
+         ItemData        =   "frmMain.frx":5E182
          Left            =   3360
-         List            =   "frmMain.frx":5F0BE
+         List            =   "frmMain.frx":5E184
          TabIndex        =   70
          Text            =   "500"
          Top             =   3120
@@ -2232,6 +1962,321 @@ Begin VB.Form frmMain
          Mode            =   1
          Value           =   0   'False
          cBack           =   -2147483633
+      End
+      Begin VB.Frame cLuces 
+         BackColor       =   &H00000000&
+         Caption         =   "Luces"
+         ForeColor       =   &H00FFFFFF&
+         Height          =   4155
+         Left            =   120
+         TabIndex        =   124
+         Top             =   120
+         Visible         =   0   'False
+         Width           =   4095
+         Begin VB.Frame Frame3 
+            BackColor       =   &H00000000&
+            Caption         =   "Luz Base"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   1335
+            Left            =   120
+            TabIndex        =   132
+            Top             =   2760
+            Width           =   3855
+            Begin WorldEditor.lvButtons_H lvButtons_H1 
+               Height          =   360
+               Left            =   360
+               TabIndex        =   133
+               Top             =   360
+               Width           =   1425
+               _ExtentX        =   2514
+               _ExtentY        =   635
+               Caption         =   "Mañana"
+               CapAlign        =   2
+               BackStyle       =   2
+               BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                  Name            =   "Times New Roman"
+                  Size            =   9
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               cGradient       =   0
+               Mode            =   1
+               Value           =   0   'False
+               cBack           =   8438015
+            End
+            Begin WorldEditor.lvButtons_H lvButtons_H2 
+               Height          =   360
+               Left            =   2040
+               TabIndex        =   134
+               Top             =   360
+               Width           =   1425
+               _ExtentX        =   2514
+               _ExtentY        =   635
+               Caption         =   "Dia"
+               CapAlign        =   2
+               BackStyle       =   2
+               BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                  Name            =   "Times New Roman"
+                  Size            =   9
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               cGradient       =   0
+               Mode            =   1
+               Value           =   0   'False
+               cBack           =   16777088
+            End
+            Begin WorldEditor.lvButtons_H lvButtons_H3 
+               Height          =   360
+               Left            =   360
+               TabIndex        =   135
+               Top             =   840
+               Width           =   1425
+               _ExtentX        =   2514
+               _ExtentY        =   635
+               Caption         =   "Tarde"
+               CapAlign        =   2
+               BackStyle       =   2
+               BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                  Name            =   "Times New Roman"
+                  Size            =   9
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               cGradient       =   0
+               Mode            =   1
+               Value           =   0   'False
+               cBack           =   8421504
+            End
+            Begin WorldEditor.lvButtons_H lvButtons_H4 
+               Height          =   360
+               Left            =   2040
+               TabIndex        =   136
+               Top             =   840
+               Width           =   1425
+               _ExtentX        =   2514
+               _ExtentY        =   635
+               Caption         =   "Noche"
+               CapAlign        =   2
+               BackStyle       =   2
+               BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                  Name            =   "Times New Roman"
+                  Size            =   9
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               cGradient       =   0
+               Mode            =   1
+               Value           =   0   'False
+               cBack           =   4210752
+            End
+         End
+         Begin VB.Frame Frame2 
+            BackColor       =   &H00000000&
+            Caption         =   "Rango"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   660
+            Left            =   1320
+            TabIndex        =   129
+            Top             =   1080
+            Width           =   1380
+            Begin VB.TextBox cRango 
+               BackColor       =   &H00000000&
+               BeginProperty Font 
+                  Name            =   "Arial"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H80000014&
+               Height          =   315
+               Left            =   105
+               TabIndex        =   130
+               Text            =   "1"
+               Top             =   240
+               Width           =   555
+            End
+            Begin VB.Label Label3 
+               BackStyle       =   0  'Transparent
+               Caption         =   "(1 al 50)"
+               BeginProperty Font 
+                  Name            =   "Tahoma"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00FFFFFF&
+               Height          =   255
+               Left            =   720
+               TabIndex        =   131
+               Top             =   270
+               Width           =   615
+            End
+         End
+         Begin VB.Frame RGBCOLOR 
+            BackColor       =   &H00000000&
+            Caption         =   "RGB"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   690
+            Left            =   1200
+            TabIndex        =   125
+            Top             =   360
+            Width           =   1680
+            Begin VB.TextBox R 
+               BackColor       =   &H80000012&
+               BeginProperty Font 
+                  Name            =   "Arial"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H80000014&
+               Height          =   315
+               Left            =   105
+               TabIndex        =   128
+               Text            =   "1"
+               Top             =   270
+               Width           =   450
+            End
+            Begin VB.TextBox B 
+               BackColor       =   &H80000012&
+               BeginProperty Font 
+                  Name            =   "Arial"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H80000014&
+               Height          =   315
+               Left            =   1095
+               TabIndex        =   127
+               Text            =   "1"
+               Top             =   270
+               Width           =   450
+            End
+            Begin VB.TextBox G 
+               BackColor       =   &H80000012&
+               BeginProperty Font 
+                  Name            =   "Arial"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H80000014&
+               Height          =   315
+               Left            =   600
+               TabIndex        =   126
+               Text            =   "1"
+               Top             =   270
+               Width           =   450
+            End
+         End
+         Begin WorldEditor.lvButtons_H cInsertarLuz 
+            Height          =   360
+            Left            =   2160
+            TabIndex        =   137
+            Top             =   1800
+            Width           =   1665
+            _ExtentX        =   2937
+            _ExtentY        =   635
+            Caption         =   "Insertar Luz"
+            CapAlign        =   2
+            BackStyle       =   2
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Times New Roman"
+               Size            =   9
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            cGradient       =   0
+            Mode            =   1
+            Value           =   0   'False
+            cBack           =   -2147483633
+         End
+         Begin WorldEditor.lvButtons_H cQuitarLuz 
+            Height          =   360
+            Left            =   360
+            TabIndex        =   138
+            Top             =   1800
+            Width           =   1665
+            _ExtentX        =   2937
+            _ExtentY        =   635
+            Caption         =   "Quitar Luz"
+            CapAlign        =   2
+            BackStyle       =   2
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Times New Roman"
+               Size            =   9
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            cGradient       =   0
+            Mode            =   1
+            Value           =   0   'False
+            cBack           =   -2147483633
+         End
+         Begin VB.Label Label1 
+            BackStyle       =   0  'Transparent
+            Caption         =   "Nota: Para quitar una luz ya guardada, insertar una luz encima y despues quitar."
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00FFFFFF&
+            Height          =   495
+            Left            =   360
+            TabIndex        =   139
+            Top             =   2280
+            Width           =   3615
+         End
+      End
+      Begin VB.ListBox lstParticle 
+         BackColor       =   &H00000000&
+         ForeColor       =   &H00FFFFFF&
+         Height          =   2205
+         Left            =   120
+         TabIndex        =   117
+         Top             =   120
+         Visible         =   0   'False
+         Width           =   4095
       End
       Begin VB.Label Label2 
          BackStyle       =   0  'Transparent
@@ -2614,7 +2659,7 @@ Begin VB.Form frmMain
       Value           =   0   'False
       CustomClick     =   1
       ImgAlign        =   5
-      Image           =   "frmMain.frx":5F0C0
+      Image           =   "frmMain.frx":5E186
       ImgSize         =   24
       cBack           =   -2147483633
    End
@@ -2634,7 +2679,7 @@ Begin VB.Form frmMain
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
-      TextRTF         =   $"frmMain.frx":5F474
+      TextRTF         =   $"frmMain.frx":5E53A
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "Tahoma"
          Size            =   8.25
@@ -2673,7 +2718,7 @@ Begin VB.Form frmMain
       Value           =   0   'False
       CustomClick     =   1
       ImgAlign        =   5
-      Image           =   "frmMain.frx":5F4F2
+      Image           =   "frmMain.frx":5E5B7
       ImgSize         =   24
       cBack           =   -2147483633
    End
@@ -2705,7 +2750,7 @@ Begin VB.Form frmMain
       Value           =   0   'False
       CustomClick     =   1
       ImgAlign        =   5
-      Image           =   "frmMain.frx":5FB33
+      Image           =   "frmMain.frx":5EBF8
       ImgSize         =   24
       cBack           =   -2147483633
    End
@@ -2737,7 +2782,7 @@ Begin VB.Form frmMain
       Value           =   0   'False
       CustomClick     =   1
       ImgAlign        =   5
-      Image           =   "frmMain.frx":601B5
+      Image           =   "frmMain.frx":5F27A
       ImgSize         =   24
       Enabled         =   0   'False
       cBack           =   -2147483633
@@ -3636,7 +3681,7 @@ Private Sub PonerAlAzar(ByVal n As Integer, T As Byte)
                 If MapData(X, Y).OBJInfo.objindex = 0 Then
                     i = i - 1
 
-                    If cInsertarBloqueo.value = True Then
+                    If cInsertarBloqueo.Value = True Then
                         MapData(X, Y).blocked = 1
                     Else
                         MapData(X, Y).blocked = 0
@@ -3839,7 +3884,7 @@ Private Sub cInsertarFunc_Click(index As Integer)
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    If cInsertarFunc(index).value = True Then
+    If cInsertarFunc(index).Value = True Then
         cQuitarFunc(index).Enabled = False
         cAgregarFuncalAzar(index).Enabled = False
 
@@ -3858,7 +3903,7 @@ End Sub
 
 Private Sub cInsertarLuz_Click()
 
-    If cInsertarLuz.value Then
+    If cInsertarLuz.Value Then
         cQuitarLuz.Enabled = False
     Else
         cQuitarLuz.Enabled = True
@@ -3873,7 +3918,7 @@ Private Sub cInsertarTrans_Click()
     'Author: ^[GS]^
     'Last modified: 22/05/06
     '*************************************************
-    If cInsertarTrans.value = True Then
+    If cInsertarTrans.Value = True Then
         cQuitarTrans.Enabled = False
         Call modPaneles.EstSelectPanel(1, True)
     Else
@@ -3890,7 +3935,7 @@ Private Sub cInsertarTrigger_Click()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    If cInsertarTrigger.value = True Then
+    If cInsertarTrigger.Value = True Then
         cQuitarTrigger.Enabled = False
         Call modPaneles.EstSelectPanel(6, True)
     Else
@@ -3903,7 +3948,7 @@ End Sub
 
 Private Sub cmdAdd_Click()
 
-    If cmdAdd.value = True Then
+    If cmdAdd.Value = True Then
         cmdDel.Enabled = False
         Call modPaneles.EstSelectPanel(8, True)
     Else
@@ -3916,7 +3961,7 @@ End Sub
 
 Private Sub cmdDel_Click()
 
-    If cmdDel.value = True Then
+    If cmdDel.Value = True Then
         lstParticle.Enabled = False
         cmdAdd.Enabled = False
         Call modPaneles.EstSelectPanel(8, True)
@@ -3950,16 +3995,48 @@ End Sub
 
 Private Sub COPIAR_GRH_Click(index As Integer)
 
-    On Error Resume Next
-
     Dim Y As Integer
     Dim X As Integer
+    Dim An As Integer
+    Dim Bn As Integer
+    Dim Cn As Integer
+    Dim Dn As Integer
+    
+    frmMain.MemoriaAuxiliar.Visible = True
+    frmMain.COPIAR_GRH(0).Visible = False
+    frmMain.COPIAR_GRH(1).Visible = False
+    frmMain.COPIAR_GRH(2).Visible = False
+    frmMain.COPIAR_GRH(3).Visible = False
+    
+Call Resolucion
+
+    If frmMain.Option2.Value = True Then
+            An = 6
+            Bn = 92
+            Cn = 6
+            Dn = 92
+            TXTArriba = 87
+            TxTDerecha = 78
+            TxTIzquierda = 78
+            TxTAbajo = 87
+        Else
+            TXTArriba = 80
+            TxTDerecha = 74
+            TxTIzquierda = 74
+            TxTAbajo = 80
+            An = 10
+            Bn = 90
+            Cn = 10
+            Dn = 90
+    End If
+    
+    On Error Resume Next
  
     Select Case index
 
         Case 0 'Arriba
 
-            For Y = 1 To 10
+            For Y = 1 To An
                 For X = 1 To 100
                     MapData(X, Y).Graphic(1) = MapData_Adyacente(X, TXTArriba + Y).Graphic(1)
                     MapData(X, Y).Graphic(2) = MapData_Adyacente(X, TXTArriba + Y).Graphic(2)
@@ -3972,7 +4049,7 @@ Private Sub COPIAR_GRH_Click(index As Integer)
         Case 1 'Derecha
 
             For Y = 1 To 100
-                For X = 90 To 100
+                For X = Bn To 100
                     MapData(X, Y).Graphic(1) = MapData_Adyacente(X - TxTDerecha, Y).Graphic(1)
                     MapData(X, Y).Graphic(2) = MapData_Adyacente(X - TxTDerecha, Y).Graphic(2)
                     MapData(X, Y).Graphic(3) = MapData_Adyacente(X - TxTDerecha, Y).Graphic(3)
@@ -3984,7 +4061,7 @@ Private Sub COPIAR_GRH_Click(index As Integer)
         Case 2 'Izquierda
 
             For Y = 1 To 100
-                For X = 1 To 11
+                For X = 1 To Cn
                     MapData(X, Y).Graphic(1) = MapData_Adyacente(X + TxTIzquierda, Y).Graphic(1)
                     MapData(X, Y).Graphic(2) = MapData_Adyacente(X + TxTIzquierda, Y).Graphic(2)
                     MapData(X, Y).Graphic(3) = MapData_Adyacente(X + TxTIzquierda, Y).Graphic(3)
@@ -3995,7 +4072,7 @@ Private Sub COPIAR_GRH_Click(index As Integer)
                
         Case 3 'Abajo
 
-            For Y = 90 To 100
+            For Y = Dn To 100
                 For X = 1 To 100
                     MapData(X, Y).Graphic(1) = MapData_Adyacente(X, Y - TxTAbajo).Graphic(1)
                     MapData(X, Y).Graphic(2) = MapData_Adyacente(X, Y - TxTAbajo).Graphic(2)
@@ -4014,7 +4091,7 @@ Private Sub cQuitarLuz_Click()
     '*************************************************
     'Author: Lorwik
     '*************************************************
-    If cQuitarLuz.value Then
+    If cQuitarLuz.Value Then
         cInsertarLuz.Enabled = False
     Else
         cInsertarLuz.Enabled = True
@@ -4028,7 +4105,7 @@ Private Sub cUnionManual_Click()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    cInsertarTrans.value = (cUnionManual.value = True)
+    cInsertarTrans.Value = (cUnionManual.Value = True)
     Call cInsertarTrans_Click
 
 End Sub
@@ -4038,7 +4115,7 @@ Private Sub cverBloqueos_Click()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    mnuVerBloqueos.Checked = cVerBloqueos.value
+    mnuVerBloqueos.Checked = cVerBloqueos.Value
 
 End Sub
 
@@ -4047,7 +4124,7 @@ Private Sub cverTriggers_Click()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    mnuVerTriggers.Checked = cVerTriggers.value
+    mnuVerTriggers.Checked = cVerTriggers.Value
 
 End Sub
 
@@ -4138,7 +4215,7 @@ Private Sub cInsertarBloqueo_Click()
     '*************************************************
     cInsertarBloqueo.Tag = vbNullString
 
-    If cInsertarBloqueo.value = True Then
+    If cInsertarBloqueo.Value = True Then
         cQuitarBloqueo.Enabled = False
         Call modPaneles.EstSelectPanel(2, True)
     Else
@@ -4156,7 +4233,7 @@ Private Sub cQuitarBloqueo_Click()
     '*************************************************
     cInsertarBloqueo.Tag = vbNullString
 
-    If cQuitarBloqueo.value = True Then
+    If cQuitarBloqueo.Value = True Then
         cInsertarBloqueo.Enabled = False
         Call modPaneles.EstSelectPanel(2, True)
     Else
@@ -4173,7 +4250,7 @@ Private Sub cQuitarEnEstaCapa_Click()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    If cQuitarEnEstaCapa.value = True Then
+    If cQuitarEnEstaCapa.Value = True Then
         lListado(0).Enabled = False
         cFiltro(0).Enabled = False
         cGrh.Enabled = False
@@ -4198,7 +4275,7 @@ Private Sub cQuitarEnTodasLasCapas_Click()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    If cQuitarEnTodasLasCapas.value = True Then
+    If cQuitarEnTodasLasCapas.Value = True Then
         cCapas.Enabled = False
         lListado(0).Enabled = False
         cFiltro(0).Enabled = False
@@ -4225,7 +4302,7 @@ Private Sub cQuitarFunc_Click(index As Integer)
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    If cQuitarFunc(index).value = True Then
+    If cQuitarFunc(index).Value = True Then
         cInsertarFunc(index).Enabled = False
         cAgregarFuncalAzar(index).Enabled = False
         cCantFunc(index).Enabled = False
@@ -4252,7 +4329,7 @@ Private Sub cQuitarTrans_Click()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    If cQuitarTrans.value = True Then
+    If cQuitarTrans.Value = True Then
         cInsertarTransOBJ.Enabled = False
         cInsertarTrans.Enabled = False
         cUnionManual.Enabled = False
@@ -4283,7 +4360,7 @@ Private Sub cQuitarTrigger_Click()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    If cQuitarTrigger.value = True Then
+    If cQuitarTrigger.Value = True Then
         lListado(4).Enabled = False
         cInsertarTrigger.Enabled = False
         Call modPaneles.EstSelectPanel(6, True)
@@ -4302,7 +4379,7 @@ Private Sub cSeleccionarSuperficie_Click()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    If cSeleccionarSuperficie.value = True Then
+    If cSeleccionarSuperficie.Value = True Then
         cQuitarEnTodasLasCapas.Enabled = False
         cQuitarEnEstaCapa.Enabled = False
         Call modPaneles.EstSelectPanel(0, True)
@@ -4364,30 +4441,30 @@ Private Sub Form_KeyPress(KeyAscii As Integer)
     Select Case UCase(Chr(KeyAscii))
 
         Case "S" ' Activa/Desactiva Insertar Superficie
-            cSeleccionarSuperficie.value = (cSeleccionarSuperficie.value = False)
+            cSeleccionarSuperficie.Value = (cSeleccionarSuperficie.Value = False)
             Call cSeleccionarSuperficie_Click
 
         Case "T" ' Activa/Desactiva Insertar Translados
-            cInsertarTrans.value = (cInsertarTrans.value = False)
+            cInsertarTrans.Value = (cInsertarTrans.Value = False)
             Call cInsertarTrans_Click
 
         Case "B" ' Activa/Desactiva Insertar Bloqueos
-            cInsertarBloqueo.value = (cInsertarBloqueo.value = False)
+            cInsertarBloqueo.Value = (cInsertarBloqueo.Value = False)
             Call cInsertarBloqueo_Click
 
         Case "N" ' Activa/Desactiva Insertar NPCs
-            cInsertarFunc(0).value = (cInsertarFunc(0).value = False)
+            cInsertarFunc(0).Value = (cInsertarFunc(0).Value = False)
             Call cInsertarFunc_Click(0)
 
             ' Case "H" ' Activa/Desactiva Insertar NPCs Hostiles
             '     cInsertarFunc(1).value = (cInsertarFunc(1).value = False)
             '     Call cInsertarFunc_Click(1)
         Case "O" ' Activa/Desactiva Insertar Objetos
-            cInsertarFunc(2).value = (cInsertarFunc(2).value = False)
+            cInsertarFunc(2).Value = (cInsertarFunc(2).Value = False)
             Call cInsertarFunc_Click(2)
 
         Case "G" ' Activa/Desactiva Insertar Triggers
-            cInsertarTrigger.value = (cInsertarTrigger.value = False)
+            cInsertarTrigger.Value = (cInsertarTrigger.Value = False)
             Call cInsertarTrigger_Click
 
         Case "Q" ' Quitar Funciones
@@ -4436,13 +4513,13 @@ Private Sub lListado_Click(index As Integer)
                 End If
 
                 If SupData(ReadField(2, lListado(index).Text, Asc("#"))).Block = True Then
-                    If LenB(cInsertarBloqueo.Tag) = 0 Then cInsertarBloqueo.Tag = IIf(cInsertarBloqueo.value = True, 1, 0)
-                    cInsertarBloqueo.value = True
+                    If LenB(cInsertarBloqueo.Tag) = 0 Then cInsertarBloqueo.Tag = IIf(cInsertarBloqueo.Value = True, 1, 0)
+                    cInsertarBloqueo.Value = True
                     Call cInsertarBloqueo_Click
                 Else
 
                     If LenB(cInsertarBloqueo.Tag) <> 0 Then
-                        cInsertarBloqueo.value = IIf(Val(cInsertarBloqueo.Tag) = 1, True, False)
+                        cInsertarBloqueo.Value = IIf(Val(cInsertarBloqueo.Tag) = 1, True, False)
                         cInsertarBloqueo.Tag = vbNullString
                         Call cInsertarBloqueo_Click
 
@@ -4573,26 +4650,26 @@ Private Sub Magic_Click()
     
     If LenB(Path) = 0 Then Exit Sub
     
-    Dim Files() As String, file As String
+    Dim Files() As String, File As String
     
-    file = Dir$(Path & "\*.MAP")
+    File = Dir$(Path & "\*.MAP")
     
     Dim Iterator As Integer
     
-    Do While file <> vbNullString
+    Do While File <> vbNullString
         ReDim Preserve Files(Iterator) As String
-        Files(Iterator) = file
+        Files(Iterator) = File
         Iterator = Iterator + 1
-        file = Dir
+        File = Dir
     Loop
     
     Dim Norte As Integer, Sur As Integer, Este As Integer, Oeste As Integer
 
     For Iterator = 0 To UBound(Files)
-        file = Path & "\" & Files(Iterator)
+        File = Path & "\" & Files(Iterator)
     
         Call modMapIO.NuevoMapa
-        Call modMapIO.MapaV2_Cargar(file)
+        Call modMapIO.MapaV2_Cargar(File)
     
         Norte = 0
         Sur = 0
@@ -4607,7 +4684,7 @@ Private Sub Magic_Click()
         
         Call BloquearBordes
         
-        Call modMapIO.MapaV2_Guardar(file, False)
+        Call modMapIO.MapaV2_Guardar(File, False)
     
     Next
         
@@ -4863,6 +4940,12 @@ Private Sub MemoriaAuxiliar_Click()
  
     MapData_Adyacente = MapData
     
+    frmMain.MemoriaAuxiliar.Visible = False
+    frmMain.COPIAR_GRH(0).Visible = True
+    frmMain.COPIAR_GRH(1).Visible = True
+    frmMain.COPIAR_GRH(2).Visible = True
+    frmMain.COPIAR_GRH(3).Visible = True
+    
     Call AddtoRichTextBox(frmMain.StatTxt, "Mapa copiado a la memoria", 0, 255, 0)
      
     Exit Sub
@@ -5080,7 +5163,7 @@ Private Sub mnuBloquear_Click()
     For i = 0 To 6
 
         If i <> 2 Then
-            frmMain.SelectPanel(i).value = False
+            frmMain.SelectPanel(i).Value = False
             Call VerFuncion(i, False)
 
         End If
@@ -5305,7 +5388,7 @@ Private Sub mnuNPCs_Click()
     For i = 0 To 6
 
         If i <> 3 Then
-            frmMain.SelectPanel(i).value = False
+            frmMain.SelectPanel(i).Value = False
             Call VerFuncion(i, False)
 
         End If
@@ -5371,7 +5454,7 @@ Private Sub mnuObjetos_Click()
     For i = 0 To 6
 
         If i <> 5 Then
-            frmMain.SelectPanel(i).value = False
+            frmMain.SelectPanel(i).Value = False
             Call VerFuncion(i, False)
 
         End If
@@ -5479,43 +5562,43 @@ Private Sub mnuQuitarFunciones_Click()
     '*************************************************
     
     ' Superficies
-    cSeleccionarSuperficie.value = False
+    cSeleccionarSuperficie.Value = False
     Call cSeleccionarSuperficie_Click
-    cQuitarEnEstaCapa.value = False
+    cQuitarEnEstaCapa.Value = False
     Call cQuitarEnEstaCapa_Click
-    cQuitarEnTodasLasCapas.value = False
+    cQuitarEnTodasLasCapas.Value = False
     Call cQuitarEnTodasLasCapas_Click
     
     ' Translados
-    cQuitarTrans.value = False
+    cQuitarTrans.Value = False
     Call cQuitarTrans_Click
-    cInsertarTrans.value = False
+    cInsertarTrans.Value = False
     Call cInsertarTrans_Click
     
     ' Bloqueos
-    cQuitarBloqueo.value = False
+    cQuitarBloqueo.Value = False
     Call cQuitarBloqueo_Click
-    cInsertarBloqueo.value = False
+    cInsertarBloqueo.Value = False
     Call cInsertarBloqueo_Click
     
     ' Otras funciones
-    cInsertarFunc(0).value = False
+    cInsertarFunc(0).Value = False
     Call cInsertarFunc_Click(0)
-    cInsertarFunc(1).value = False
+    cInsertarFunc(1).Value = False
     Call cInsertarFunc_Click(1)
-    cInsertarFunc(2).value = False
+    cInsertarFunc(2).Value = False
     Call cInsertarFunc_Click(2)
-    cQuitarFunc(0).value = False
+    cQuitarFunc(0).Value = False
     Call cQuitarFunc_Click(0)
-    cQuitarFunc(1).value = False
+    cQuitarFunc(1).Value = False
     Call cQuitarFunc_Click(1)
-    cQuitarFunc(2).value = False
+    cQuitarFunc(2).Value = False
     Call cQuitarFunc_Click(2)
     
     ' Triggers
-    cInsertarTrigger.value = False
+    cInsertarTrigger.Value = False
     Call cInsertarTrigger_Click
-    cQuitarTrigger.value = False
+    cQuitarTrigger.Value = False
     Call cQuitarTrigger_Click
 
 End Sub
@@ -5680,7 +5763,7 @@ Private Sub mnuSuperficie_Click()
     For i = 0 To 6
 
         If i <> 0 Then
-            frmMain.SelectPanel(i).value = False
+            frmMain.SelectPanel(i).Value = False
             Call VerFuncion(i, False)
 
         End If
@@ -5702,7 +5785,7 @@ Private Sub mnuTranslados_Click()
     For i = 0 To 6
 
         If i <> 1 Then
-            frmMain.SelectPanel(i).value = False
+            frmMain.SelectPanel(i).Value = False
             Call VerFuncion(i, False)
 
         End If
@@ -5724,7 +5807,7 @@ Private Sub mnuTriggers_Click()
     For i = 0 To 6
 
         If i <> 6 Then
-            frmMain.SelectPanel(i).value = False
+            frmMain.SelectPanel(i).Value = False
             Call VerFuncion(i, False)
 
         End If
@@ -5758,8 +5841,8 @@ Private Sub mnuVerBloqueos_Click()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    cVerBloqueos.value = (cVerBloqueos.value = False)
-    mnuVerBloqueos.Checked = cVerBloqueos.value
+    cVerBloqueos.Value = (cVerBloqueos.Value = False)
+    mnuVerBloqueos.Checked = cVerBloqueos.Value
 
 End Sub
 
@@ -5837,8 +5920,8 @@ Private Sub mnuVerTriggers_Click()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    cVerTriggers.value = (cVerTriggers.value = False)
-    mnuVerTriggers.Checked = cVerTriggers.value
+    cVerTriggers.Value = (cVerTriggers.Value = False)
+    mnuVerTriggers.Checked = cVerTriggers.Value
 
 End Sub
 
@@ -5991,7 +6074,7 @@ Private Sub SelectPanel_Click(index As Integer)
     For i = 0 To 9
 
         If i <> index Then
-            SelectPanel(i).value = False
+            SelectPanel(i).Value = False
             Call VerFuncion(i, False)
 
         End If
@@ -5999,7 +6082,7 @@ Private Sub SelectPanel_Click(index As Integer)
     Next
 
     If mnuAutoQuitarFunciones.Checked = True Then Call mnuQuitarFunciones_Click
-    Call VerFuncion(index, SelectPanel(index).value)
+    Call VerFuncion(index, SelectPanel(index).Value)
 
 End Sub
 
