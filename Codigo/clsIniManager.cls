@@ -11,19 +11,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
-VERSION 1.0 CLASS
-Begin
-  MultiUse = -1  'True
-  Persistable = 0  'NotPersistable
-  DataBindingBehavior = 0  'vbNone
-  DataSourceBehavior = 0   'vbNone
-  MTSTransactionMode = 0   'NotAnMTSObject
-End
-Attribute VB_Name = "clsIniManager"
-Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = True
-Attribute VB_PredeclaredId = False
-Attribute VB_Exposed = False
 '**************************************************************
 ' clsIniManager.cls - Loads INI files into memory and applies Binary Search to get values at high speed.
 ' Use it instead of GetVar when reading several values form the same file at once, otherwise it's not usefull.
