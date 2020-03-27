@@ -1,4 +1,4 @@
-Attribute VB_Name = "ClsDX8Engine"
+Attribute VB_Name = "DX8_Engine"
 '******************************************************************************************************************************************
 'Lorwik> Este modulo suele ser siempre un modulo clase, pero como hay ciertas variables que si o si deben de ir aqui _
  y que otros sistemas que se encuentran en otros modulos necesita consultarlos y dichas variables no se pueden poner como publicas _
@@ -94,8 +94,7 @@ Private Function GetElapsedTime() As Single
 
     'Get the timer frequency
     If timer_freq = 0 Then
-        QueryPerformanceFrequency timer_freq
-
+        Call QueryPerformanceFrequency(timer_freq)
     End If
     
     'Get current time
@@ -129,89 +128,53 @@ Public Function Engine_Init() As Boolean
     Set D3DX = New D3DX8
     
     Call D3D.GetAdapterIdentifier(D3DADAPTER_DEFAULT, 0, aD3dai)
-    
-    D3D.GetAdapterDisplayMode D3DADAPTER_DEFAULT, DispMode
-    D3D.GetAdapterDisplayMode D3DADAPTER_DEFAULT, DispModeBK
+    Call D3D.GetAdapterDisplayMode(D3DADAPTER_DEFAULT, DispMode)
+    Call D3D.GetAdapterDisplayMode(D3DADAPTER_DEFAULT, DispModeBK)
     
     With D3DWindow
         .Windowed = True
         .SwapEffect = D3DSWAPEFFECT_COPY
         .BackBufferFormat = DispMode.Format
-        .BackBufferWidth = 3200
-        .BackBufferHeight = 3200
-        .EnableAutoDepthStencil = 1
-        .AutoDepthStencilFormat = D3DFMT_D16
+        .BackBufferWidth = frmMain.Renderer.ScaleWidth
+        .BackBufferHeight = frmMain.Renderer.ScaleHeight
         .hDeviceWindow = frmMain.Renderer.hwnd
-
     End With
     
-    Set D3DDevice = D3D.CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, frmMain.Renderer.hwnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, D3DWindow)
-                                                            
-    D3DDevice.SetVertexShader D3DFVF_XYZRHW Or D3DFVF_TEX1 Or D3DFVF_DIFFUSE Or D3DFVF_SPECULAR
+    'Tratamos de inicializar via MIXED
+    Set D3DDevice = D3D.CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DWindow.hDeviceWindow, D3DCREATE_MIXED_VERTEXPROCESSING, D3DWindow)
     
-    '//Transformed and lit vertices dont need lighting
-    '   so we disable it...
-    With D3DDevice
-        .SetRenderState D3DRS_LIGHTING, False
-        .SetRenderState D3DRS_SRCBLEND, D3DBLEND_SRCALPHA
-        .SetRenderState D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA
-        .SetRenderState D3DRS_ALPHABLENDENABLE, True
-        .SetTextureStageState 0, D3DTSS_ALPHAOP, D3DTOP_MODULATE
-        .SetTextureStageState 0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE
-        .SetTextureStageState 0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR
+    'Tratamos de rollbackear a HARDWARE si no pudimos inicializar via MIXED
+    If D3DDevice Is Nothing Then
+        
+        Set D3DDevice = D3D.CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DWindow.hDeviceWindow, D3DCREATE_HARDWARE_VERTEXPROCESSING, D3DWindow)
+        
+        If D3DDevice Is Nothing Then
+            Call MsgBox("No se puede inicializar DirectDevice. Por favor asegurese de tener la ultima version correctamente instalada.")
+            Exit Function
+        End If
+        
+    End If
+    
+    Call Engine_InitRenderStates
+                                                            
+    Call Engine_InitConstants
 
-    End With
-                                                            
-    '************************************************************************************************************************************
-    
-    HalfWindowTileHeight = (frmMain.Renderer.ScaleHeight / 32) \ 2
-    HalfWindowTileWidth = (frmMain.Renderer.ScaleWidth / 32) \ 2
-    TileBufferSize = 11
-    TileBufferPixelOffsetX = (TileBufferSize - 1) * 32
-    TileBufferPixelOffsetY = (TileBufferSize - 1) * 32
-    TilePixelWidth = 32 'Tamaño de tile
-    TilePixelHeight = 32 'Tamaño de tile
-    engineBaseSpeed = 0.019  'Velocidad a la que va a correr el engine (modifica la velocidad de caminata)
-    
-    '***********************************
-    'Tamaño del mapa
-    '***********************************
-    MinXBorder = XMinMapSize + (ClienteWidth \ 2)
-    MaxXBorder = XMaxMapSize - (ClienteWidth \ 2)
-    MinYBorder = YMinMapSize + (ClienteHeight \ 2)
-    MaxYBorder = YMaxMapSize - (ClienteHeight \ 2)
-    '***********************************
-    
-    ScrollPixelsPerFrameX = 8
-    ScrollPixelsPerFrameY = 8
-    
-    ReDim MapData(XMinMapSize To XMaxMapSize, YMinMapSize To YMaxMapSize) As MapBlock
-    
-    UserPos.X = 50
-    UserPos.Y = 50
-    
-    Call SurfaceDB.Init(D3DX, D3DDevice, General_Get_Free_Ram_Bytes)
+    Call SurfaceDB.Init(D3DX, D3DDevice, General_GetFreeRam_Bytes)
     
     movSpeed = 1
     
     If Err Then
-        MsgBox "No se puede iniciar DirectX. Por favor asegurese de tener la ultima version correctamente instalada."
+        Call MsgBox("No se puede iniciar DirectX. Por favor asegurese de tener la ultima version correctamente instalada.")
         Exit Function
 
     End If
     
     If Err Then
-        MsgBox "No se puede iniciar DirectD3D. Por favor asegurese de tener la ultima version correctamente instalada."
+        Call MsgBox("No se puede iniciar DirectD3D. Por favor asegurese de tener la ultima version correctamente instalada.")
         Exit Function
 
     End If
-    
-    If D3DDevice Is Nothing Then
-        MsgBox "No se puede inicializar DirectDevice. Por favor asegurese de tener la ultima version correctamente instalada."
-        Exit Function
 
-    End If
-    
     'Display form handle, View window offset from 0,0 of display form, Tile Size, Display size in tiles, Screen buffer
     
     'Cargamos el indice de graficos.
@@ -235,35 +198,37 @@ Public Function Engine_Init() As Boolean
     frmCargando.X.Caption = "Cargando Cuerpos..."
     Call modIndices.CargarIndicesDeCuerpos
     DoEvents
+    
     frmCargando.P2.Visible = True
     frmCargando.L(1).Visible = True
-    
     frmCargando.X.Caption = "Cargando Cabezas..."
-    modIndices.CargarIndicesDeCabezas
+    Call modIndices.CargarIndicesDeCabezas
     DoEvents
+    
     frmCargando.P3.Visible = True
     frmCargando.L(2).Visible = True
-    
     frmCargando.X.Caption = "Cargando NPC's..."
-    modIndices.CargarIndicesNPC
+    Call modIndices.CargarIndicesNPC
     DoEvents
+    
     frmCargando.P4.Visible = True
     frmCargando.L(3).Visible = True
-    
     frmCargando.X.Caption = "Cargando Objetos..."
-    modIndices.CargarIndicesOBJ
+    Call modIndices.CargarIndicesOBJ
     DoEvents
+    
     frmCargando.P5.Visible = True
     frmCargando.L(4).Visible = True
-    
     frmCargando.X.Caption = "Cargando Triggers..."
-    modIndices.CargarIndicesTriggers
+    Call modIndices.CargarIndicesTriggers
     DoEvents
+    
     frmCargando.P6.Visible = True
     frmCargando.L(5).Visible = True
     DoEvents
-    Texto.Engine_Init_FontSettings
-    Texto.Engine_Init_FontTextures
+    
+    Call Texto.Engine_Init_FontSettings
+    Call Texto.Engine_Init_FontTextures
 
     Engine_Init = True
     
@@ -320,6 +285,58 @@ Public Sub Engine_Deinit()
     Set dX = Nothing
     End
 
+End Sub
+
+Private Sub Engine_InitRenderStates()
+    
+    '//Transformed and lit vertices dont need lighting
+    '   so we disable it...
+    With D3DDevice
+        Call .SetVertexShader(D3DFVF_XYZRHW Or D3DFVF_TEX1 Or D3DFVF_DIFFUSE Or D3DFVF_SPECULAR)
+        
+        Call .SetRenderState(D3DRS_LIGHTING, False)
+        Call .SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA)
+        Call .SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA)
+        Call .SetRenderState(D3DRS_ALPHABLENDENABLE, True)
+        
+        Call .SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE)
+        Call .SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE)
+        Call .SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR)
+
+    End With
+    
+End Sub
+
+Private Sub Engine_InitConstants()
+    
+    HalfWindowTileHeight = (frmMain.Renderer.ScaleHeight / 32) \ 2
+    HalfWindowTileWidth = (frmMain.Renderer.ScaleWidth / 32) \ 2
+    
+    TileBufferSize = 11
+    TileBufferPixelOffsetX = (TileBufferSize - 1) * 32
+    TileBufferPixelOffsetY = (TileBufferSize - 1) * 32
+    TilePixelWidth = 32 'Tamaño de tile
+    TilePixelHeight = 32 'Tamaño de tile
+    
+    engineBaseSpeed = 0.019  'Velocidad a la que va a correr el engine (modifica la velocidad de caminata)
+    
+    '***********************************
+    'Tamaño del mapa
+    '***********************************
+    MinXBorder = XMinMapSize + (ClienteWidth \ 2)
+    MaxXBorder = XMaxMapSize - (ClienteWidth \ 2)
+    MinYBorder = YMinMapSize + (ClienteHeight \ 2)
+    MaxYBorder = YMaxMapSize - (ClienteHeight \ 2)
+    '***********************************
+    
+    ScrollPixelsPerFrameX = 8
+    ScrollPixelsPerFrameY = 8
+    
+    ReDim MapData(XMinMapSize To XMaxMapSize, YMinMapSize To YMaxMapSize) As MapBlock
+    
+    UserPos.X = 50
+    UserPos.Y = 50
+    
 End Sub
 
 Private Function CreateTLVertex(X As Single, _
