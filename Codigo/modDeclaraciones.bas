@@ -566,7 +566,7 @@ Public Declare Function sndPlaySound _
                                       ByVal uFlags As Long) As Long
 
 'For Get and Write Var
-Public Declare Function writeprivateprofilestring _
+Public Declare Function WritePrivateRroFileString _
                Lib "kernel32" _
                Alias "WritePrivateProfileStringA" (ByVal lpApplicationname As String, _
                                                    ByVal lpKeyname As Any, _

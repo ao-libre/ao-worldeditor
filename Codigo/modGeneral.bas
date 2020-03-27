@@ -199,13 +199,13 @@ Public Function ReadField(Pos As Integer, Text As String, SepASCII As Integer) A
     FieldNum = 0
 
     For i = 1 To Len(Text)
-        CurChar = mid(Text, i, 1)
+        CurChar = mid$(Text, i, 1)
 
         If CurChar = Seperator Then
             FieldNum = FieldNum + 1
 
             If FieldNum = Pos Then
-                ReadField = mid(Text, LastPos + 1, (InStr(LastPos + 1, Text, Seperator, vbTextCompare) - 1) - (LastPos))
+                ReadField = mid$(Text, LastPos + 1, (InStr(LastPos + 1, Text, Seperator, vbTextCompare) - 1) - (LastPos))
                 Exit Function
 
             End If
@@ -219,7 +219,7 @@ Public Function ReadField(Pos As Integer, Text As String, SepASCII As Integer) A
     FieldNum = FieldNum + 1
 
     If FieldNum = Pos Then
-        ReadField = mid(Text, LastPos + 1)
+        ReadField = mid$(Text, LastPos + 1)
 
     End If
 
@@ -238,13 +238,13 @@ Private Function autoCompletaPath(ByVal Path As String) As String
     '*************************************************
     Path = Replace(Path, "/", "\")
 
-    If Left(Path, 1) = "\" Then
+    If Left$(Path, 1) = "\" Then
         ' agrego app.path & path
         Path = App.Path & Path
 
     End If
 
-    If Right(Path, 1) <> "\" Then
+    If Right$(Path, 1) <> "\" Then
         ' me aseguro que el final sea con "\"
         Path = Path & "\"
 
@@ -443,18 +443,15 @@ Public Function GetVar(File As String, Main As String, Var As String) As String
     'Last modified: 20/05/06
     '*************************************************
     Dim L        As Integer
-
     Dim Char     As String
-
     Dim sSpaces  As String ' This will hold the input that the program will retrieve
-
     Dim szReturn As String ' This will be the defaul value if the string is not found
 
     szReturn = vbNullString
     sSpaces = Space(5000) ' This tells the computer how long the longest string can be. If you want, you can change the number 75 to any number you wish
     GetPrivateProfileString Main, Var, szReturn, sSpaces, Len(sSpaces), File
-    GetVar = RTrim(sSpaces)
-    GetVar = Left(GetVar, Len(GetVar) - 1)
+    GetVar = RTrim$(sSpaces)
+    GetVar = Left$(GetVar, Len(GetVar) - 1)
 
 End Function
 

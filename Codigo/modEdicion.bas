@@ -986,7 +986,7 @@ Sub ClickEdit(Button As Integer, tX As Integer, tY As Integer)
         
         ' Limpieza
         If Len(frmMain.StatTxt.Text) > 4000 Then
-            frmMain.StatTxt.Text = Right(frmMain.StatTxt.Text, 3000)
+            frmMain.StatTxt.Text = Right$(frmMain.StatTxt.Text, 3000)
 
         End If
 

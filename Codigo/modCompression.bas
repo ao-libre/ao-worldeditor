@@ -150,7 +150,7 @@ Public Sub GenerateContra(ByVal Contra As String, Optional Modo As Byte = 0)
             ReDim GrhDatContra(Len(Contra) - 1)
 
             For loopC = 0 To UBound(GrhDatContra)
-                GrhDatContra(loopC) = Asc(mid(Contra, loopC + 1, 1))
+                GrhDatContra(loopC) = Asc(mid$(Contra, loopC + 1, 1))
             Next loopC
 
             GrhUsaContra = True
@@ -158,7 +158,7 @@ Public Sub GenerateContra(ByVal Contra As String, Optional Modo As Byte = 0)
             ReDim MapsDatContra(Len(Contra) - 1)
 
             For loopC = 0 To UBound(MapsDatContra)
-                MapsDatContra(loopC) = Asc(mid(Contra, loopC + 1, 1))
+                MapsDatContra(loopC) = Asc(mid$(Contra, loopC + 1, 1))
             Next loopC
 
             MapsUsaContra = True

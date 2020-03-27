@@ -395,7 +395,7 @@ Public Sub MapaV2_Guardar(ByVal SaveAs As String, Optional ByVal Preguntar As Bo
     Open SaveAs For Binary As FreeFileMap
     Seek FreeFileMap, 1
 
-    SaveAs = Left(SaveAs, Len(SaveAs) - 4)
+    SaveAs = Left$(SaveAs, Len(SaveAs) - 4)
     SaveAs = SaveAs & ".inf"
 
     'Open .inf file
@@ -558,7 +558,7 @@ Public Sub MapaV2_Cargar(ByVal Map As String, Optional ByVal EsInteger As Boolea
     Open Map For Binary As FreeFileMap
     Seek FreeFileMap, 1
     
-    Map = Left(Map, Len(Map) - 4)
+    Map = Left$(Map, Len(Map) - 4)
     Map = Map & ".inf"
     
     FreeFileInf = FreeFile
@@ -825,15 +825,15 @@ Public Sub MapInfo_Cargar(ByVal Archivo As String)
 
     For loopC = Len(Archivo) To 1 Step -1
 
-        If mid(Archivo, loopC, 1) = "\" Then
-            Path = Left(Archivo, loopC)
+        If mid$(Archivo, loopC, 1) = "\" Then
+            Path = Left$(Archivo, loopC)
             Exit For
         End If
 
     Next
     
-    Archivo = Right(Archivo, Len(Archivo) - (Len(Path)))
-    MapTitulo = UCase(Left(Archivo, Len(Archivo) - 4))
+    Archivo = Right$(Archivo, Len(Archivo) - (Len(Path)))
+    MapTitulo = UCase(Left$(Archivo, Len(Archivo) - 4))
     
     With MapInfo
     
@@ -918,19 +918,19 @@ Public Sub Pestañas(ByVal Map As String, ByVal formato As String)
 
     For loopC = Len(Map) To 1 Step -1
 
-        If mid(Map, loopC, 1) = "\" Then
-            PATH_Save = Left(Map, loopC)
+        If mid$(Map, loopC, 1) = "\" Then
+            PATH_Save = Left$(Map, loopC)
             Exit For
         End If
 
     Next
-    Map = Right(Map, Len(Map) - (Len(PATH_Save)))
+    Map = Right$(Map, Len(Map) - (Len(PATH_Save)))
 
-    For loopC = Len(Left(Map, Len(Map) - 4)) To 1 Step -1
+    For loopC = Len(Left$(Map, Len(Map) - 4)) To 1 Step -1
 
-        If IsNumeric(mid(Left(Map, Len(Map) - 4), loopC, 1)) = False Then
-            NumMap_Save = Right(Left(Map, Len(Map) - 4), Len(Left(Map, Len(Map) - 4)) - loopC)
-            NameMap_Save = Left(Map, loopC)
+        If IsNumeric(mid$(Left$(Map, Len(Map) - 4), loopC, 1)) = False Then
+            NumMap_Save = Right$(Left$(Map, Len(Map) - 4), Len(Left$(Map, Len(Map) - 4)) - loopC)
+            NameMap_Save = Left$(Map, loopC)
             Exit For
 
         End If

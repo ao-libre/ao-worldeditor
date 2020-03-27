@@ -71,7 +71,7 @@ Public Sub LoadGrhIni()
             Fields = Split(CurrentLine, SeparadorClave)
 
             ' Leemos el numero de Grh (el numero a la derecha de la palabra "Grh")
-            Grh = Right(Fields(0), Len(Fields(0)) - 3)
+            Grh = Right$(Fields(0), Len(Fields(0)) - 3)
 
             ' Leemos los campos de datos del Grh
             Fields = Split(Fields(1), SeparadorGrh)
