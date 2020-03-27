@@ -21,7 +21,7 @@ Public StreamData() As Stream
 
 Public Type Stream
 
-    Name As String
+    name As String
     NumOfParticles As Long
     NumGrhs As Long
     ID As Long
@@ -162,7 +162,7 @@ Public bRefreshRadar As Boolean
 
 Type SupData
 
-    Name As String
+    name As String
     Grh As Long
     Width As Byte
     Height As Byte
@@ -177,7 +177,7 @@ Public SupData() As SupData
 
 Public Type NpcData
 
-    Name As String
+    name As String
     Body As Integer
     Head As Integer
     Heading As Byte
@@ -191,7 +191,7 @@ Public NpcData() As NpcData
 
 Public Type ObjData
 
-    Name As String 'Nombre del obj
+    name As String 'Nombre del obj
     ObjType As Integer 'Tipo enum que determina cuales son las caract del obj
     GrhIndex As Long ' Indice del grafico que representa el obj
     GrhSecundario As Integer
@@ -219,7 +219,7 @@ Public dLastWalk   As Double
 Public Type MapInfo
 
     Music As String
-    Name As String
+    name As String
     MapVersion As Integer
     PK As Boolean
     MagiaSinEfecto As Byte
@@ -566,7 +566,7 @@ Public Declare Function sndPlaySound _
                                       ByVal uFlags As Long) As Long
 
 'For Get and Write Var
-Public Declare Function WritePrivateRroFileString _
+Public Declare Function writeprivateprofilestring _
                Lib "kernel32" _
                Alias "WritePrivateProfileStringA" (ByVal lpApplicationname As String, _
                                                    ByVal lpKeyname As Any, _

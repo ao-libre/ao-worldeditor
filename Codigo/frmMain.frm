@@ -2630,6 +2630,7 @@ Begin VB.Form frmMain
       _ExtentY        =   2037
       _Version        =   393217
       BackColor       =   16777215
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -3612,13 +3613,14 @@ Private Sub PonerAlAzar(ByVal n As Integer, T As Byte)
     'Author: Unkwown
     'Last modified: 20/05/06 by GS
     '*************************************************
-    Dim objindex As Long
-    Dim NPCIndex As Long
-    Dim X, Y, i
-    Dim Head    As Integer
-    Dim Body    As Integer
-    Dim Heading As Byte
-    Dim Leer    As New clsIniManager
+    Dim objindex    As Long
+    Dim NPCIndex    As Long
+    Dim X, Y        As Integer
+    Dim i           As Long
+    Dim Head        As Integer
+    Dim Body        As Integer
+    Dim Heading     As Byte
+    Dim Leer        As New clsIniManager
 
     i = n
 
@@ -4073,7 +4075,6 @@ Private Sub cNumFunc_KeyPress(index As Integer, KeyAscii As Integer)
 
         frmMain.cNumFunc(index).AddItem frmMain.cNumFunc(index).Text
         Exit Sub
-    ElseIf KeyAscii = 8 Then
     
     ElseIf IsNumeric(Chr(KeyAscii)) = False Then
         KeyAscii = 0
@@ -4333,13 +4334,11 @@ Private Sub Form_Click()
 End Sub
 
 Private Sub Form_DblClick()
-    'MsgBox "Sos 1 pelotudo."
     '*************************************************
     'Author: ^[GS]^
     'Last modified: 28/05/06
     '*************************************************
     Dim tX As Integer
-
     Dim tY As Integer
 
     If Not MapaCargado Then Exit Sub
@@ -4480,9 +4479,13 @@ Private Sub lListado_MouseDown(index As Integer, _
     'Author: ^[GS]^
     'Last modified: 29/05/06
     '*************************************************
+    
     If index = 3 And Button = 2 Then
-        If lListado(3).ListIndex > -1 Then Me.PopupMenu mnuObjSc
-
+        
+        If lListado(3).ListIndex > -1 Then
+            Call Me.PopupMenu(mnuObjSc)
+        End If
+        
     End If
 
 End Sub
