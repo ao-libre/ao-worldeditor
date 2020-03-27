@@ -206,6 +206,8 @@ Public Sub Bloquear_Bordes()
         Exit Sub
 
     End If
+    
+Call Resolucion
 
     modEdicion.Deshacer_Add "Bloquear los bordes" ' Hago deshacer
 

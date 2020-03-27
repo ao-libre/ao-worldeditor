@@ -1439,3 +1439,20 @@ Public Sub CSMInfoCargar()
     Call MapInfo_Actualizar
 
 End Sub
+
+Public Sub Resolucion()
+
+    If frmMain.Option2.Value = True Then
+        ClienteHeight = 13
+        ClienteWidth = 17
+        Else
+        ClienteHeight = 19
+        ClienteWidth = 24
+    End If
+    
+    MinXBorder = XMinMapSize + (ClienteWidth \ 2)
+    MaxXBorder = XMaxMapSize - (ClienteWidth \ 2)
+    MinYBorder = YMinMapSize + (ClienteHeight \ 2)
+    MaxYBorder = YMaxMapSize - (ClienteHeight \ 2)
+End Sub
+

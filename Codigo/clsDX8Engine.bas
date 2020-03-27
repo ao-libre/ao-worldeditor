@@ -176,6 +176,15 @@ Public Function Engine_Init() As Boolean
     '***********************************
     'Tamaño del mapa
     '***********************************
+    
+    If frmMain.Option2.Value = True Then
+        ClienteHeight = 13
+        ClienteWidth = 17
+        Else
+        ClienteHeight = 19
+        ClienteWidth = 21
+    End If
+    
     MinXBorder = XMinMapSize + (ClienteWidth \ 2)
     MaxXBorder = XMaxMapSize - (ClienteWidth \ 2)
     MinYBorder = YMinMapSize + (ClienteHeight \ 2)

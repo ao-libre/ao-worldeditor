@@ -337,6 +337,14 @@ Private Sub CargarMapIni()
     ClienteHeight = Val(Leer.GetValue("RENDER", "ClienteHeight"))
     ClienteWidth = Val(Leer.GetValue("RENDER", "ClienteWidth"))
 
+    If frmMain.Option2.Value = True Then
+        ClienteHeight = 13
+        ClienteWidth = 17
+        Else
+        ClienteHeight = 19
+        ClienteWidth = 21
+    End If
+    
     If ClienteHeight <= 0 Then ClienteHeight = 13
     If ClienteWidth <= 0 Then ClienteWidth = 17
     
@@ -665,3 +673,4 @@ Public Function ReturnNumberFromString(ByVal sString As String) As String
    Next i
    
 End Function
+
