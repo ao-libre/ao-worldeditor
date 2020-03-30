@@ -305,6 +305,7 @@ Function InMapLegalBounds(X As Integer, Y As Integer) As Boolean
     'Author: Unkwown
     'Last modified: 20/05/06
     '*************************************************
+    
 
     If X < MinXBorder Or X > MaxXBorder Or Y < MinYBorder Or Y > MaxYBorder Then
         InMapLegalBounds = False
@@ -372,6 +373,8 @@ Public Sub PegarSeleccion() '(mx As Integer, my As Integer)
         Next
     Next
     Seleccionando = False
+
+    MapInfo.Changed = 1
 
 End Sub
 
@@ -447,6 +450,7 @@ Public Sub BlockearSeleccion()
         Next
     Next
     Seleccionando = False
+    MapInfo.Changed = 1
 
 End Sub
 
@@ -481,6 +485,7 @@ Public Sub CortarSeleccion()
         Next
     Next
     Seleccionando = False
+    MapInfo.Changed = 1
 
 End Sub
 

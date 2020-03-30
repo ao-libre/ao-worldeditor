@@ -871,6 +871,15 @@ Sub DobleClick(tX As Integer, tY As Integer)
 '    End If
 
 ' Translados
+
+        If MapInfo.Changed = 1 Then
+            
+            If MsgBox(MSGMod, vbExclamation + vbYesNo) = vbYes Then
+                Call modMapIO.GuardarMapa(frmMain.Dialog.FileName)
+            End If
+
+        End If
+
 Dim tTrans As WorldPos
 tTrans = MapData(tX, tY).TileExit
 If tTrans.Map > 0 Then
@@ -878,7 +887,21 @@ If tTrans.Map > 0 Then
         If FileExist(PATH_Save & NameMap_Save & tTrans.Map & ".map", vbArchive) = True Then
             Call modMapIO.NuevoMapa
             frmMain.Dialog.FileName = PATH_Save & NameMap_Save & tTrans.Map & ".map"
-            Call modMapIO.MapaV2_Cargar(frmMain.Dialog.FileName)
+            
+        Select Case frmMain.Dialog.FilterIndex
+        
+            Case 0
+                Call modMapIO.Cargar_CSM(frmMain.Dialog.FileName)
+                
+            Case 1
+                Call modMapIO.MapaV2_Cargar(frmMain.Dialog.FileName, MapaCargado_Integer)
+            
+        End Select
+            
+            
+            'Call modMapIO.MapaV2_Cargar(frmMain.Dialog.FileName)
+            
+            
             UserPos.X = tTrans.X
             UserPos.Y = tTrans.Y
             If WalkMode = True Then

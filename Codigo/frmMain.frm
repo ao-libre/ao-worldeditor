@@ -537,7 +537,7 @@ Begin VB.Form frmMain
          ForeColor       =   &H8000000B&
          Height          =   735
          Left            =   120
-         TabIndex        =   144
+         TabIndex        =   143
          Top             =   4440
          Width           =   4095
          Begin VB.OptionButton Option1 
@@ -546,7 +546,7 @@ Begin VB.Form frmMain
             ForeColor       =   &H8000000E&
             Height          =   255
             Left            =   120
-            TabIndex        =   146
+            TabIndex        =   145
             Top             =   360
             Width           =   1815
          End
@@ -556,7 +556,7 @@ Begin VB.Form frmMain
             ForeColor       =   &H8000000E&
             Height          =   255
             Left            =   2280
-            TabIndex        =   145
+            TabIndex        =   144
             Top             =   360
             Value           =   -1  'True
             Width           =   1695
@@ -584,15 +584,6 @@ Begin VB.Form frmMain
          Top             =   240
          Visible         =   0   'False
          Width           =   4095
-         Begin VB.TextBox Mapa 
-            Height          =   285
-            Left            =   3000
-            TabIndex        =   143
-            Text            =   "0"
-            Top             =   2520
-            Visible         =   0   'False
-            Width           =   495
-         End
          Begin VB.TextBox TXTArriba 
             Alignment       =   2  'Center
             Appearance      =   0  'Flat
@@ -646,14 +637,14 @@ Begin VB.Form frmMain
             Width           =   615
          End
          Begin WorldEditor.lvButtons_H COPIAR_GRH 
-            Height          =   375
+            Height          =   495
             Index           =   3
-            Left            =   1320
+            Left            =   240
             TabIndex        =   104
             Top             =   2520
-            Width           =   1455
-            _ExtentX        =   2566
-            _ExtentY        =   661
+            Width           =   3615
+            _ExtentX        =   6376
+            _ExtentY        =   873
             Caption         =   "Pegar borde abajo"
             CapAlign        =   2
             BackStyle       =   2
@@ -672,14 +663,14 @@ Begin VB.Form frmMain
             cBack           =   -2147483633
          End
          Begin WorldEditor.lvButtons_H COPIAR_GRH 
-            Height          =   375
+            Height          =   1335
             Index           =   1
-            Left            =   2160
+            Left            =   3000
             TabIndex        =   105
-            Top             =   1560
-            Width           =   1695
-            _ExtentX        =   2990
-            _ExtentY        =   661
+            Top             =   1080
+            Width           =   855
+            _ExtentX        =   1508
+            _ExtentY        =   2355
             Caption         =   "Pegar borde derecha"
             CapAlign        =   2
             BackStyle       =   2
@@ -698,14 +689,14 @@ Begin VB.Form frmMain
             cBack           =   -2147483633
          End
          Begin WorldEditor.lvButtons_H COPIAR_GRH 
-            Height          =   375
+            Height          =   1335
             Index           =   2
             Left            =   240
             TabIndex        =   106
-            Top             =   1560
-            Width           =   1815
-            _ExtentX        =   3201
-            _ExtentY        =   661
+            Top             =   1080
+            Width           =   855
+            _ExtentX        =   1508
+            _ExtentY        =   2355
             Caption         =   "Pegar borde izquierda"
             CapAlign        =   2
             BackStyle       =   2
@@ -724,14 +715,14 @@ Begin VB.Form frmMain
             cBack           =   -2147483633
          End
          Begin WorldEditor.lvButtons_H COPIAR_GRH 
-            Height          =   375
+            Height          =   495
             Index           =   0
-            Left            =   1320
+            Left            =   240
             TabIndex        =   107
             Top             =   480
-            Width           =   1455
-            _ExtentX        =   2566
-            _ExtentY        =   661
+            Width           =   3615
+            _ExtentX        =   6376
+            _ExtentY        =   873
             Caption         =   "Pegar borde arriba"
             CapAlign        =   2
             BackStyle       =   2
@@ -750,13 +741,13 @@ Begin VB.Form frmMain
             cBack           =   -2147483633
          End
          Begin WorldEditor.lvButtons_H MemoriaAuxiliar 
-            Height          =   2655
+            Height          =   2775
             Left            =   120
             TabIndex        =   108
             Top             =   360
             Width           =   3855
             _ExtentX        =   6800
-            _ExtentY        =   4683
+            _ExtentY        =   4895
             Caption         =   "Copiar bordes del mapa en memoria auxiliar"
             CapAlign        =   2
             BackStyle       =   2
@@ -782,6 +773,7 @@ Begin VB.Form frmMain
             Left            =   480
             TabIndex        =   110
             Top             =   3360
+            Visible         =   0   'False
             Width           =   3810
          End
          Begin VB.Label Label5 
@@ -802,6 +794,7 @@ Begin VB.Form frmMain
             Left            =   360
             TabIndex        =   109
             Top             =   3120
+            Visible         =   0   'False
             Width           =   1065
          End
       End
@@ -4038,6 +4031,8 @@ Call Resolucion
 
             For Y = 1 To An
                 For X = 1 To 100
+
+
                     MapData(X, Y).Graphic(1) = MapData_Adyacente(X, TXTArriba + Y).Graphic(1)
                     MapData(X, Y).Graphic(2) = MapData_Adyacente(X, TXTArriba + Y).Graphic(2)
                     MapData(X, Y).Graphic(3) = MapData_Adyacente(X, TXTArriba + Y).Graphic(3)
@@ -4045,7 +4040,7 @@ Call Resolucion
                 Next
             Next
             MapInfo.Changed = 1
-               
+                       
         Case 1 'Derecha
 
             For Y = 1 To 100
@@ -4057,7 +4052,7 @@ Call Resolucion
                 Next
             Next
             MapInfo.Changed = 1
-               
+                        
         Case 2 'Izquierda
 
             For Y = 1 To 100
@@ -4069,7 +4064,7 @@ Call Resolucion
                 Next
             Next
             MapInfo.Changed = 1
-               
+                        
         Case 3 'Abajo
 
             For Y = Dn To 100
@@ -4081,8 +4076,10 @@ Call Resolucion
                 Next
             Next
             MapInfo.Changed = 1
-
+            
     End Select
+    
+    Call modEdicion.Bloquear_Bordes
 
 End Sub
 
@@ -4894,13 +4891,7 @@ Private Sub MapPest_Click(index As Integer)
             
     End Select
     
-    If (index + NumMap_Save - 4) <> NumMap_Save Then
-        Dialog.CancelError = True
-
-        On Error GoTo ErrHandler
-
-        Dialog.FileName = PATH_Save & NameMap_Save & (index + NumMap_Save - 7) & formato
-
+    
         If MapInfo.Changed = 1 Then
             
             If MsgBox(MSGMod, vbExclamation + vbYesNo) = vbYes Then
@@ -4908,6 +4899,16 @@ Private Sub MapPest_Click(index As Integer)
             End If
 
         End If
+        
+        
+    If (index + NumMap_Save - 4) <> NumMap_Save Then
+        Dialog.CancelError = True
+
+        On Error GoTo ErrHandler
+
+        Dialog.FileName = PATH_Save & NameMap_Save & (index + NumMap_Save - 7) & formato
+
+
 
         Call modMapIO.NuevoMapa
         
@@ -4960,10 +4961,18 @@ Private Sub minimap_MouseDown(Button As Integer, _
                               X As Single, _
                               Y As Single)
 
-    If X < 11 Then X = 11
-    If X > 89 Then X = 89
-    If Y < 10 Then Y = 10
-    If Y > 92 Then Y = 92
+    If frmMain.Option2.Value = True Then
+            If X < 7 Then X = 7
+            If X > 94 Then X = 94
+            If Y < 9 Then Y = 9
+            If Y > 92 Then Y = 92
+        Else
+            If X < 11 Then X = 11
+            If X > 89 Then X = 89
+            If Y < 10 Then Y = 10
+            If Y > 90 Then Y = 90
+    End If
+
     
     UserPos.X = X
     UserPos.Y = Y

@@ -105,7 +105,7 @@ Public Sub CheckKeys()
     '[/Loopzer]
     
     If GetKeyState(vbKeyUp) < 0 Then
-        If UserPos.Y < 12 Then Exit Sub ' 10
+        If UserPos.Y < 1 Then Exit Sub ' 10
         If LegalPos(UserPos.X, UserPos.Y - 1) And WalkMode = True Then
             If dLastWalk + 50 > GetTickCount Then Exit Sub
             UserPos.Y = UserPos.Y - 1
@@ -113,17 +113,14 @@ Public Sub CheckKeys()
             dLastWalk = GetTickCount
         ElseIf WalkMode = False Then
             UserPos.Y = UserPos.Y - 1
-
         End If
-
-        Call ActualizaMinimap ' Radar
+        bRefreshRadar = True ' Radar
         frmMain.SetFocus
         Exit Sub
-
     End If
 
     If GetKeyState(vbKeyRight) < 0 Then
-        If UserPos.X > XMaxMapSize Then Exit Sub ' 89
+        If UserPos.X > 100 Then Exit Sub ' 89
         If LegalPos(UserPos.X + 1, UserPos.Y) And WalkMode = True Then
             If dLastWalk + 50 > GetTickCount Then Exit Sub
             UserPos.X = UserPos.X + 1
@@ -131,17 +128,14 @@ Public Sub CheckKeys()
             dLastWalk = GetTickCount
         ElseIf WalkMode = False Then
             UserPos.X = UserPos.X + 1
-
         End If
-
-        Call ActualizaMinimap ' Radar
+        bRefreshRadar = True ' Radar
         frmMain.SetFocus
         Exit Sub
-
     End If
 
     If GetKeyState(vbKeyDown) < 0 Then
-        If UserPos.Y > XMaxMapSize Then Exit Sub ' 92
+        If UserPos.Y > 100 Then Exit Sub ' 92
         If LegalPos(UserPos.X, UserPos.Y + 1) And WalkMode = True Then
             If dLastWalk + 50 > GetTickCount Then Exit Sub
             UserPos.Y = UserPos.Y + 1
@@ -149,17 +143,14 @@ Public Sub CheckKeys()
             dLastWalk = GetTickCount
         ElseIf WalkMode = False Then
             UserPos.Y = UserPos.Y + 1
-
         End If
-
-        Call ActualizaMinimap ' Radar
+        bRefreshRadar = True ' Radar
         frmMain.SetFocus
         Exit Sub
-
     End If
 
     If GetKeyState(vbKeyLeft) < 0 Then
-        If UserPos.X < 17 Then Exit Sub ' 12
+        If UserPos.X < 1 Then Exit Sub ' 12
         If LegalPos(UserPos.X - 1, UserPos.Y) And WalkMode = True Then
             If dLastWalk + 50 > GetTickCount Then Exit Sub
             UserPos.X = UserPos.X - 1
@@ -167,13 +158,10 @@ Public Sub CheckKeys()
             dLastWalk = GetTickCount
         ElseIf WalkMode = False Then
             UserPos.X = UserPos.X - 1
-
         End If
-
-        Call ActualizaMinimap ' Radar
+        bRefreshRadar = True ' Radar
         frmMain.SetFocus
         Exit Sub
-
     End If
     
 End Sub

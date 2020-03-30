@@ -840,36 +840,38 @@ Sub RenderScreen(ByVal tilex As Integer, _
         MinY = YMinMapSize
 
     End If
-    
+
     If MaxY > YMaxMapSize Then MaxY = YMaxMapSize
-    
+
     If MinX < XMinMapSize Then
         minXOffset = XMinMapSize - MinX
         MinX = XMinMapSize
 
     End If
-    
+
     If MaxX > XMaxMapSize Then MaxX = XMaxMapSize
     
     'If we can, we render around the view area to make it smoother
     If screenminY > YMinMapSize Then
         screenminY = screenminY - 1
     Else
-        screenminY = 1
-        ScreenY = 1
+        screenminY = screenminY - 1 ' no se porque estaba asi pero lo dejo por las dudas
+'        screenminY = 1
+'        ScreenY = 1
 
     End If
-    
+
     If screenmaxY < YMaxMapSize Then screenmaxY = screenmaxY + 1
-    
+
     If screenminX > XMinMapSize Then
         screenminX = screenminX - 1
     Else
-        screenminX = 1
-        ScreenX = 1
+        screenminX = screenminX - 1 ' no se porque estaba asi pero lo dejo por las dudas
+'        screenminX = 1
+'        ScreenX = 1
 
     End If
-    
+
     If screenmaxX < XMaxMapSize Then screenmaxX = screenmaxX + 1
     
     GenerarVista
