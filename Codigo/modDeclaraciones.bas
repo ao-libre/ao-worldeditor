@@ -120,6 +120,7 @@ Public Cfg_TrOBJ             As Integer
 Public IniPath               As String
 Public DirDats               As String
 Public DirMinimapas          As String
+Public DirAudio              As String
 
 Public bAutoGuardarMapa      As Byte
 Public bAutoGuardarMapaCount As Byte
@@ -209,7 +210,6 @@ Public ObjData()   As ObjData
 Public Conexion    As New Connection
 Public prgRun      As Boolean
 Public CurrentGrh  As Grh
-Public Play        As Boolean
 Public MapaCargado As Boolean
 Public cFPS        As Long
 Public dTiempoGT   As Double
@@ -218,7 +218,8 @@ Public dLastWalk   As Double
 'Hold info about each map
 Public Type MapInfo
 
-    Music As String
+    midi As String
+    mp3 As String
     name As String
     MapVersion As Integer
     PK As Boolean
@@ -435,6 +436,8 @@ End Type
 Public SurfaceDB                                                                                  As clsTexManager 'DX8
 Public Texto                                                                                      As New clsDX8Font 'Textos renderizados
 '*******************************
+
+Public Audio                                                                                      As New clsAudio
 
 '********** Public VARS ***********
 'Where the map borders are.. Set during load
