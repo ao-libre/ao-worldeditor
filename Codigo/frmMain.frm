@@ -2754,7 +2754,7 @@ Begin VB.Form frmMain
       Value           =   0   'False
       CustomClick     =   1
       ImgAlign        =   5
-      Image           =   "frmMain.frx":5F4F1
+      'Image           =   "frmMain.frx":5F4F1
       ImgSize         =   24
       cBack           =   -2147483633
    End
@@ -2786,7 +2786,7 @@ Begin VB.Form frmMain
       Value           =   0   'False
       CustomClick     =   1
       ImgAlign        =   5
-      Image           =   "frmMain.frx":5FB32
+      'Image           =   "frmMain.frx":5FB32
       ImgSize         =   24
       cBack           =   -2147483633
    End
@@ -2818,7 +2818,7 @@ Begin VB.Form frmMain
       Value           =   0   'False
       CustomClick     =   1
       ImgAlign        =   5
-      Image           =   "frmMain.frx":601B4
+      'Image           =   "frmMain.frx":601B4
       ImgSize         =   24
       Enabled         =   0   'False
       cBack           =   -2147483633
