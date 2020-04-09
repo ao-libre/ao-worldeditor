@@ -1376,7 +1376,7 @@ Public Sub CSMInfoSave()
     With MapDat
     
         .map_name = MapInfo.name
-        .music_number = MapInfo.midi
+        .midi_number = MapInfo.midi
         .mp3_number = MapInfo.mp3
         .MagiaSinEfecto = MapInfo.MagiaSinEfecto
         .InviSinEfecto = MapInfo.InviSinEfecto

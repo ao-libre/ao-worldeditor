@@ -335,15 +335,6 @@ Fallo:
     Resume Next
 
 End Sub
-
-Public Function TomarBPP() As Integer
-
-    Dim ModoDeVideo As typDevMODE
-
-    Call EnumDisplaySettings(0, -1, ModoDeVideo)
-    TomarBPP = CInt(ModoDeVideo.dmBitsPerPel)
-
-End Function
     
 Public Sub Main()
 
