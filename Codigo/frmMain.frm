@@ -102,7 +102,8 @@ Begin VB.Form frmMain
          Value           =   0   'False
          cBack           =   -2147483633
       End
-      Begin VB.Label lblMapAmbient 
+      Begin VB.Label lblMapMP3 
+         Alignment       =   1  'Right Justify
          AutoSize        =   -1  'True
          BackColor       =   &H8000000D&
          BackStyle       =   0  'Transparent
@@ -118,7 +119,49 @@ Begin VB.Form frmMain
          EndProperty
          ForeColor       =   &H00000000&
          Height          =   210
-         Left            =   2520
+         Left            =   1800
+         TabIndex        =   144
+         Top             =   360
+         Width           =   90
+      End
+      Begin VB.Label LblMP3 
+         BackStyle       =   0  'Transparent
+         BorderStyle     =   1  'Fixed Single
+         Caption         =   "MP3:"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H000080FF&
+         Height          =   270
+         Left            =   1080
+         TabIndex        =   143
+         Top             =   315
+         Width           =   855
+      End
+      Begin VB.Label lblMapAmbient 
+         Alignment       =   1  'Right Justify
+         AutoSize        =   -1  'True
+         BackColor       =   &H8000000D&
+         BackStyle       =   0  'Transparent
+         Caption         =   "0"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   210
+         Left            =   3000
          TabIndex        =   141
          Top             =   360
          Width           =   90
@@ -139,10 +182,10 @@ Begin VB.Form frmMain
          EndProperty
          ForeColor       =   &H000080FF&
          Height          =   270
-         Left            =   1680
+         Left            =   2040
          TabIndex        =   140
          Top             =   315
-         Width           =   1455
+         Width           =   1095
       End
       Begin VB.Label lblFNombreMapa 
          BackColor       =   &H8000000D&
@@ -185,26 +228,6 @@ Begin VB.Form frmMain
          Top             =   960
          Width           =   3015
       End
-      Begin VB.Label lblFMusica 
-         BackStyle       =   0  'Transparent
-         BorderStyle     =   1  'Fixed Single
-         Caption         =   "Musica:"
-         BeginProperty Font 
-            Name            =   "Arial"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H000080FF&
-         Height          =   270
-         Left            =   105
-         TabIndex        =   94
-         Top             =   315
-         Width           =   1455
-      End
       Begin VB.Label lblMapNombre 
          AutoSize        =   -1  'True
          BackColor       =   &H8000000D&
@@ -227,6 +250,7 @@ Begin VB.Form frmMain
          Width           =   900
       End
       Begin VB.Label lblMapMusica 
+         Alignment       =   1  'Right Justify
          AutoSize        =   -1  'True
          BackColor       =   &H8000000D&
          BackStyle       =   0  'Transparent
@@ -242,7 +266,7 @@ Begin VB.Form frmMain
          EndProperty
          ForeColor       =   &H00000000&
          Height          =   210
-         Left            =   1080
+         Left            =   840
          TabIndex        =   92
          Top             =   360
          Width           =   90
@@ -267,6 +291,26 @@ Begin VB.Form frmMain
          TabIndex        =   91
          Top             =   1010
          Width           =   105
+      End
+      Begin VB.Label lblFMusica 
+         BackStyle       =   0  'Transparent
+         BorderStyle     =   1  'Fixed Single
+         Caption         =   "Midi:"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H000080FF&
+         Height          =   270
+         Left            =   105
+         TabIndex        =   94
+         Top             =   315
+         Width           =   855
       End
    End
    Begin VB.PictureBox PreviewGrh 
@@ -2630,7 +2674,6 @@ Begin VB.Form frmMain
       _ExtentY        =   2037
       _Version        =   393217
       BackColor       =   16777215
-      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
@@ -2673,7 +2716,7 @@ Begin VB.Form frmMain
       Value           =   0   'False
       CustomClick     =   1
       ImgAlign        =   5
-      Image           =   "frmMain.frx":5F4F2
+      Image           =   "frmMain.frx":5F4F1
       ImgSize         =   24
       cBack           =   -2147483633
    End
@@ -2705,7 +2748,7 @@ Begin VB.Form frmMain
       Value           =   0   'False
       CustomClick     =   1
       ImgAlign        =   5
-      Image           =   "frmMain.frx":5FB33
+      Image           =   "frmMain.frx":5FB32
       ImgSize         =   24
       cBack           =   -2147483633
    End
@@ -2737,7 +2780,7 @@ Begin VB.Form frmMain
       Value           =   0   'False
       CustomClick     =   1
       ImgAlign        =   5
-      Image           =   "frmMain.frx":601B5
+      Image           =   "frmMain.frx":601B4
       ImgSize         =   24
       Enabled         =   0   'False
       cBack           =   -2147483633
@@ -4822,9 +4865,7 @@ Private Sub MapPest_Click(index As Integer)
     If (index + NumMap_Save - 4) <> NumMap_Save Then
         Dialog.CancelError = True
 
-        On Error GoTo ErrHandler
-
-        Dialog.FileName = PATH_Save & NameMap_Save & (index + NumMap_Save - 7) & formato
+        On Error GoTo errhandler
 
         If MapInfo.Changed = 1 Then
             
@@ -4833,6 +4874,8 @@ Private Sub MapPest_Click(index As Integer)
             End If
 
         End If
+        
+        Dialog.FileName = PATH_Save & NameMap_Save & (index + NumMap_Save - 7) & formato
 
         Call modMapIO.NuevoMapa
         
@@ -4854,7 +4897,7 @@ Private Sub MapPest_Click(index As Integer)
     
         Exit Sub
     
-ErrHandler:
+errhandler:
         Call MsgBox(Err.Description)
 
 End Sub
@@ -4911,7 +4954,7 @@ Private Sub AbrirMapa(ByVal Selector As Byte)
     '*************************************************
     Dialog.CancelError = True
 
-    On Error GoTo ErrHandler
+    On Error GoTo errhandler
 
     Call DeseaGuardarMapa(Dialog.FileName)
 
@@ -4950,7 +4993,7 @@ Private Sub AbrirMapa(ByVal Selector As Byte)
     
     EngineRun = True
 
-ErrHandler:
+errhandler:
 
 End Sub
 
@@ -5341,12 +5384,12 @@ Private Sub mnuNuevoMapa_Click()
     '*************************************************
     On Error Resume Next
 
-    Dim loopC As Integer
+    Dim LoopC As Integer
 
     Call DeseaGuardarMapa(Dialog.FileName)
 
-    For loopC = 0 To frmMain.MapPest.count
-        frmMain.MapPest(loopC).Visible = False
+    For LoopC = 0 To frmMain.MapPest.count
+        frmMain.MapPest(LoopC).Visible = False
     Next
 
     frmMain.Dialog.FileName = Empty
@@ -5604,7 +5647,7 @@ Private Sub mnuReAbrirMapa_Click()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    On Error GoTo ErrHandler
+    On Error GoTo errhandler
 
     If FileExist(Dialog.FileName, vbArchive) = False Then Exit Sub
     
@@ -5636,7 +5679,7 @@ Private Sub mnuReAbrirMapa_Click()
     
     Exit Sub
     
-ErrHandler:
+errhandler:
 
 End Sub
 

@@ -80,7 +80,8 @@ Private Type tMapDat
     battle_mode As Boolean
     backup_mode As Boolean
     restrict_mode As String
-    music_number As String
+    midi_number As String
+    mp3_number As String
     zone As String
     terrain As String
     ambient As String
@@ -164,7 +165,7 @@ Public Sub GuardarMapa(Optional Path As String)
 
     frmMain.Dialog.CancelError = True
 
-    On Error GoTo ErrHandler
+    On Error GoTo errhandler
 
     If LenB(Path) = 0 Then
         
@@ -185,7 +186,7 @@ Public Sub GuardarMapa(Optional Path As String)
             
     End Select
 
-ErrHandler:
+errhandler:
 
 End Sub
 
@@ -222,7 +223,7 @@ Public Sub NuevoMapa()
 
     On Error Resume Next
 
-    Dim loopC As Integer
+    Dim LoopC As Integer
     Dim Y     As Integer
     Dim X     As Integer
 
@@ -238,8 +239,8 @@ Public Sub NuevoMapa()
     
         MapaCargado = False
     
-        For loopC = 0 To .MapPest.count - 1
-            .MapPest(loopC).Enabled = False
+        For LoopC = 0 To .MapPest.count - 1
+            .MapPest(LoopC).Enabled = False
         Next
     
         .MousePointer = 11
@@ -295,7 +296,8 @@ Public Sub NuevoMapa()
     
         .MapVersion = 0
         .name = "Nuevo Mapa"
-        .Music = 0
+        .midi = vbNullString
+        .mp3 = vbNullString
         .PK = True
         .MagiaSinEfecto = 0
         .InviSinEfecto = 0
@@ -341,7 +343,7 @@ Public Sub MapaV2_Guardar(ByVal SaveAs As String, Optional ByVal Preguntar As Bo
 
     Dim FreeFileMap As Long
     Dim FreeFileInf As Long
-    Dim loopC       As Long
+    Dim LoopC       As Long
     Dim TempInt     As Integer
     Dim Y           As Long
     Dim X           As Long
@@ -431,15 +433,15 @@ Public Sub MapaV2_Guardar(ByVal SaveAs As String, Optional ByVal Preguntar As Bo
                     Put FreeFileMap, , .Graphic(1).GrhIndex
                 End If
                 
-                For loopC = 2 To 4
+                For LoopC = 2 To 4
                     
                     If MapaCargado_Integer Then
-                        If .Graphic(loopC).GrhIndex Then Put FreeFileMap, , .Graphic(loopC).GrhIndexIntg
+                        If .Graphic(LoopC).GrhIndex Then Put FreeFileMap, , .Graphic(LoopC).GrhIndexIntg
                     Else
-                        If .Graphic(loopC).GrhIndex Then Put FreeFileMap, , .Graphic(loopC).GrhIndex
+                        If .Graphic(LoopC).GrhIndex Then Put FreeFileMap, , .Graphic(LoopC).GrhIndex
                     End If
 
-                Next loopC
+                Next LoopC
                     
                 If .Trigger Then Put FreeFileMap, , .Trigger
                 
@@ -513,7 +515,7 @@ Public Sub MapaV2_Cargar(ByVal Map As String, Optional ByVal EsInteger As Boolea
 
     On Error Resume Next
 
-    Dim loopC       As Integer
+    Dim LoopC       As Integer
     Dim TempInt     As Integer
     Dim Body        As Integer
     Dim Head        As Integer
@@ -754,7 +756,9 @@ Public Sub MapInfo_Guardar(ByVal Archivo As String)
     Set IniManager = New clsIniManager
 
     Call IniManager.ChangeValue(MapTitulo, "Name", MapInfo.name)
-    Call IniManager.ChangeValue(MapTitulo, "MusicNum", MapInfo.Music)
+    Call IniManager.ChangeValue(MapTitulo, "MusicNum", MapInfo.midi)
+    Call IniManager.ChangeValue(MapTitulo, "MusicNumMp3", MapInfo.mp3)
+        
     Call IniManager.ChangeValue(MapTitulo, "MagiaSinefecto", Val(MapInfo.MagiaSinEfecto))
     Call IniManager.ChangeValue(MapTitulo, "InviSinEfecto", Val(MapInfo.InviSinEfecto))
     Call IniManager.ChangeValue(MapTitulo, "ResuSinEfecto", Val(MapInfo.ResuSinEfecto))
@@ -791,7 +795,7 @@ Public Sub MapInfo_Cargar(ByVal Archivo As String)
     On Error Resume Next
 
     Dim Leer  As New clsIniManager
-    Dim loopC As Integer
+    Dim LoopC As Integer
     Dim Path  As String
 
     MapTitulo = Empty
@@ -803,10 +807,10 @@ Public Sub MapInfo_Cargar(ByVal Archivo As String)
     
     Call Leer.Initialize(Archivo)
 
-    For loopC = Len(Archivo) To 1 Step -1
+    For LoopC = Len(Archivo) To 1 Step -1
 
-        If mid$(Archivo, loopC, 1) = "\" Then
-            Path = Left$(Archivo, loopC)
+        If mid$(Archivo, LoopC, 1) = "\" Then
+            Path = Left$(Archivo, LoopC)
             Exit For
         End If
 
@@ -818,7 +822,8 @@ Public Sub MapInfo_Cargar(ByVal Archivo As String)
     With MapInfo
     
         .name = Leer.GetValue(MapTitulo, "Name")
-        .Music = Leer.GetValue(MapTitulo, "MusicNum")
+        .midi = Leer.GetValue(MapTitulo, "MusicNum")
+        .mp3 = Leer.GetValue(MapTitulo, "MusicNumMp3")
         .MagiaSinEfecto = Val(Leer.GetValue(MapTitulo, "MagiaSinEfecto"))
         .InviSinEfecto = Val(Leer.GetValue(MapTitulo, "InviSinEfecto"))
         .ResuSinEfecto = Val(Leer.GetValue(MapTitulo, "ResuSinEfecto"))
@@ -859,7 +864,8 @@ Public Sub MapInfo_Actualizar()
     With frmMapInfo
     
         .txtMapNombre.Text = MapInfo.name
-        .txtMapMusica.Text = MapInfo.Music
+        .txtMapMusica.Text = MapInfo.midi
+        .txtMapMP3.Text = MapInfo.mp3
         .txtMapTerreno.Text = MapInfo.Terreno
         .txtMapZona.Text = MapInfo.Zona
         .txtMapRestringir.Text = MapInfo.Restringir
@@ -872,7 +878,8 @@ Public Sub MapInfo_Actualizar()
         .chkMapPK.Value = IIf(MapInfo.PK = True, 1, 0)
         .txtMapVersion = MapInfo.MapVersion
         frmMain.lblMapNombre = MapInfo.name
-        frmMain.lblMapMusica = MapInfo.Music
+        frmMain.lblMapMusica = MapInfo.midi
+        frmMain.lblMapMP3 = MapInfo.mp3
         frmMain.lblMapAmbient = MapInfo.ambient
         .TxtlvlMinimo = MapInfo.lvlMinimo
         .TxtAmbient = MapInfo.ambient
@@ -894,37 +901,37 @@ Public Sub Pestañas(ByVal Map As String, ByVal formato As String)
     '*************************************************
     On Error Resume Next
 
-    Dim loopC As Integer
+    Dim LoopC As Integer
 
-    For loopC = Len(Map) To 1 Step -1
+    For LoopC = Len(Map) To 1 Step -1
 
-        If mid$(Map, loopC, 1) = "\" Then
-            PATH_Save = Left$(Map, loopC)
+        If mid$(Map, LoopC, 1) = "\" Then
+            PATH_Save = Left$(Map, LoopC)
             Exit For
         End If
 
     Next
     Map = Right$(Map, Len(Map) - (Len(PATH_Save)))
 
-    For loopC = Len(Left$(Map, Len(Map) - 4)) To 1 Step -1
+    For LoopC = Len(Left$(Map, Len(Map) - 4)) To 1 Step -1
 
-        If IsNumeric(mid$(Left$(Map, Len(Map) - 4), loopC, 1)) = False Then
-            NumMap_Save = Right$(Left$(Map, Len(Map) - 4), Len(Left$(Map, Len(Map) - 4)) - loopC)
-            NameMap_Save = Left$(Map, loopC)
+        If IsNumeric(mid$(Left$(Map, Len(Map) - 4), LoopC, 1)) = False Then
+            NumMap_Save = Right$(Left$(Map, Len(Map) - 4), Len(Left$(Map, Len(Map) - 4)) - LoopC)
+            NameMap_Save = Left$(Map, LoopC)
             Exit For
 
         End If
 
     Next
 
-    For loopC = (NumMap_Save - 7) To (NumMap_Save + 10)
+    For LoopC = (NumMap_Save - 7) To (NumMap_Save + 10)
 
-        If FileExist(PATH_Save & NameMap_Save & loopC & formato, vbArchive) = True Then
-            frmMain.MapPest(loopC - NumMap_Save + 7).Visible = True
-            frmMain.MapPest(loopC - NumMap_Save + 7).Enabled = True
-            frmMain.MapPest(loopC - NumMap_Save + 7).Caption = NameMap_Save & loopC
+        If FileExist(PATH_Save & NameMap_Save & LoopC & formato, vbArchive) = True Then
+            frmMain.MapPest(LoopC - NumMap_Save + 7).Visible = True
+            frmMain.MapPest(LoopC - NumMap_Save + 7).Enabled = True
+            frmMain.MapPest(LoopC - NumMap_Save + 7).Caption = NameMap_Save & LoopC
         Else
-            frmMain.MapPest(loopC - NumMap_Save + 7).Visible = False
+            frmMain.MapPest(LoopC - NumMap_Save + 7).Visible = False
 
         End If
 
@@ -1369,7 +1376,8 @@ Public Sub CSMInfoSave()
     With MapDat
     
         .map_name = MapInfo.name
-        .music_number = MapInfo.Music
+        .music_number = MapInfo.midi
+        .mp3_number = MapInfo.mp3
         .MagiaSinEfecto = MapInfo.MagiaSinEfecto
         .InviSinEfecto = MapInfo.InviSinEfecto
         .ResuSinEfecto = MapInfo.ResuSinEfecto
@@ -1400,7 +1408,8 @@ Public Sub CSMInfoCargar()
     With MapInfo
     
         .name = MapDat.map_name
-        .Music = MapDat.music_number
+        .midi = MapDat.midi_number
+        .mp3 = MapDat.mp3_number
         .MagiaSinEfecto = MapDat.MagiaSinEfecto
         .InviSinEfecto = MapDat.InviSinEfecto
         .ResuSinEfecto = MapDat.ResuSinEfecto

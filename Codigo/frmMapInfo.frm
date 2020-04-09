@@ -2,16 +2,33 @@ VERSION 5.00
 Begin VB.Form frmMapInfo 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Información del Mapa"
-   ClientHeight    =   4740
+   ClientHeight    =   5100
    ClientLeft      =   45
    ClientTop       =   435
    ClientWidth     =   4425
    Icon            =   "frmMapInfo.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   4740
+   ScaleHeight     =   5100
    ScaleWidth      =   4425
    StartUpPosition =   2  'CenterScreen
+   Begin VB.TextBox txtMapMP3 
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   285
+      Left            =   1680
+      TabIndex        =   26
+      Text            =   "0"
+      Top             =   1230
+      Width           =   1815
+   End
    Begin VB.TextBox TxtAmbient 
       BeginProperty Font 
          Name            =   "Arial"
@@ -26,7 +43,7 @@ Begin VB.Form frmMapInfo
       Left            =   1680
       TabIndex        =   23
       Text            =   "0"
-      Top             =   2640
+      Top             =   3000
       Width           =   2655
    End
    Begin VB.TextBox TxtlvlMinimo 
@@ -43,7 +60,7 @@ Begin VB.Form frmMapInfo
       Left            =   1680
       TabIndex        =   22
       Text            =   "0"
-      Top             =   2280
+      Top             =   2640
       Width           =   2655
    End
    Begin VB.CheckBox ChkMapNpc 
@@ -69,7 +86,7 @@ Begin VB.Form frmMapInfo
       Height          =   255
       Left            =   120
       TabIndex        =   20
-      Top             =   3840
+      Top             =   4200
       Width           =   1695
    End
    Begin VB.CheckBox chkMapResuSinEfecto 
@@ -77,7 +94,7 @@ Begin VB.Form frmMapInfo
       Height          =   255
       Left            =   2400
       TabIndex        =   19
-      Top             =   3120
+      Top             =   3480
       Width           =   1815
    End
    Begin VB.CheckBox chkMapInviSinEfecto 
@@ -85,7 +102,7 @@ Begin VB.Form frmMapInfo
       Height          =   255
       Left            =   120
       TabIndex        =   18
-      Top             =   3120
+      Top             =   3480
       Width           =   2055
    End
    Begin VB.TextBox txtMapVersion 
@@ -119,14 +136,14 @@ Begin VB.Form frmMapInfo
       cgradient       =   0
       font            =   "frmMapInfo.frx":628A
       mode            =   0
-      value           =   0
+      value           =   0   'False
       cback           =   -2147483633
    End
    Begin WorldEditor.lvButtons_H cmdCerrar 
       Height          =   375
       Left            =   2640
       TabIndex        =   14
-      Top             =   4320
+      Top             =   4680
       Width           =   1695
       _extentx        =   2990
       _extenty        =   661
@@ -136,7 +153,7 @@ Begin VB.Form frmMapInfo
       cgradient       =   0
       font            =   "frmMapInfo.frx":62B6
       mode            =   0
-      value           =   0
+      value           =   0   'False
       cback           =   -2147483633
    End
    Begin VB.ComboBox txtMapRestringir 
@@ -155,7 +172,7 @@ Begin VB.Form frmMapInfo
       List            =   "frmMapInfo.frx":62F8
       TabIndex        =   12
       Text            =   "NO"
-      Top             =   1920
+      Top             =   2280
       Width           =   2655
    End
    Begin VB.CheckBox chkMapPK 
@@ -181,7 +198,7 @@ Begin VB.Form frmMapInfo
       Height          =   255
       Left            =   120
       TabIndex        =   11
-      Top             =   3600
+      Top             =   3960
       Width           =   1575
    End
    Begin VB.ComboBox txtMapTerreno 
@@ -199,7 +216,7 @@ Begin VB.Form frmMapInfo
       Left            =   1680
       List            =   "frmMapInfo.frx":6334
       TabIndex        =   10
-      Top             =   1560
+      Top             =   1920
       Width           =   2655
    End
    Begin VB.ComboBox txtMapZona 
@@ -217,7 +234,7 @@ Begin VB.Form frmMapInfo
       Left            =   1680
       List            =   "frmMapInfo.frx":635E
       TabIndex        =   9
-      Top             =   1200
+      Top             =   1560
       Width           =   2655
    End
    Begin VB.TextBox txtMapMusica 
@@ -268,7 +285,7 @@ Begin VB.Form frmMapInfo
       Height          =   255
       Left            =   2400
       TabIndex        =   4
-      Top             =   3360
+      Top             =   3720
       Value           =   2  'Grayed
       Width           =   1575
    End
@@ -286,7 +303,7 @@ Begin VB.Form frmMapInfo
       Height          =   255
       Left            =   2400
       TabIndex        =   3
-      Top             =   3600
+      Top             =   3960
       Width           =   1575
    End
    Begin VB.CheckBox chkMapMagiaSinEfecto 
@@ -303,8 +320,42 @@ Begin VB.Form frmMapInfo
       Height          =   255
       Left            =   120
       TabIndex        =   2
-      Top             =   3360
+      Top             =   3720
       Width           =   1575
+   End
+   Begin WorldEditor.lvButtons_H cmdMP3 
+      Height          =   330
+      Left            =   3600
+      TabIndex        =   25
+      Top             =   1200
+      Width           =   735
+      _extentx        =   1296
+      _extenty        =   582
+      caption         =   "&Más"
+      capalign        =   2
+      backstyle       =   2
+      cgradient       =   0
+      font            =   "frmMapInfo.frx":637A
+      mode            =   0
+      value           =   0   'False
+      cback           =   -2147483633
+   End
+   Begin VB.Label Label9 
+      Caption         =   "MP3:"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   -1  'True
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Left            =   120
+      TabIndex        =   27
+      Top             =   1230
+      Width           =   1455
    End
    Begin VB.Label Label8 
       Caption         =   "Sonido Ambiental:"
@@ -320,7 +371,7 @@ Begin VB.Form frmMapInfo
       Height          =   255
       Left            =   120
       TabIndex        =   24
-      Top             =   2640
+      Top             =   3000
       Width           =   1455
    End
    Begin VB.Label Label7 
@@ -337,7 +388,7 @@ Begin VB.Form frmMapInfo
       Height          =   255
       Left            =   120
       TabIndex        =   21
-      Top             =   2280
+      Top             =   2640
       Width           =   1455
    End
    Begin VB.Label Label6 
@@ -363,8 +414,8 @@ Begin VB.Form frmMapInfo
       Index           =   1
       X1              =   120
       X2              =   4300
-      Y1              =   4200
-      Y2              =   4200
+      Y1              =   4560
+      Y2              =   4560
    End
    Begin VB.Label Label5 
       Caption         =   "Restringir:"
@@ -380,7 +431,7 @@ Begin VB.Form frmMapInfo
       Height          =   255
       Left            =   120
       TabIndex        =   13
-      Top             =   1920
+      Top             =   2280
       Width           =   1455
    End
    Begin VB.Label Label4 
@@ -397,7 +448,7 @@ Begin VB.Form frmMapInfo
       Height          =   255
       Left            =   120
       TabIndex        =   6
-      Top             =   1560
+      Top             =   1920
       Width           =   1455
    End
    Begin VB.Label Label3 
@@ -414,11 +465,11 @@ Begin VB.Form frmMapInfo
       Height          =   255
       Left            =   120
       TabIndex        =   5
-      Top             =   1200
+      Top             =   1560
       Width           =   1455
    End
    Begin VB.Label Label2 
-      Caption         =   "Musica:"
+      Caption         =   "Midi:"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   8.25
@@ -457,8 +508,8 @@ Begin VB.Form frmMapInfo
       Index           =   0
       X1              =   120
       X2              =   4315
-      Y1              =   4080
-      Y2              =   4080
+      Y1              =   4440
+      Y2              =   4440
    End
 End
 Attribute VB_Name = "frmMapInfo"
@@ -492,7 +543,7 @@ Private Sub chkMapBackup_LostFocus()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    MapInfo.BackUp = chkMapBackup.value
+    MapInfo.BackUp = chkMapBackup.Value
     MapInfo.Changed = 1
 
 End Sub
@@ -502,7 +553,7 @@ Private Sub chkMapMagiaSinEfecto_LostFocus()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    MapInfo.MagiaSinEfecto = chkMapMagiaSinEfecto.value
+    MapInfo.MagiaSinEfecto = chkMapMagiaSinEfecto.Value
     MapInfo.Changed = 1
 
 End Sub
@@ -512,7 +563,7 @@ Private Sub chkMapInviSinEfecto_LostFocus()
     'Author:
     'Last modified:
     '*************************************************
-    MapInfo.InviSinEfecto = chkMapInviSinEfecto.value
+    MapInfo.InviSinEfecto = chkMapInviSinEfecto.Value
     MapInfo.Changed = 1
 
 End Sub
@@ -522,7 +573,7 @@ Private Sub chkMapnpc_LostFocus()
     'Author: Hardoz
     'Last modified: 28/08/2010
     '*************************************************
-    MapInfo.SePuedeDomar = ChkMapNpc.value
+    MapInfo.SePuedeDomar = ChkMapNpc.Value
     MapInfo.Changed = 1
  
 End Sub
@@ -532,7 +583,7 @@ Private Sub chkMapResuSinEfecto_LostFocus()
     'Author:
     'Last modified:
     '*************************************************
-    MapInfo.ResuSinEfecto = chkMapResuSinEfecto.value
+    MapInfo.ResuSinEfecto = chkMapResuSinEfecto.Value
     MapInfo.Changed = 1
 
 End Sub
@@ -542,7 +593,7 @@ Private Sub chkMapNoEncriptarMP_LostFocus()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    MapInfo.NoEncriptarMP = chkMapNoEncriptarMP.value
+    MapInfo.NoEncriptarMP = chkMapNoEncriptarMP.Value
     MapInfo.Changed = 1
 
 End Sub
@@ -552,7 +603,7 @@ Private Sub chkMapPK_LostFocus()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    MapInfo.PK = chkMapPK.value
+    MapInfo.PK = chkMapPK.Value
     MapInfo.Changed = 1
 
 End Sub
@@ -566,11 +617,17 @@ Private Sub cmdCerrar_Click()
 
 End Sub
 
+Private Sub cmdMP3_Click()
+    frmMusica.Modo = mp3
+    frmMusica.Show
+End Sub
+
 Private Sub cmdMusica_Click()
     '*************************************************
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
+    frmMusica.Modo = midi
     frmMusica.Show
 
 End Sub
@@ -599,13 +656,20 @@ Private Sub TxtAmbient_Change()
 
 End Sub
 
+
+Private Sub txtMapMP3_LostFocus()
+    MapInfo.mp3 = txtMapMP3.Text
+    frmMain.lblMapMP3.Caption = MapInfo.mp3
+    MapInfo.Changed = 1
+End Sub
+
 Private Sub txtMapMusica_LostFocus()
     '*************************************************
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    MapInfo.Music = txtMapMusica.Text
-    frmMain.lblMapMusica.Caption = MapInfo.Music
+    MapInfo.midi = txtMapMusica.Text
+    frmMain.lblMapMusica.Caption = MapInfo.midi
     MapInfo.Changed = 1
 
 End Sub

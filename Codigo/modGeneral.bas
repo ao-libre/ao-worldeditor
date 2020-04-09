@@ -327,6 +327,7 @@ Public Sub Main()
             InitPath = App.Path & "\Recursos\Init\"
             DirDats = App.Path & "\Dats\"
             DirMinimapas = App.Path & "\Recursos\Graficos\MiniMapa\"
+            DirAudio = App.Path & "\Recursos\Audio\"
         DoEvents
         
         .X.Caption = "Cargando Indice de Superficies..."
@@ -341,7 +342,11 @@ Public Sub Main()
             End
         End If
 
+        .X.Caption = "Iniciando motor de audio"
         DoEvents
+        
+        Call Audio.Initialize(dX, frmMain.hwnd, "", DirAudio & "MIDI\", DirAudio & "MP3\")
+        
     
         With MapSize
             .XMax = XMaxMapSize

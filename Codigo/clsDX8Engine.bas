@@ -159,7 +159,7 @@ Public Function Engine_Init() As Boolean
                                                             
     Call Engine_InitConstants
 
-    Call SurfaceDB.Init(D3DX, D3DDevice, General_GetFreeRam_Bytes)
+    Call SurfaceDB.Init(D3DX, D3DDevice, 0) 'General_GetFreeRam_Bytes
     
     movSpeed = 1
     
