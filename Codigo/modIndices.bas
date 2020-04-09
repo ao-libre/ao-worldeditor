@@ -71,7 +71,7 @@ Public Sub LoadGrhIni()
             Fields = Split(CurrentLine, SeparadorClave)
 
             ' Leemos el numero de Grh (el numero a la derecha de la palabra "Grh")
-            Grh = Right(Fields(0), Len(Fields(0)) - 3)
+            Grh = Right$(Fields(0), Len(Fields(0)) - 3)
 
             ' Leemos los campos de datos del Grh
             Fields = Split(Fields(1), SeparadorGrh)
@@ -97,11 +97,11 @@ Public Sub LoadGrhIni()
                     If .Speed <= 0 Then GoTo hErr
 
                     ' Por ultimo, copiamos las dimensiones del primer frame
-                    .pixelHeight = GrhData(.Frames(1)).pixelHeight
-                    If .pixelHeight <= 0 Then GoTo hErr
+                    .PixelHeight = GrhData(.Frames(1)).PixelHeight
+                    If .PixelHeight <= 0 Then GoTo hErr
 
-                    .pixelWidth = GrhData(.Frames(1)).pixelWidth
-                    If .pixelWidth <= 0 Then GoTo hErr
+                    .PixelWidth = GrhData(.Frames(1)).PixelWidth
+                    If .PixelWidth <= 0 Then GoTo hErr
 
                     .TileWidth = GrhData(.Frames(1)).TileWidth
                     If .TileWidth <= 0 Then GoTo hErr
@@ -127,16 +127,16 @@ Public Sub LoadGrhIni()
                     If .sY < 0 Then GoTo hErr
 
                     ' Quinto lugar: El ancho del grafico
-                    .pixelWidth = Val(Fields(4))
-                    If .pixelWidth <= 0 Then GoTo hErr
+                    .PixelWidth = Val(Fields(4))
+                    If .PixelWidth <= 0 Then GoTo hErr
 
                     ' Sexto lugar: La altura del grafico
-                    .pixelHeight = Val(Fields(5))
-                    If .pixelHeight <= 0 Then GoTo hErr
+                    .PixelHeight = Val(Fields(5))
+                    If .PixelHeight <= 0 Then GoTo hErr
 
                     ' Calculamos el ancho y alto en tiles
-                    .TileWidth = .pixelWidth / TilePixelHeight
-                    .TileHeight = .pixelHeight / TilePixelWidth
+                    .TileWidth = .PixelWidth / TilePixelHeight
+                    .TileHeight = .PixelHeight / TilePixelWidth
 
                 Else
                     ' 0 frames o negativo? Error
@@ -225,11 +225,11 @@ Public Function LoadGrhData() As Boolean
                     If .Speed <= 0 Then GoTo ErrorHandler
                     
                     'Compute width and height
-                    .pixelHeight = GrhData(.Frames(1)).pixelHeight
-                    If .pixelHeight <= 0 Then GoTo ErrorHandler
+                    .PixelHeight = GrhData(.Frames(1)).PixelHeight
+                    If .PixelHeight <= 0 Then GoTo ErrorHandler
                     
-                    .pixelWidth = GrhData(.Frames(1)).pixelWidth
-                    If .pixelWidth <= 0 Then GoTo ErrorHandler
+                    .PixelWidth = GrhData(.Frames(1)).PixelWidth
+                    If .PixelWidth <= 0 Then GoTo ErrorHandler
                     
                     .TileWidth = GrhData(.Frames(1)).TileWidth
                     If .TileWidth <= 0 Then GoTo ErrorHandler
@@ -248,15 +248,15 @@ Public Function LoadGrhData() As Boolean
                     Get handle, , .sY
                     If .sY < 0 Then GoTo ErrorHandler
                     
-                    Get handle, , .pixelWidth
-                    If .pixelWidth <= 0 Then GoTo ErrorHandler
+                    Get handle, , .PixelWidth
+                    If .PixelWidth <= 0 Then GoTo ErrorHandler
                     
-                    Get handle, , .pixelHeight
-                    If .pixelHeight <= 0 Then GoTo ErrorHandler
+                    Get handle, , .PixelHeight
+                    If .PixelHeight <= 0 Then GoTo ErrorHandler
                     
                     'Compute width and height
-                    .TileWidth = .pixelWidth / TilePixelHeight
-                    .TileHeight = .pixelHeight / TilePixelWidth
+                    .TileWidth = .PixelWidth / TilePixelHeight
+                    .TileHeight = .PixelHeight / TilePixelWidth
                     
                     .Frames(1) = Grh
 
@@ -312,14 +312,14 @@ Public Sub CargarIndicesSuperficie()
         
         With SupData(i)
         
-            .Name = Leer.GetValue("REFERENCIA" & i, "Nombre")
+            .name = Leer.GetValue("REFERENCIA" & i, "Nombre")
             .Grh = Val(Leer.GetValue("REFERENCIA" & i, "GrhIndice"))
             .Width = Val(Leer.GetValue("REFERENCIA" & i, "Ancho"))
             .Height = Val(Leer.GetValue("REFERENCIA" & i, "Alto"))
             .Block = IIf(Val(Leer.GetValue("REFERENCIA" & i, "Bloquear")) = 1, True, False)
             .Capa = Val(Leer.GetValue("REFERENCIA" & i, "Capa"))
             
-            Call frmMain.lListado(0).AddItem(.Name & " - #" & i)
+            Call frmMain.lListado(0).AddItem(.name & " - #" & i)
         
         End With
         
@@ -372,7 +372,7 @@ Public Sub CargarIndicesOBJ()
         
         With ObjData(Obj)
         
-            .Name = Leer.GetValue("OBJ" & Obj, "Name")
+            .name = Leer.GetValue("OBJ" & Obj, "Name")
             .GrhIndex = Val(Leer.GetValue("OBJ" & Obj, "GrhIndex"))
             .ObjType = Val(Leer.GetValue("OBJ" & Obj, "ObjType"))
             .Ropaje = Val(Leer.GetValue("OBJ" & Obj, "NumRopaje"))
@@ -381,7 +381,7 @@ Public Sub CargarIndicesOBJ()
             .Texto = Leer.GetValue("OBJ" & Obj, "Texto")
             .GrhSecundario = Val(Leer.GetValue("OBJ" & Obj, "GrhSec"))
             
-            Call frmMain.lListado(3).AddItem(.Name & " - #" & Obj)
+            Call frmMain.lListado(3).AddItem(.name & " - #" & Obj)
         
         End With
         
@@ -443,7 +443,7 @@ Public Sub CargarIndicesDeCuerpos()
 
     Dim n            As Integer
     Dim i            As Long
-    Dim j            As Byte
+    Dim J            As Byte
     Dim File         As String
     Dim NumCuerpos   As Integer
     Dim MisCuerpos() As tIndiceCuerpo
@@ -466,9 +466,9 @@ Public Sub CargarIndicesDeCuerpos()
         
         If MisCuerpos(i).Body(1) Then
 
-            For j = 1 To 4
-                InitGrh BodyData(i).Walk(j), MisCuerpos(i).Body(j), 0
-            Next j
+            For J = 1 To 4
+                InitGrh BodyData(i).Walk(J), MisCuerpos(i).Body(J), 0
+            Next J
 
             BodyData(i).HeadOffset.X = MisCuerpos(i).HeadOffsetX
             BodyData(i).HeadOffset.Y = MisCuerpos(i).HeadOffsetY
@@ -489,7 +489,7 @@ Public Sub CargarIndicesDeCabezas()
 
     Dim n            As Integer
     Dim i            As Long
-    Dim j            As Byte
+    Dim J            As Byte
     Dim Miscabezas() As tIndiceCabeza
     Dim File         As String
     
@@ -512,9 +512,9 @@ Public Sub CargarIndicesDeCabezas()
         
         If Miscabezas(i).Head(1) Then
 
-            For j = 1 To 4
-                Call InitGrh(HeadData(i).Head(j), Miscabezas(i).Head(j), 0)
-            Next j
+            For J = 1 To 4
+                Call InitGrh(HeadData(i).Head(J), Miscabezas(i).Head(J), 0)
+            Next J
 
         End If
 
@@ -570,14 +570,14 @@ Public Sub CargarIndicesNPC()
         
         With NpcData(NPC)
         
-            .Name = Leer.GetValue("NPC" & NPC, "Name")
+            .name = Leer.GetValue("NPC" & NPC, "Name")
         
             .Body = Val(Leer.GetValue("NPC" & NPC, "Body"))
             .Head = Val(Leer.GetValue("NPC" & NPC, "Head"))
             .Heading = Val(Leer.GetValue("NPC" & NPC, "Heading"))
     
-            If LenB(.Name) <> 0 Then
-                Call frmMain.lListado(1).AddItem(.Name & " - #" & NPC)
+            If LenB(.name) <> 0 Then
+                Call frmMain.lListado(1).AddItem(.name & " - #" & NPC)
             End If
         
         End With
@@ -662,9 +662,9 @@ Public Sub CargarParticulas()
 
         With StreamData(loopC)
         
-            .Name = Leer.GetValue(Val(loopC), "Name")
+            .name = Leer.GetValue(Val(loopC), "Name")
         
-            Call frmMain.lstParticle.AddItem(loopC & "-" & .Name)
+            Call frmMain.lstParticle.AddItem(loopC & "-" & .name)
         
             .NumOfParticles = Leer.GetValue(Val(loopC), "NumOfParticles")
             .X1 = Leer.GetValue(Val(loopC), "X1")

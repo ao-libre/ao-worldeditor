@@ -4,6 +4,8 @@ Conversor/Mapas Integer/**
 Conversor/Mapas Long/**
 Recursos/Graficos/**
 Recursos/Init/**
+Recursos/Audio/MIDI**
+Recursos/Audio/MP3**
 Dats/**
 .DS_Store
 *.vbw
@@ -19,3 +21,4 @@ Dats/**
 *.ind
 *.ani
 *.ico
+WorldEditor.exe

@@ -21,7 +21,7 @@ Public StreamData() As Stream
 
 Public Type Stream
 
-    Name As String
+    name As String
     NumOfParticles As Long
     NumGrhs As Long
     ID As Long
@@ -120,6 +120,7 @@ Public Cfg_TrOBJ             As Integer
 Public IniPath               As String
 Public DirDats               As String
 Public DirMinimapas          As String
+Public DirAudio              As String
 
 Public bAutoGuardarMapa      As Byte
 Public bAutoGuardarMapaCount As Byte
@@ -162,7 +163,7 @@ Public bRefreshRadar As Boolean
 
 Type SupData
 
-    Name As String
+    name As String
     Grh As Long
     Width As Byte
     Height As Byte
@@ -177,7 +178,7 @@ Public SupData() As SupData
 
 Public Type NpcData
 
-    Name As String
+    name As String
     Body As Integer
     Head As Integer
     Heading As Byte
@@ -191,7 +192,7 @@ Public NpcData() As NpcData
 
 Public Type ObjData
 
-    Name As String 'Nombre del obj
+    name As String 'Nombre del obj
     ObjType As Integer 'Tipo enum que determina cuales son las caract del obj
     GrhIndex As Long ' Indice del grafico que representa el obj
     GrhSecundario As Integer
@@ -209,7 +210,6 @@ Public ObjData()   As ObjData
 Public Conexion    As New Connection
 Public prgRun      As Boolean
 Public CurrentGrh  As Grh
-Public Play        As Boolean
 Public MapaCargado As Boolean
 Public cFPS        As Long
 Public dTiempoGT   As Double
@@ -218,8 +218,9 @@ Public dLastWalk   As Double
 'Hold info about each map
 Public Type MapInfo
 
-    Music As String
-    Name As String
+    midi As String
+    mp3 As String
+    name As String
     MapVersion As Integer
     PK As Boolean
     MagiaSinEfecto As Byte
@@ -435,6 +436,8 @@ End Type
 Public SurfaceDB                                                                                  As clsTexManager 'DX8
 Public Texto                                                                                      As New clsDX8Font 'Textos renderizados
 '*******************************
+
+Public Audio                                                                                      As New clsAudio
 
 '********** Public VARS ***********
 'Where the map borders are.. Set during load

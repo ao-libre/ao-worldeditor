@@ -159,7 +159,9 @@ Attribute VB_Exposed = False
 '**************************************************************
 Option Explicit
 
-Private MidiActual As String
+Public Modo As MusicTypes
+Private Actual As String
+Private Play As Boolean
 
 ''
 ' Aplica la Musica seleccionada y oculta la ventana
@@ -167,22 +169,22 @@ Private MidiActual As String
 
 Private Sub cmdAplicarYCerrar_Click()
 
-    '*************************************************
-    'Author: ^[GS]^
-    'Last modified: 20/05/06
-    '*************************************************
-    On Error Resume Next
+    If Actual <> vbNullString Then
+        If Modo = midi Then
+            MapInfo.midi = Left$(Actual, Len(Actual) - 4)
+            frmMapInfo.txtMapMusica.Text = MapInfo.midi
+            frmMain.lblMapMusica = MapInfo.midi
+        Else
+            MapInfo.mp3 = Left$(Actual, Len(Actual) - 4)
+            frmMapInfo.txtMapMP3.Text = MapInfo.mp3
+            frmMain.lblMapMP3 = MapInfo.mp3
+        End If
 
-    If Len(MidiActual) >= 5 Then
-        MapInfo.Music = Left(MidiActual, Len(MidiActual) - 4)
-        frmMapInfo.txtMapMusica.Text = MapInfo.Music
-        frmMain.lblMapMusica = MapInfo.Music
-        frmMain.lblMapAmbient = MapInfo.ambient
-        MidiActual = Empty
+        Actual = vbNullString
 
     End If
 
-    Me.Hide
+    Unload Me
 
 End Sub
 
@@ -195,7 +197,7 @@ Private Sub cmdCerrar_Click()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    Me.Hide
+    Unload Me
 
 End Sub
 
@@ -208,6 +210,12 @@ Private Sub cmdDetener_Click()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
+    
+    If Modo = midi Then
+        Call Audio.StopMidi
+    Else
+        Call Audio.StopMp3
+    End If
 
     cmdEscuchar.Enabled = True
     cmdDetener.Enabled = False
@@ -224,6 +232,11 @@ Private Sub cmdEscuchar_Click()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
+    If Modo = midi Then
+        Call Audio.PlayMIDI(fleMusicas.List(fleMusicas.ListIndex))
+    Else
+        Call Audio.PlayMp3(fleMusicas.List(fleMusicas.ListIndex))
+    End If
 
     cmdDetener.Enabled = True
     cmdEscuchar.Enabled = False
@@ -241,9 +254,28 @@ Private Sub fleMusicas_Click()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    'MidiActual = fleMusicas.List(fleMusicas.listIndex)
-    'CargarMIDI fleMusicas.Path & "\" & fleMusicas.List(fleMusicas.listIndex)
-    'cmdAplicarYCerrar.Enabled = True
-    'If Play = False Then cmdEscuchar.Enabled = True
+    Actual = fleMusicas.List(fleMusicas.ListIndex)
+    cmdAplicarYCerrar.Enabled = True
+    If Play = False Then cmdEscuchar.Enabled = True
 End Sub
 
+Private Sub Form_Load()
+    If Modo = midi Then
+        fleMusicas.Path = DirAudio & "MIDI"
+        fleMusicas.Pattern = "*.mid"
+    Else
+        fleMusicas.Path = DirAudio & "MP3"
+        fleMusicas.Pattern = "*.mp3"
+    End If
+    
+    Actual = vbNullString
+    Play = False
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    If Modo = midi Then
+        Call Audio.StopMidi
+    Else
+        Call Audio.StopMp3
+    End If
+End Sub

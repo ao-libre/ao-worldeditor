@@ -1,69 +1,6 @@
 Attribute VB_Name = "modGeneral"
 Option Explicit
 
-'***************************************
-'Para obetener memoria libre en la RAM
-'***************************************
-Private pUdtMemStatus As MEMORYSTATUS
-
-Private Type MEMORYSTATUS
-
-    dwLength As Long
-    dwMemoryLoad As Long
-    dwTotalPhys As Long
-    dwAvailPhys As Long
-    dwTotalPageFile As Long
-    dwAvailPageFile As Long
-    dwTotalVirtual As Long
-    dwAvailVirtual As Long
-
-End Type
-
-Private Declare Sub GlobalMemoryStatus Lib "kernel32" (lpBuffer As MEMORYSTATUS)
-'**************************************
-
-Public Type typDevMODE
-
-    dmDeviceName       As String * 32
-    dmSpecVersion      As Integer
-    dmDriverVersion    As Integer
-    dmSize             As Integer
-    dmDriverExtra      As Integer
-    dmFields           As Long
-    dmOrientation      As Integer
-    dmPaperSize        As Integer
-    dmPaperLength      As Integer
-    dmPaperWidth       As Integer
-    dmScale            As Integer
-    dmCopies           As Integer
-    dmDefaultSource    As Integer
-    dmPrintQuality     As Integer
-    dmColor            As Integer
-    dmDuplex           As Integer
-    dmYResolution      As Integer
-    dmTTOption         As Integer
-    dmCollate          As Integer
-    dmFormName         As String * 32
-    dmUnusedPadding    As Integer
-    dmBitsPerPel       As Integer
-    dmPelsWidth        As Long
-    dmPelsHeight       As Long
-    dmDisplayFlags     As Long
-    dmDisplayFrequency As Long
-
-End Type
-
-Public Declare Function EnumDisplaySettings _
-               Lib "user32" _
-               Alias "EnumDisplaySettingsA" (ByVal lpszDeviceName As Long, _
-                                             ByVal iModeNum As Long, _
-                                             lptypDevMode As Any) As Boolean
-
-Public Declare Function ChangeDisplaySettings _
-               Lib "user32" _
-               Alias "ChangeDisplaySettingsA" (lptypDevMode As Any, _
-                                               ByVal dwFlags As Long) As Long
-
 Public Const CCDEVICENAME = 32
 Public Const CCFORMNAME = 32
 Public Const DM_BITSPERPEL = &H40000
@@ -242,13 +179,13 @@ Public Function ReadField(Pos As Integer, Text As String, SepASCII As Integer) A
     FieldNum = 0
 
     For i = 1 To Len(Text)
-        CurChar = mid(Text, i, 1)
+        CurChar = mid$(Text, i, 1)
 
         If CurChar = Seperator Then
             FieldNum = FieldNum + 1
 
             If FieldNum = Pos Then
-                ReadField = mid(Text, LastPos + 1, (InStr(LastPos + 1, Text, Seperator, vbTextCompare) - 1) - (LastPos))
+                ReadField = mid$(Text, LastPos + 1, (InStr(LastPos + 1, Text, Seperator, vbTextCompare) - 1) - (LastPos))
                 Exit Function
 
             End If
@@ -262,7 +199,7 @@ Public Function ReadField(Pos As Integer, Text As String, SepASCII As Integer) A
     FieldNum = FieldNum + 1
 
     If FieldNum = Pos Then
-        ReadField = mid(Text, LastPos + 1)
+        ReadField = mid$(Text, LastPos + 1)
 
     End If
 
@@ -281,13 +218,13 @@ Private Function autoCompletaPath(ByVal Path As String) As String
     '*************************************************
     Path = Replace(Path, "/", "\")
 
-    If Left(Path, 1) = "\" Then
+    If Left$(Path, 1) = "\" Then
         ' agrego app.path & path
         Path = App.Path & Path
 
     End If
 
-    If Right(Path, 1) <> "\" Then
+    If Right$(Path, 1) <> "\" Then
         ' me aseguro que el final sea con "\"
         Path = Path & "\"
 
@@ -441,6 +378,7 @@ Public Sub Main()
             InitPath = App.Path & "\Recursos\Init\"
             DirDats = App.Path & "\Dats\"
             DirMinimapas = App.Path & "\Recursos\Graficos\MiniMapa\"
+            DirAudio = App.Path & "\Recursos\Audio\"
         DoEvents
         
         .X.Caption = "Cargando Indice de Superficies..."
@@ -455,7 +393,11 @@ Public Sub Main()
             End
         End If
 
+        .X.Caption = "Iniciando motor de audio"
         DoEvents
+        
+        Call Audio.Initialize(dX, frmMain.hwnd, "", DirAudio & "MIDI\", DirAudio & "MP3\")
+        
     
         With MapSize
             .XMax = XMaxMapSize
@@ -494,18 +436,15 @@ Public Function GetVar(File As String, Main As String, Var As String) As String
     'Last modified: 20/05/06
     '*************************************************
     Dim L        As Integer
-
     Dim Char     As String
-
     Dim sSpaces  As String ' This will hold the input that the program will retrieve
-
     Dim szReturn As String ' This will be the defaul value if the string is not found
 
     szReturn = vbNullString
     sSpaces = Space(5000) ' This tells the computer how long the longest string can be. If you want, you can change the number 75 to any number you wish
-    GetPrivateProfileString Main, Var, szReturn, sSpaces, Len(sSpaces), File
-    GetVar = RTrim(sSpaces)
-    GetVar = Left(GetVar, Len(GetVar) - 1)
+    Call GetPrivateProfileString(Main, Var, szReturn, sSpaces, Len(sSpaces), File)
+    GetVar = RTrim$(sSpaces)
+    GetVar = Left$(GetVar, Len(GetVar) - 1)
 
 End Function
 
@@ -514,7 +453,8 @@ Public Sub WriteVar(File As String, Main As String, Var As String, Value As Stri
     'Author: Unkwown
     'Last modified: 20/05/06
     '*************************************************
-    writeprivateprofilestring Main, Var, Value, File
+    
+    Call writeprivateprofilestring(Main, Var, Value, File)
 
 End Sub
 
@@ -573,7 +513,7 @@ Public Function RandomNumber(ByVal LowerBound As Variant, _
     'Author: Unkwown
     'Last modified: 20/05/06
     '*************************************************
-    Randomize Timer
+    Call Randomize(Timer)
     RandomNumber = (UpperBound - LowerBound) * Rnd + LowerBound
 
 End Function
@@ -647,40 +587,6 @@ Sub AddtoRichTextBox(ByRef RichTextBox As RichTextBox, _
 
 End Sub
 
-'*********************************************************************
-'Funciones que manejan la memoria
-'*********************************************************************
-
-Public Function General_Bytes_To_Megabytes(Bytes As Double) As Double
-
-    Dim dblAns As Double
-
-    dblAns = (Bytes / 1024) / 1024
-    General_Bytes_To_Megabytes = Format(dblAns, "###,###,##0.00")
-
-End Function
-
-Public Function General_Get_Free_Ram() As Double
-
-    'Return Value in Megabytes
-    Dim dblAns As Double
-
-    Call GlobalMemoryStatus(pUdtMemStatus)
-    
-    dblAns = pUdtMemStatus.dwAvailPhys
-    
-    General_Get_Free_Ram = General_Bytes_To_Megabytes(dblAns)
-
-End Function
-
-Public Function General_Get_Free_Ram_Bytes() As Long
-    
-    Call GlobalMemoryStatus(pUdtMemStatus)
-    
-    General_Get_Free_Ram_Bytes = pUdtMemStatus.dwAvailPhys
-
-End Function
-
 Public Function ColorToDX8(ByVal long_color As Long) As Long
 
     ' DX8 engine
@@ -691,7 +597,7 @@ Public Function ColorToDX8(ByVal long_color As Long) As Long
 
     If Len(temp_color) < 6 Then
         'Give is 6 digits for easy RGB conversion.
-        temp_color = String(6 - Len(temp_color), "0") + temp_color
+        temp_color = String$(6 - Len(temp_color), "0") + temp_color
     End If
     
     red = CLng("&H" + mid$(temp_color, 1, 2))
@@ -709,8 +615,8 @@ Public Function ReturnNumberFromString(ByVal sString As String) As String
    
    For i = 1 To LenB(sString)
    
-       If mid(sString, i, 1) Like "[0-9]" Then
-           ReturnNumberFromString = ReturnNumberFromString + mid(sString, i, 1)
+       If mid$(sString, i, 1) Like "[0-9]" Then
+           ReturnNumberFromString = ReturnNumberFromString + mid$(sString, i, 1)
        End If
        
    Next i

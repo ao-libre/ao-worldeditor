@@ -5,7 +5,6 @@ Option Explicit
 'Map format .CSM
 '***************************
 Private Type tMapHeader
-
     NumeroBloqueados As Long
     NumeroLayers(2 To 4) As Long
     NumeroTriggers As Long
@@ -14,74 +13,57 @@ Private Type tMapHeader
     NumeroNPCs As Long
     NumeroOBJs As Long
     NumeroTE As Long
-
 End Type
 
 Private Type tDatosBloqueados
-
     X As Integer
     Y As Integer
-
 End Type
 
 Private Type tDatosGrh
-
     X As Integer
     Y As Integer
     GrhIndex As Long
-
 End Type
 
 Private Type tDatosTrigger
-
     X As Integer
     Y As Integer
     Trigger As Integer
-
 End Type
 
 Private Type tDatosLuces
-
     X As Integer
     Y As Integer
     light_value(3) As Long
     base_light(0 To 3) As Boolean 'Indica si el tile tiene luz propia.
-
 End Type
 
 Private Type tDatosParticulas
-
     X As Integer
     Y As Integer
     Particula As Long
-
 End Type
 
 Private Type tDatosNPC
-
     X As Integer
     Y As Integer
     NPCIndex As Integer
-
 End Type
 
 Private Type tDatosObjs
-
     X As Integer
     Y As Integer
     objindex As Integer
     ObjAmmount As Integer
-
 End Type
 
 Private Type tDatosTE
-
     X As Integer
     Y As Integer
     DestM As Integer
     DestX As Integer
     DestY As Integer
-
 End Type
 
 Private Type tMapSize
@@ -94,12 +76,12 @@ Private Type tMapSize
 End Type
 
 Private Type tMapDat
-
     map_name As String
     battle_mode As Boolean
     backup_mode As Boolean
     restrict_mode As String
-    music_number As String
+    midi_number As String
+    mp3_number As String
     zone As String
     terrain As String
     ambient As String
@@ -110,15 +92,11 @@ Private Type tMapDat
     InviSinEfecto As Boolean
     NoEncriptarMP As Boolean
     version As Long
-
 End Type
 
 Public MapSize    As tMapSize
-
 Private MapDat    As tMapDat
-
 Private MapTitulo As String     ' GS > Almacena el titulo del mapa para el .dat
-
 Public MapaCargado_Integer  As Boolean
 
 ''
@@ -158,8 +136,7 @@ End Function
 ' @param file Especifica el path
 ' @param FileType Especifica el tipo de archivo/directorio
 ' @return   Nos devuelve verdadero o falso
-
-Public Function FileExist(ByVal file As String, _
+Public Function FileExist(ByVal File As String, _
                           ByVal FileType As VbFileAttribute) As Boolean
 
     '*************************************************
@@ -167,7 +144,7 @@ Public Function FileExist(ByVal file As String, _
     'Last modified: 26/05/06
     '*************************************************
     
-    If LenB(Dir$(file, FileType)) = 0 Then
+    If LenB(Dir$(File, FileType)) = 0 Then
         FileExist = False
     Else
         FileExist = True
@@ -188,7 +165,7 @@ Public Sub GuardarMapa(Optional Path As String)
 
     frmMain.Dialog.CancelError = True
 
-    On Error GoTo ErrHandler
+    On Error GoTo errhandler
 
     If LenB(Path) = 0 Then
         
@@ -209,7 +186,7 @@ Public Sub GuardarMapa(Optional Path As String)
             
     End Select
 
-ErrHandler:
+errhandler:
 
 End Sub
 
@@ -246,7 +223,7 @@ Public Sub NuevoMapa()
 
     On Error Resume Next
 
-    Dim loopC As Integer
+    Dim LoopC As Integer
     Dim Y     As Integer
     Dim X     As Integer
 
@@ -262,8 +239,8 @@ Public Sub NuevoMapa()
     
         MapaCargado = False
     
-        For loopC = 0 To .MapPest.count - 1
-            .MapPest(loopC).Enabled = False
+        For LoopC = 0 To .MapPest.count - 1
+            .MapPest(LoopC).Enabled = False
         Next
     
         .MousePointer = 11
@@ -318,8 +295,9 @@ Public Sub NuevoMapa()
     With MapInfo
     
         .MapVersion = 0
-        .Name = "Nuevo Mapa"
-        .Music = 0
+        .name = "Nuevo Mapa"
+        .midi = vbNullString
+        .mp3 = vbNullString
         .PK = True
         .MagiaSinEfecto = 0
         .InviSinEfecto = 0
@@ -365,29 +343,33 @@ Public Sub MapaV2_Guardar(ByVal SaveAs As String, Optional ByVal Preguntar As Bo
 
     Dim FreeFileMap As Long
     Dim FreeFileInf As Long
-    Dim loopC       As Long
+    Dim LoopC       As Long
     Dim TempInt     As Integer
     Dim Y           As Long
     Dim X           As Long
     Dim ByFlags     As Byte
 
     If FileExist(SaveAs, vbNormal) = True Then
+        
         If Preguntar Then
             If MsgBox("¿Desea sobrescribir " & SaveAs & "?", vbCritical + vbYesNo) = vbNo Then
                 Exit Sub
             Else
                 Call Kill(SaveAs)
             End If
+        
         Else
             Call Kill(SaveAs)
+            
         End If
+        
     End If
 
     frmMain.MousePointer = 11
 
     ' y borramos el .inf tambien
-    If FileExist(Left(SaveAs, Len(SaveAs) - 4) & ".inf", vbNormal) = True Then
-        Call Kill(Left(SaveAs, Len(SaveAs) - 4) & ".inf")
+    If FileExist(Left$(SaveAs, Len(SaveAs) - 4) & ".inf", vbNormal) = True Then
+        Call Kill(Left$(SaveAs, Len(SaveAs) - 4) & ".inf")
     End If
 
     'Open .map file
@@ -395,7 +377,7 @@ Public Sub MapaV2_Guardar(ByVal SaveAs As String, Optional ByVal Preguntar As Bo
     Open SaveAs For Binary As FreeFileMap
     Seek FreeFileMap, 1
 
-    SaveAs = Left(SaveAs, Len(SaveAs) - 4)
+    SaveAs = Left$(SaveAs, Len(SaveAs) - 4)
     SaveAs = SaveAs & ".inf"
 
     'Open .inf file
@@ -451,15 +433,15 @@ Public Sub MapaV2_Guardar(ByVal SaveAs As String, Optional ByVal Preguntar As Bo
                     Put FreeFileMap, , .Graphic(1).GrhIndex
                 End If
                 
-                For loopC = 2 To 4
+                For LoopC = 2 To 4
                     
                     If MapaCargado_Integer Then
-                        If .Graphic(loopC).GrhIndex Then Put FreeFileMap, , .Graphic(loopC).GrhIndexIntg
+                        If .Graphic(LoopC).GrhIndex Then Put FreeFileMap, , .Graphic(LoopC).GrhIndexIntg
                     Else
-                        If .Graphic(loopC).GrhIndex Then Put FreeFileMap, , .Graphic(loopC).GrhIndex
+                        If .Graphic(LoopC).GrhIndex Then Put FreeFileMap, , .Graphic(LoopC).GrhIndex
                     End If
 
-                Next loopC
+                Next LoopC
                     
                 If .Trigger Then Put FreeFileMap, , .Trigger
                 
@@ -533,7 +515,7 @@ Public Sub MapaV2_Cargar(ByVal Map As String, Optional ByVal EsInteger As Boolea
 
     On Error Resume Next
 
-    Dim loopC       As Integer
+    Dim LoopC       As Integer
     Dim TempInt     As Integer
     Dim Body        As Integer
     Dim Head        As Integer
@@ -558,7 +540,7 @@ Public Sub MapaV2_Cargar(ByVal Map As String, Optional ByVal EsInteger As Boolea
     Open Map For Binary As FreeFileMap
     Seek FreeFileMap, 1
     
-    Map = Left(Map, Len(Map) - 4)
+    Map = Left$(Map, Len(Map) - 4)
     Map = Map & ".inf"
     
     FreeFileInf = FreeFile
@@ -773,8 +755,10 @@ Public Sub MapInfo_Guardar(ByVal Archivo As String)
     Dim IniManager As clsIniManager
     Set IniManager = New clsIniManager
 
-    Call IniManager.ChangeValue(MapTitulo, "Name", MapInfo.Name)
-    Call IniManager.ChangeValue(MapTitulo, "MusicNum", MapInfo.Music)
+    Call IniManager.ChangeValue(MapTitulo, "Name", MapInfo.name)
+    Call IniManager.ChangeValue(MapTitulo, "MusicNum", MapInfo.midi)
+    Call IniManager.ChangeValue(MapTitulo, "MusicNumMp3", MapInfo.mp3)
+        
     Call IniManager.ChangeValue(MapTitulo, "MagiaSinefecto", Val(MapInfo.MagiaSinEfecto))
     Call IniManager.ChangeValue(MapTitulo, "InviSinEfecto", Val(MapInfo.InviSinEfecto))
     Call IniManager.ChangeValue(MapTitulo, "ResuSinEfecto", Val(MapInfo.ResuSinEfecto))
@@ -783,7 +767,7 @@ Public Sub MapInfo_Guardar(ByVal Archivo As String)
     Call IniManager.ChangeValue(MapTitulo, "Terreno", MapInfo.Terreno)
     Call IniManager.ChangeValue(MapTitulo, "Zona", MapInfo.Zona)
     Call IniManager.ChangeValue(MapTitulo, "Restringir", MapInfo.Restringir)
-    Call IniManager.ChangeValue(MapTitulo, "BackUp", Str(MapInfo.BackUp))
+    Call IniManager.ChangeValue(MapTitulo, "BackUp", Str$(MapInfo.BackUp))
 
     If MapInfo.PK Then
         Call IniManager.ChangeValue(MapTitulo, "Pk", "0")
@@ -811,7 +795,7 @@ Public Sub MapInfo_Cargar(ByVal Archivo As String)
     On Error Resume Next
 
     Dim Leer  As New clsIniManager
-    Dim loopC As Integer
+    Dim LoopC As Integer
     Dim Path  As String
 
     MapTitulo = Empty
@@ -823,22 +807,23 @@ Public Sub MapInfo_Cargar(ByVal Archivo As String)
     
     Call Leer.Initialize(Archivo)
 
-    For loopC = Len(Archivo) To 1 Step -1
+    For LoopC = Len(Archivo) To 1 Step -1
 
-        If mid(Archivo, loopC, 1) = "\" Then
-            Path = Left(Archivo, loopC)
+        If mid$(Archivo, LoopC, 1) = "\" Then
+            Path = Left$(Archivo, LoopC)
             Exit For
         End If
 
     Next
     
-    Archivo = Right(Archivo, Len(Archivo) - (Len(Path)))
-    MapTitulo = UCase(Left(Archivo, Len(Archivo) - 4))
+    Archivo = Right$(Archivo, Len(Archivo) - (Len(Path)))
+    MapTitulo = UCase(Left$(Archivo, Len(Archivo) - 4))
     
     With MapInfo
     
-        .Name = Leer.GetValue(MapTitulo, "Name")
-        .Music = Leer.GetValue(MapTitulo, "MusicNum")
+        .name = Leer.GetValue(MapTitulo, "Name")
+        .midi = Leer.GetValue(MapTitulo, "MusicNum")
+        .mp3 = Leer.GetValue(MapTitulo, "MusicNumMp3")
         .MagiaSinEfecto = Val(Leer.GetValue(MapTitulo, "MagiaSinEfecto"))
         .InviSinEfecto = Val(Leer.GetValue(MapTitulo, "InviSinEfecto"))
         .ResuSinEfecto = Val(Leer.GetValue(MapTitulo, "ResuSinEfecto"))
@@ -878,21 +863,23 @@ Public Sub MapInfo_Actualizar()
     ' Mostrar en Formularios
     With frmMapInfo
     
-        .txtMapNombre.Text = MapInfo.Name
-        .txtMapMusica.Text = MapInfo.Music
+        .txtMapNombre.Text = MapInfo.name
+        .txtMapMusica.Text = MapInfo.midi
+        .txtMapMP3.Text = MapInfo.mp3
         .txtMapTerreno.Text = MapInfo.Terreno
         .txtMapZona.Text = MapInfo.Zona
         .txtMapRestringir.Text = MapInfo.Restringir
         '.chkMapBackup.value = MapInfo.BackUp
-        .chkMapMagiaSinEfecto.value = MapInfo.MagiaSinEfecto
+        .chkMapMagiaSinEfecto.Value = MapInfo.MagiaSinEfecto
         '.chkMapInviSinEfecto.value = MapInfo.InviSinEfecto
         '.ChkMapNpc.value = MapInfo.SePuedeDomar
-        .chkMapResuSinEfecto.value = MapInfo.ResuSinEfecto
-        .chkMapNoEncriptarMP.value = MapInfo.NoEncriptarMP
-        .chkMapPK.value = IIf(MapInfo.PK = True, 1, 0)
+        .chkMapResuSinEfecto.Value = MapInfo.ResuSinEfecto
+        .chkMapNoEncriptarMP.Value = MapInfo.NoEncriptarMP
+        .chkMapPK.Value = IIf(MapInfo.PK = True, 1, 0)
         .txtMapVersion = MapInfo.MapVersion
-        frmMain.lblMapNombre = MapInfo.Name
-        frmMain.lblMapMusica = MapInfo.Music
+        frmMain.lblMapNombre = MapInfo.name
+        frmMain.lblMapMusica = MapInfo.midi
+        frmMain.lblMapMP3 = MapInfo.mp3
         frmMain.lblMapAmbient = MapInfo.ambient
         .TxtlvlMinimo = MapInfo.lvlMinimo
         .TxtAmbient = MapInfo.ambient
@@ -914,37 +901,37 @@ Public Sub Pestañas(ByVal Map As String, ByVal formato As String)
     '*************************************************
     On Error Resume Next
 
-    Dim loopC As Integer
+    Dim LoopC As Integer
 
-    For loopC = Len(Map) To 1 Step -1
+    For LoopC = Len(Map) To 1 Step -1
 
-        If mid(Map, loopC, 1) = "\" Then
-            PATH_Save = Left(Map, loopC)
+        If mid$(Map, LoopC, 1) = "\" Then
+            PATH_Save = Left$(Map, LoopC)
             Exit For
         End If
 
     Next
-    Map = Right(Map, Len(Map) - (Len(PATH_Save)))
+    Map = Right$(Map, Len(Map) - (Len(PATH_Save)))
 
-    For loopC = Len(Left(Map, Len(Map) - 4)) To 1 Step -1
+    For LoopC = Len(Left$(Map, Len(Map) - 4)) To 1 Step -1
 
-        If IsNumeric(mid(Left(Map, Len(Map) - 4), loopC, 1)) = False Then
-            NumMap_Save = Right(Left(Map, Len(Map) - 4), Len(Left(Map, Len(Map) - 4)) - loopC)
-            NameMap_Save = Left(Map, loopC)
+        If IsNumeric(mid$(Left$(Map, Len(Map) - 4), LoopC, 1)) = False Then
+            NumMap_Save = Right$(Left$(Map, Len(Map) - 4), Len(Left$(Map, Len(Map) - 4)) - LoopC)
+            NameMap_Save = Left$(Map, LoopC)
             Exit For
 
         End If
 
     Next
 
-    For loopC = (NumMap_Save - 7) To (NumMap_Save + 10)
+    For LoopC = (NumMap_Save - 7) To (NumMap_Save + 10)
 
-        If FileExist(PATH_Save & NameMap_Save & loopC & formato, vbArchive) = True Then
-            frmMain.MapPest(loopC - NumMap_Save + 7).Visible = True
-            frmMain.MapPest(loopC - NumMap_Save + 7).Enabled = True
-            frmMain.MapPest(loopC - NumMap_Save + 7).Caption = NameMap_Save & loopC
+        If FileExist(PATH_Save & NameMap_Save & LoopC & formato, vbArchive) = True Then
+            frmMain.MapPest(LoopC - NumMap_Save + 7).Visible = True
+            frmMain.MapPest(LoopC - NumMap_Save + 7).Enabled = True
+            frmMain.MapPest(LoopC - NumMap_Save + 7).Caption = NameMap_Save & LoopC
         Else
-            frmMain.MapPest(loopC - NumMap_Save + 7).Visible = False
+            frmMain.MapPest(LoopC - NumMap_Save + 7).Visible = False
 
         End If
 
@@ -960,7 +947,7 @@ Sub Cargar_CSM(ByVal Map As String)
     On Error GoTo ErrorHandler
 
     Dim fh           As Integer
-    Dim file         As Integer
+    Dim File         As Integer
     Dim MH           As tMapHeader
 
     Dim Blqs()       As tDatosBloqueados
@@ -978,7 +965,7 @@ Sub Cargar_CSM(ByVal Map As String)
     Dim TEs()        As tDatosTE
 
     Dim i            As Long
-    Dim j            As Long
+    Dim J            As Long
 
     DoEvents
     
@@ -989,13 +976,13 @@ Sub Cargar_CSM(ByVal Map As String)
     Open Map For Binary Access Read As fh
     Get #fh, , MH
     Get #fh, , MapSize
+    
     '¿Queremos cargar un mapa de IAO 1.4?
     Get #fh, , MapDat
     
     With MapSize
         ReDim MapData(.XMin To .XMax, .YMin To .YMax)
         ReDim L1(.XMin To .XMax, .YMin To .YMax)
-
     End With
     
     Get #fh, , L1
@@ -1017,7 +1004,7 @@ Sub Cargar_CSM(ByVal Map As String)
             Get #fh, , L2
 
             For i = 1 To .NumeroLayers(2)
-                InitGrh MapData(L2(i).X, L2(i).Y).Graphic(2), L2(i).GrhIndex
+                Call InitGrh(MapData(L2(i).X, L2(i).Y).Graphic(2), L2(i).GrhIndex)
             Next i
 
         End If
@@ -1027,7 +1014,7 @@ Sub Cargar_CSM(ByVal Map As String)
             Get #fh, , L3
 
             For i = 1 To .NumeroLayers(3)
-                InitGrh MapData(L3(i).X, L3(i).Y).Graphic(3), L3(i).GrhIndex
+                Call InitGrh(MapData(L3(i).X, L3(i).Y).Graphic(3), L3(i).GrhIndex)
             Next i
 
         End If
@@ -1069,12 +1056,14 @@ Sub Cargar_CSM(ByVal Map As String)
 
             Get #fh, , Luces
             'For i = 1 To .NumeroLuces
-            'For p = 0 To 3
-            'MapData(Luces(i).X, Luces(i).y).base_light(p) = Luces(i).base_light(p)
-            'If MapData(Luces(i).X, Luces(i).y).base_light(p) Then _
-             MapData(Luces(i).X, Luces(i).y).light_value(p) = Luces(i).light_value(p)
-
-            'Next p
+                'For p = 0 To 3
+                    'MapData(Luces(i).X, Luces(i).y).base_light(p) = Luces(i).base_light(p)
+                    
+                    'If MapData(Luces(i).X, Luces(i).y).base_light(p) Then
+                        'MapData(Luces(i).X, Luces(i).Y).light_value(p) = Luces(i).light_value(p)
+                    'End If
+    
+                'Next p
             'Next i
         End If
             
@@ -1087,9 +1076,9 @@ Sub Cargar_CSM(ByVal Map As String)
                 MapData(Objetos(i).X, Objetos(i).Y).OBJInfo.Amount = Objetos(i).ObjAmmount
 
                 If MapData(Objetos(i).X, Objetos(i).Y).OBJInfo.objindex > NumOBJs Then
-                    InitGrh MapData(Objetos(i).X, Objetos(i).Y).ObjGrh, 20299
+                    Call InitGrh(MapData(Objetos(i).X, Objetos(i).Y).ObjGrh, 20299)
                 Else
-                    InitGrh MapData(Objetos(i).X, Objetos(i).Y).ObjGrh, ObjData(MapData(Objetos(i).X, Objetos(i).Y).OBJInfo.objindex).GrhIndex
+                    Call InitGrh(MapData(Objetos(i).X, Objetos(i).Y).ObjGrh, ObjData(MapData(Objetos(i).X, Objetos(i).Y).OBJInfo.objindex).GrhIndex)
 
                 End If
 
@@ -1129,16 +1118,16 @@ Sub Cargar_CSM(ByVal Map As String)
 
     Close fh
 
-    For j = MapSize.YMin To MapSize.YMax
+    For J = MapSize.YMin To MapSize.YMax
         For i = MapSize.XMin To MapSize.XMax
 
-            If L1(i, j) > 0 Then
-                InitGrh MapData(i, j).Graphic(1), L1(i, j)
+            If L1(i, J) > 0 Then
+                InitGrh MapData(i, J).Graphic(1), L1(i, J)
 
             End If
 
         Next i
-    Next j
+    Next J
 
     '*******************************
     'Render lights
@@ -1166,14 +1155,16 @@ Sub Cargar_CSM(ByVal Map As String)
     MapaCargado = True
     
     Call AddtoRichTextBox(frmMain.StatTxt, "Mapa " & Map & " cargado...", 0, 255, 0)
+    
 ErrorHandler:
 
     If fh <> 0 Then Close fh
     Call AddtoRichTextBox(frmMain.StatTxt, "Error en el Mapa " & Map & ", se ha generado un informe de errores en: " & App.Path & "\Logs.txt", 255, 0, 0)
-    file = FreeFile
-    Open App.Path & "\Logs.txt" For Output As #file
-    Print #file, Err.Description
-    Close #file
+    
+    File = FreeFile
+    Open App.Path & "\Logs.txt" For Output As #File
+        Print #File, Err.Description
+    Close #File
 
 End Sub
 
@@ -1198,7 +1189,7 @@ Public Function Save_CSM(ByVal MapRoute As String) As Boolean
     Dim TEs()        As tDatosTE
     
     Dim i            As Integer
-    Dim j            As Integer
+    Dim J            As Integer
 
     If FileExist(MapRoute, vbNormal) = True Then
         If MsgBox("¿Desea sobrescribir " & MapRoute & "?", vbCritical + vbYesNo) = vbNo Then
@@ -1214,26 +1205,26 @@ Public Function Save_CSM(ByVal MapRoute As String) As Boolean
 
     ReDim L1(MapSize.XMin To MapSize.XMax, MapSize.YMin To MapSize.YMax)
 
-    For j = MapSize.YMin To MapSize.YMax
+    For J = MapSize.YMin To MapSize.YMax
         For i = MapSize.XMin To MapSize.XMax
 
-            With MapData(i, j)
+            With MapData(i, J)
 
                 If .blocked Then
                     MH.NumeroBloqueados = MH.NumeroBloqueados + 1
                     ReDim Preserve Blqs(1 To MH.NumeroBloqueados)
                     Blqs(MH.NumeroBloqueados).X = i
-                    Blqs(MH.NumeroBloqueados).Y = j
+                    Blqs(MH.NumeroBloqueados).Y = J
 
                 End If
             
-                L1(i, j) = .Graphic(1).GrhIndex
+                L1(i, J) = .Graphic(1).GrhIndex
             
                 If .Graphic(2).GrhIndex > 0 Then
                     MH.NumeroLayers(2) = MH.NumeroLayers(2) + 1
                     ReDim Preserve L2(1 To MH.NumeroLayers(2))
                     L2(MH.NumeroLayers(2)).X = i
-                    L2(MH.NumeroLayers(2)).Y = j
+                    L2(MH.NumeroLayers(2)).Y = J
                     L2(MH.NumeroLayers(2)).GrhIndex = .Graphic(2).GrhIndex
 
                 End If
@@ -1242,7 +1233,7 @@ Public Function Save_CSM(ByVal MapRoute As String) As Boolean
                     MH.NumeroLayers(3) = MH.NumeroLayers(3) + 1
                     ReDim Preserve L3(1 To MH.NumeroLayers(3))
                     L3(MH.NumeroLayers(3)).X = i
-                    L3(MH.NumeroLayers(3)).Y = j
+                    L3(MH.NumeroLayers(3)).Y = J
                     L3(MH.NumeroLayers(3)).GrhIndex = .Graphic(3).GrhIndex
 
                 End If
@@ -1251,7 +1242,7 @@ Public Function Save_CSM(ByVal MapRoute As String) As Boolean
                     MH.NumeroLayers(4) = MH.NumeroLayers(4) + 1
                     ReDim Preserve L4(1 To MH.NumeroLayers(4))
                     L4(MH.NumeroLayers(4)).X = i
-                    L4(MH.NumeroLayers(4)).Y = j
+                    L4(MH.NumeroLayers(4)).Y = J
                     L4(MH.NumeroLayers(4)).GrhIndex = .Graphic(4).GrhIndex
 
                 End If
@@ -1260,7 +1251,7 @@ Public Function Save_CSM(ByVal MapRoute As String) As Boolean
                     MH.NumeroTriggers = MH.NumeroTriggers + 1
                     ReDim Preserve Triggers(1 To MH.NumeroTriggers)
                     Triggers(MH.NumeroTriggers).X = i
-                    Triggers(MH.NumeroTriggers).Y = j
+                    Triggers(MH.NumeroTriggers).Y = J
                     Triggers(MH.NumeroTriggers).Trigger = .Trigger
 
                 End If
@@ -1269,23 +1260,27 @@ Public Function Save_CSM(ByVal MapRoute As String) As Boolean
                     MH.NumeroParticulas = MH.NumeroParticulas + 1
                     ReDim Preserve Particulas(1 To MH.NumeroParticulas)
                     Particulas(MH.NumeroParticulas).X = i
-                    Particulas(MH.NumeroParticulas).Y = j
+                    Particulas(MH.NumeroParticulas).Y = J
                     Particulas(MH.NumeroParticulas).Particula = CLng(particle_group_list(.particle_group_index).stream_type)
 
                 End If
            
-                'If .base_light(0) Or .base_light(1) _
-                '        Or .base_light(2) Or .base_light(3) Then
+                'If .base_light(0) Or .base_light(1) Or .base_light(2) Or .base_light(3) Then
+                
                 '    MH.NumeroLuces = MH.NumeroLuces + 1
                 '    ReDim Preserve Luces(1 To MH.NumeroLuces)
-                '    Dim p As Byte
+                
                 '    Luces(MH.NumeroLuces).X = i
                 '    Luces(MH.NumeroLuces).y = j
+                
+                '    Dim p As Byte
                 '    For p = 0 To 3
                 '        Luces(MH.NumeroLuces).base_light(p) = .base_light(p)
-                '        If .base_light(p) Then _
+                '        If .base_light(p) Then
                 '            Luces(MH.NumeroLuces).light_value(p) = .light_value(p)
+                '        End If
                 '    Next p
+                
                 'End If
             
                 If .OBJInfo.objindex > 0 Then
@@ -1294,7 +1289,7 @@ Public Function Save_CSM(ByVal MapRoute As String) As Boolean
                     Objetos(MH.NumeroOBJs).objindex = .OBJInfo.objindex
                     Objetos(MH.NumeroOBJs).ObjAmmount = .OBJInfo.Amount
                     Objetos(MH.NumeroOBJs).X = i
-                    Objetos(MH.NumeroOBJs).Y = j
+                    Objetos(MH.NumeroOBJs).Y = J
 
                 End If
             
@@ -1303,7 +1298,7 @@ Public Function Save_CSM(ByVal MapRoute As String) As Boolean
                     ReDim Preserve NPCs(1 To MH.NumeroNPCs)
                     NPCs(MH.NumeroNPCs).NPCIndex = .NPCIndex
                     NPCs(MH.NumeroNPCs).X = i
-                    NPCs(MH.NumeroNPCs).Y = j
+                    NPCs(MH.NumeroNPCs).Y = J
 
                 End If
             
@@ -1314,14 +1309,14 @@ Public Function Save_CSM(ByVal MapRoute As String) As Boolean
                     TEs(MH.NumeroTE).DestX = .TileExit.X
                     TEs(MH.NumeroTE).DestY = .TileExit.Y
                     TEs(MH.NumeroTE).X = i
-                    TEs(MH.NumeroTE).Y = j
+                    TEs(MH.NumeroTE).Y = J
 
                 End If
 
             End With
 
         Next i
-    Next j
+    Next J
 
     Call CSMInfoSave
           
@@ -1380,8 +1375,9 @@ Public Sub CSMInfoSave()
 
     With MapDat
     
-        .map_name = MapInfo.Name
-        .music_number = MapInfo.Music
+        .map_name = MapInfo.name
+        .music_number = MapInfo.midi
+        .mp3_number = MapInfo.mp3
         .MagiaSinEfecto = MapInfo.MagiaSinEfecto
         .InviSinEfecto = MapInfo.InviSinEfecto
         .ResuSinEfecto = MapInfo.ResuSinEfecto
@@ -1411,8 +1407,9 @@ Public Sub CSMInfoCargar()
     
     With MapInfo
     
-        .Name = MapDat.map_name
-        .Music = MapDat.music_number
+        .name = MapDat.map_name
+        .midi = MapDat.midi_number
+        .mp3 = MapDat.mp3_number
         .MagiaSinEfecto = MapDat.MagiaSinEfecto
         .InviSinEfecto = MapDat.InviSinEfecto
         .ResuSinEfecto = MapDat.ResuSinEfecto
