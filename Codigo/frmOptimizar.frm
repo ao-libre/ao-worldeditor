@@ -147,7 +147,7 @@ Private Sub Optimizar()
         For X = XMinMapSize To XMaxMapSize
 
             ' ** Quitar NPCs, Objetos y Translados en los Bordes Exteriores
-            If (X < MinXBorder Or X > MaxXBorder Or Y < MinYBorder Or Y > MaxYBorder) And chkQuitarTodoBordes.value = 1 Then
+            If (X < MinXBorder Or X > MaxXBorder Or Y < MinYBorder Or Y > MaxYBorder) And chkQuitarTodoBordes.Value = 1 Then
 
                 'Quitar NPCs
                 If MapData(X, Y).NPCIndex > 0 Then
@@ -171,11 +171,11 @@ Private Sub Optimizar()
 
             ' ** Quitar Translados y Triggers en Bloqueo
             If MapData(X, Y).blocked = 1 Then
-                If MapData(X, Y).TileExit.Map > 0 And chkQuitarTrans.value = 1 Then ' Quita Translado Bloqueado
+                If MapData(X, Y).TileExit.Map > 0 And chkQuitarTrans.Value = 1 Then ' Quita Translado Bloqueado
                     MapData(X, Y).TileExit.Map = 0
                     MapData(X, Y).TileExit.Y = 0
                     MapData(X, Y).TileExit.X = 0
-                ElseIf MapData(X, Y).Trigger > 0 And chkQuitarTrigBloq.value = 1 Then ' Quita Trigger Bloqueado
+                ElseIf MapData(X, Y).Trigger > 0 And chkQuitarTrigBloq.Value = 1 Then ' Quita Trigger Bloqueado
                     MapData(X, Y).Trigger = 0
 
                 End If
@@ -183,7 +183,7 @@ Private Sub Optimizar()
             End If
 
             ' ** Quitar Triggers en Translado
-            If MapData(X, Y).TileExit.Map > 0 And chkQuitarTrigTrans.value = 1 Then
+            If MapData(X, Y).TileExit.Map > 0 And chkQuitarTrigTrans.Value = 1 Then
                 If MapData(X, Y).Trigger > 0 Then ' Quita Trigger en Translado
                     MapData(X, Y).Trigger = 0
 
@@ -192,14 +192,14 @@ Private Sub Optimizar()
             End If
 
             ' ** Mapea Arboles, Carteles, Foros y Yacimientos que no esten en la 3ra Capa
-            If MapData(X, Y).OBJInfo.objindex > 0 And (chkMapearArbolesEtc.value = 1 Or chkBloquearArbolesEtc.value = 1) Then
+            If MapData(X, Y).OBJInfo.objindex > 0 And (chkMapearArbolesEtc.Value = 1 Or chkBloquearArbolesEtc.Value = 1) Then
 
                 Select Case ObjData(MapData(X, Y).OBJInfo.objindex).ObjType
 
                     Case 4, 8, 10, 22 ' Arboles, Carteles, Foros, Yacimientos
 
-                        If MapData(X, Y).Graphic(3).GrhIndex <> MapData(X, Y).ObjGrh.GrhIndex And chkMapearArbolesEtc.value = 1 Then MapData(X, Y).Graphic(3) = MapData(X, Y).ObjGrh
-                        If chkBloquearArbolesEtc.value = 1 And MapData(X, Y).blocked = 0 Then MapData(X, Y).blocked = 1
+                        If MapData(X, Y).Graphic(3).GrhIndex <> MapData(X, Y).ObjGrh.GrhIndex And chkMapearArbolesEtc.Value = 1 Then MapData(X, Y).Graphic(3) = MapData(X, Y).ObjGrh
+                        If chkBloquearArbolesEtc.Value = 1 And MapData(X, Y).blocked = 0 Then MapData(X, Y).blocked = 1
 
                 End Select
 

@@ -103,50 +103,7 @@ Begin VB.Form frmMain
          Value           =   0   'False
          cBack           =   -2147483633
       End
-      Begin VB.Label lblMapMP3 
-         Alignment       =   1  'Right Justify
-         AutoSize        =   -1  'True
-         BackColor       =   &H8000000D&
-         BackStyle       =   0  'Transparent
-         Caption         =   "0"
-         BeginProperty Font 
-            Name            =   "Arial"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00000000&
-         Height          =   210
-         Left            =   1800
-         TabIndex        =   144
-         Top             =   360
-         Width           =   90
-      End
-      Begin VB.Label LblMP3 
-         BackStyle       =   0  'Transparent
-         BorderStyle     =   1  'Fixed Single
-         Caption         =   "MP3:"
-         BeginProperty Font 
-            Name            =   "Arial"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H000080FF&
-         Height          =   270
-         Left            =   1080
-         TabIndex        =   143
-         Top             =   315
-         Width           =   855
-      End
       Begin VB.Label lblMapAmbient 
-         Alignment       =   1  'Right Justify
          AutoSize        =   -1  'True
          BackColor       =   &H8000000D&
          BackStyle       =   0  'Transparent
@@ -162,7 +119,7 @@ Begin VB.Form frmMain
          EndProperty
          ForeColor       =   &H00000000&
          Height          =   210
-         Left            =   3000
+         Left            =   2520
          TabIndex        =   141
          Top             =   360
          Width           =   90
@@ -183,10 +140,10 @@ Begin VB.Form frmMain
          EndProperty
          ForeColor       =   &H000080FF&
          Height          =   270
-         Left            =   2040
+         Left            =   1680
          TabIndex        =   140
          Top             =   315
-         Width           =   1095
+         Width           =   1455
       End
       Begin VB.Label lblFNombreMapa 
          BackColor       =   &H8000000D&
@@ -229,6 +186,26 @@ Begin VB.Form frmMain
          Top             =   960
          Width           =   3015
       End
+      Begin VB.Label lblFMusica 
+         BackStyle       =   0  'Transparent
+         BorderStyle     =   1  'Fixed Single
+         Caption         =   "Musica:"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H000080FF&
+         Height          =   270
+         Left            =   105
+         TabIndex        =   94
+         Top             =   315
+         Width           =   1455
+      End
       Begin VB.Label lblMapNombre 
          AutoSize        =   -1  'True
          BackColor       =   &H8000000D&
@@ -251,7 +228,6 @@ Begin VB.Form frmMain
          Width           =   900
       End
       Begin VB.Label lblMapMusica 
-         Alignment       =   1  'Right Justify
          AutoSize        =   -1  'True
          BackColor       =   &H8000000D&
          BackStyle       =   0  'Transparent
@@ -267,7 +243,7 @@ Begin VB.Form frmMain
          EndProperty
          ForeColor       =   &H00000000&
          Height          =   210
-         Left            =   840
+         Left            =   1080
          TabIndex        =   92
          Top             =   360
          Width           =   90
@@ -292,26 +268,6 @@ Begin VB.Form frmMain
          TabIndex        =   91
          Top             =   1010
          Width           =   105
-      End
-      Begin VB.Label lblFMusica 
-         BackStyle       =   0  'Transparent
-         BorderStyle     =   1  'Fixed Single
-         Caption         =   "Midi:"
-         BeginProperty Font 
-            Name            =   "Arial"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H000080FF&
-         Height          =   270
-         Left            =   105
-         TabIndex        =   94
-         Top             =   315
-         Width           =   855
       End
    End
    Begin VB.PictureBox PreviewGrh 
@@ -2754,7 +2710,7 @@ Begin VB.Form frmMain
       Value           =   0   'False
       CustomClick     =   1
       ImgAlign        =   5
-      'Image           =   "frmMain.frx":5F4F1
+      Image           =   "frmMain.frx":5E5B7
       ImgSize         =   24
       cBack           =   -2147483633
    End
@@ -2786,7 +2742,7 @@ Begin VB.Form frmMain
       Value           =   0   'False
       CustomClick     =   1
       ImgAlign        =   5
-      'Image           =   "frmMain.frx":5FB32
+      Image           =   "frmMain.frx":5EBF8
       ImgSize         =   24
       cBack           =   -2147483633
    End
@@ -2818,7 +2774,7 @@ Begin VB.Form frmMain
       Value           =   0   'False
       CustomClick     =   1
       ImgAlign        =   5
-      'Image           =   "frmMain.frx":601B4
+      Image           =   "frmMain.frx":5F27A
       ImgSize         =   24
       Enabled         =   0   'False
       cBack           =   -2147483633
@@ -3694,14 +3650,13 @@ Private Sub PonerAlAzar(ByVal n As Integer, T As Byte)
     'Author: Unkwown
     'Last modified: 20/05/06 by GS
     '*************************************************
-    Dim objindex    As Long
-    Dim NPCIndex    As Long
-    Dim X, Y        As Integer
-    Dim i           As Long
-    Dim Head        As Integer
-    Dim Body        As Integer
-    Dim Heading     As Byte
-    Dim Leer        As New clsIniManager
+    Dim objindex As Long
+    Dim NPCIndex As Long
+    Dim X, Y, i
+    Dim Head    As Integer
+    Dim Body    As Integer
+    Dim Heading As Byte
+    Dim Leer    As New clsIniManager
 
     i = n
 
@@ -4071,12 +4026,36 @@ Call Resolucion
  
     Select Case index
 
-        Case 0 'Arriba
+        Case 0 'Arriba       MapData(X, Y).Graphic(3).GrhIndex = 0
+        
+            For Y = 1 To An  ' borrado
+                For X = 1 To 100
+                
+                    'Quitar NPCs
+                    If MapData(X, Y).NPCIndex > 0 Then
+                        EraseChar MapData(X, Y).CharIndex
+                        MapData(X, Y).NPCIndex = 0
+                    End If
+    
+                    ' Quitar Objetos
+                    MapData(X, Y).OBJInfo.objindex = 0
+                    MapData(X, Y).OBJInfo.Amount = 0
+                    MapData(X, Y).ObjGrh.GrhIndex = 0
+    
+                    ' Quitar Triggers
+                    MapData(X, Y).Trigger = 0
+              
+                    ' Quitar Graficos
+                    MapData(X, Y).Graphic(1).GrhIndex = 0
+                    MapData(X, Y).Graphic(2).GrhIndex = 0
+                    MapData(X, Y).Graphic(3).GrhIndex = 0
+                    MapData(X, Y).OBJInfo.objindex = 0
+
+                Next
+            Next
 
             For Y = 1 To An
                 For X = 1 To 100
-
-
                     MapData(X, Y).Graphic(1) = MapData_Adyacente(X, TXTArriba + Y).Graphic(1)
                     MapData(X, Y).Graphic(2) = MapData_Adyacente(X, TXTArriba + Y).Graphic(2)
                     MapData(X, Y).Graphic(3) = MapData_Adyacente(X, TXTArriba + Y).Graphic(3)
@@ -4086,6 +4065,30 @@ Call Resolucion
             MapInfo.Changed = 1
                        
         Case 1 'Derecha
+        
+            For Y = 1 To 100
+                For X = Bn To 100
+                    'Quitar NPCs
+                    If MapData(X, Y).NPCIndex > 0 Then
+                        EraseChar MapData(X, Y).CharIndex
+                        MapData(X, Y).NPCIndex = 0
+                    End If
+    
+                    ' Quitar Objetos
+                    MapData(X, Y).OBJInfo.objindex = 0
+                    MapData(X, Y).OBJInfo.Amount = 0
+                    MapData(X, Y).ObjGrh.GrhIndex = 0
+    
+                    ' Quitar Triggers
+                    MapData(X, Y).Trigger = 0
+              
+                    ' Quitar Graficos
+                    MapData(X, Y).Graphic(1).GrhIndex = 0
+                    MapData(X, Y).Graphic(2).GrhIndex = 0
+                    MapData(X, Y).Graphic(3).GrhIndex = 0
+                    MapData(X, Y).OBJInfo.objindex = 0
+                Next
+            Next
 
             For Y = 1 To 100
                 For X = Bn To 100
@@ -4101,6 +4104,30 @@ Call Resolucion
 
             For Y = 1 To 100
                 For X = 1 To Cn
+                    'Quitar NPCs
+                    If MapData(X, Y).NPCIndex > 0 Then
+                        EraseChar MapData(X, Y).CharIndex
+                        MapData(X, Y).NPCIndex = 0
+                    End If
+    
+                    ' Quitar Objetos
+                    MapData(X, Y).OBJInfo.objindex = 0
+                    MapData(X, Y).OBJInfo.Amount = 0
+                    MapData(X, Y).ObjGrh.GrhIndex = 0
+    
+                    ' Quitar Triggers
+                    MapData(X, Y).Trigger = 0
+              
+                    ' Quitar Graficos
+                    MapData(X, Y).Graphic(1).GrhIndex = 0
+                    MapData(X, Y).Graphic(2).GrhIndex = 0
+                    MapData(X, Y).Graphic(3).GrhIndex = 0
+                    MapData(X, Y).OBJInfo.objindex = 0
+                Next
+            Next
+
+            For Y = 1 To 100
+                For X = 1 To Cn
                     MapData(X, Y).Graphic(1) = MapData_Adyacente(X + TxTIzquierda, Y).Graphic(1)
                     MapData(X, Y).Graphic(2) = MapData_Adyacente(X + TxTIzquierda, Y).Graphic(2)
                     MapData(X, Y).Graphic(3) = MapData_Adyacente(X + TxTIzquierda, Y).Graphic(3)
@@ -4111,6 +4138,29 @@ Call Resolucion
                         
         Case 3 'Abajo
 
+            For Y = Dn To 100
+                For X = 1 To 100
+                    'Quitar NPCs
+                    If MapData(X, Y).NPCIndex > 0 Then
+                        EraseChar MapData(X, Y).CharIndex
+                        MapData(X, Y).NPCIndex = 0
+                    End If
+    
+                    ' Quitar Objetos
+                    MapData(X, Y).OBJInfo.objindex = 0
+                    MapData(X, Y).OBJInfo.Amount = 0
+                    MapData(X, Y).ObjGrh.GrhIndex = 0
+    
+                    ' Quitar Triggers
+                    MapData(X, Y).Trigger = 0
+              
+                    ' Quitar Graficos
+                    MapData(X, Y).Graphic(1).GrhIndex = 0
+                    MapData(X, Y).Graphic(2).GrhIndex = 0
+                    MapData(X, Y).Graphic(3).GrhIndex = 0
+                    MapData(X, Y).OBJInfo.objindex = 0
+                Next
+            Next
             For Y = Dn To 100
                 For X = 1 To 100
                     MapData(X, Y).Graphic(1) = MapData_Adyacente(X, Y - TxTAbajo).Graphic(1)
@@ -4192,6 +4242,7 @@ Private Sub cNumFunc_KeyPress(index As Integer, KeyAscii As Integer)
 
         frmMain.cNumFunc(index).AddItem frmMain.cNumFunc(index).Text
         Exit Sub
+    ElseIf KeyAscii = 8 Then
     
     ElseIf IsNumeric(Chr(KeyAscii)) = False Then
         KeyAscii = 0
@@ -4451,11 +4502,13 @@ Private Sub Form_Click()
 End Sub
 
 Private Sub Form_DblClick()
+    'MsgBox "Sos 1 pelotudo."
     '*************************************************
     'Author: ^[GS]^
     'Last modified: 28/05/06
     '*************************************************
     Dim tX As Integer
+
     Dim tY As Integer
 
     If Not MapaCargado Then Exit Sub
@@ -4596,13 +4649,9 @@ Private Sub lListado_MouseDown(index As Integer, _
     'Author: ^[GS]^
     'Last modified: 29/05/06
     '*************************************************
-    
     If index = 3 And Button = 2 Then
-        
-        If lListado(3).ListIndex > -1 Then
-            Call Me.PopupMenu(mnuObjSc)
-        End If
-        
+        If lListado(3).ListIndex > -1 Then Me.PopupMenu mnuObjSc
+
     End If
 
 End Sub
@@ -4949,9 +4998,11 @@ Private Sub MapPest_Click(index As Integer)
     If (index + NumMap_Save - 4) <> NumMap_Save Then
         Dialog.CancelError = True
 
-        On Error GoTo errhandler
+        On Error GoTo ErrHandler
 
         Dialog.FileName = PATH_Save & NameMap_Save & (index + NumMap_Save - 7) & formato
+
+
 
         Call modMapIO.NuevoMapa
         
@@ -4973,7 +5024,7 @@ Private Sub MapPest_Click(index As Integer)
     
         Exit Sub
     
-errhandler:
+ErrHandler:
         Call MsgBox(Err.Description)
 
 End Sub
@@ -5044,7 +5095,7 @@ Private Sub AbrirMapa(ByVal Selector As Byte)
     '*************************************************
     Dialog.CancelError = True
 
-    On Error GoTo errhandler
+    On Error GoTo ErrHandler
 
     Call DeseaGuardarMapa(Dialog.FileName)
 
@@ -5083,7 +5134,7 @@ Private Sub AbrirMapa(ByVal Selector As Byte)
     
     EngineRun = True
 
-errhandler:
+ErrHandler:
 
 End Sub
 
@@ -5474,12 +5525,12 @@ Private Sub mnuNuevoMapa_Click()
     '*************************************************
     On Error Resume Next
 
-    Dim LoopC As Integer
+    Dim loopC As Integer
 
     Call DeseaGuardarMapa(Dialog.FileName)
 
-    For LoopC = 0 To frmMain.MapPest.count
-        frmMain.MapPest(LoopC).Visible = False
+    For loopC = 0 To frmMain.MapPest.count
+        frmMain.MapPest(loopC).Visible = False
     Next
 
     frmMain.Dialog.FileName = Empty
@@ -5737,7 +5788,7 @@ Private Sub mnuReAbrirMapa_Click()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    On Error GoTo errhandler
+    On Error GoTo ErrHandler
 
     If FileExist(Dialog.FileName, vbArchive) = False Then Exit Sub
     
@@ -5769,7 +5820,7 @@ Private Sub mnuReAbrirMapa_Click()
     
     Exit Sub
     
-errhandler:
+ErrHandler:
 
 End Sub
 
