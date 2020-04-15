@@ -215,6 +215,16 @@ Public Sub VerFuncion(ByVal Numero As Byte, _
 
         Case 7 'Copiar Bordes
             frmMain.CopyBorder.Visible = Ver
+            
+            frmMain.MemoriaAuxiliar.Visible = True
+            frmMain.COPIAR_GRH(0).Visible = False
+            frmMain.COPIAR_GRH(1).Visible = False
+            frmMain.COPIAR_GRH(2).Visible = False
+            frmMain.COPIAR_GRH(3).Visible = False
+            frmMain.TXTArriba.Visible = False
+            frmMain.TxTAbajo.Visible = False
+            frmMain.TxTDerecha.Visible = False
+            frmMain.TxTIzquierda.Visible = False
 
         Case 8 'Particulas
             frmMain.lstParticle.Visible = Ver

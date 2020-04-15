@@ -2,7 +2,7 @@ Attribute VB_Name = "DX8_Engine"
 '******************************************************************************************************************************************
 'Lorwik> Este modulo suele ser siempre un modulo clase, pero como hay ciertas variables que si o si deben de ir aqui _
  y que otros sistemas que se encuentran en otros modulos necesita consultarlos y dichas variables no se pueden poner como publicas _
- en un modulo de clase, opté por convertir todo el modulo de clase en un modulo normal.
+ en un modulo de clase, optÃ© por convertir todo el modulo de clase en un modulo normal.
 '******************************************************************************************************************************************
 
 Option Explicit
@@ -42,7 +42,7 @@ Private Type Map
     map_y_max As Long
     map_y_min As Long
     map_description As String
-    'Added by Juan Martín Sotuyo Dodero
+    'Added by Juan MartÃ­n Sotuyo Dodero
     base_light_color As Long
 
 End Type
@@ -142,7 +142,7 @@ Public Function Engine_Init() As Boolean
     
     'Tratamos de inicializar via MIXED
     Set D3DDevice = D3D.CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DWindow.hDeviceWindow, D3DCREATE_MIXED_VERTEXPROCESSING, D3DWindow)
-    
+
     'Tratamos de rollbackear a HARDWARE si no pudimos inicializar via MIXED
     If D3DDevice Is Nothing Then
         
@@ -315,13 +315,13 @@ Private Sub Engine_InitConstants()
     TileBufferSize = 11
     TileBufferPixelOffsetX = (TileBufferSize - 1) * 32
     TileBufferPixelOffsetY = (TileBufferSize - 1) * 32
-    TilePixelWidth = 32 'Tamaño de tile
-    TilePixelHeight = 32 'Tamaño de tile
+    TilePixelWidth = 32 'TamaÃ±o de tile
+    TilePixelHeight = 32 'TamaÃ±o de tile
     
     engineBaseSpeed = 0.019  'Velocidad a la que va a correr el engine (modifica la velocidad de caminata)
     
     '***********************************
-    'Tamaño del mapa
+    'TamaÃ±o del mapa
     '***********************************
     MinXBorder = XMinMapSize + (ClienteWidth \ 2)
     MaxXBorder = XMaxMapSize - (ClienteWidth \ 2)
@@ -516,7 +516,7 @@ Private Sub Geometry_Create_Box(ByRef verts() As TLVERTEX, _
     '**************************************************************
     'Crea el plano donde se desarrolla el juego y todo se dibuja.
     'Si jugamos con la configuracion de este sub, podremos provocar
-    'ciertos efecto. (ejem: montañas, reflejos y sombras)
+    'ciertos efecto. (ejem: montaÃ±as, reflejos y sombras)
     '
     ' * v1      * v3
     ' |\        |
@@ -664,7 +664,7 @@ Public Sub Device_Box_Textured_Render(ByVal GrhIndex As Long, _
                                       Optional alphabyte As Byte = 255)
 
     '**************************************************************
-    'Author: Juan Martín Sotuyo Dodero
+    'Author: Juan MartÃ­n Sotuyo Dodero
     'Last Modify Date: 2/12/2004
     'Just copies the Textures
     '**************************************************************
@@ -806,7 +806,7 @@ Sub RenderScreen(ByVal tilex As Integer, _
     '**************************************************************
     'Author: Aaron Perkins
     'Last Modify Date: 8/14/2007
-    'Last modified by: Juan Martín Sotuyo Dodero (Maraxus)
+    'Last modified by: Juan MartÃ­n Sotuyo Dodero (Maraxus)
     'Renders everything to the viewport
     '**************************************************************
    
@@ -848,36 +848,21 @@ Sub RenderScreen(ByVal tilex As Integer, _
         MinY = YMinMapSize
 
     End If
-    
+
     If MaxY > YMaxMapSize Then MaxY = YMaxMapSize
-    
+
     If MinX < XMinMapSize Then
         minXOffset = XMinMapSize - MinX
         MinX = XMinMapSize
 
     End If
-    
+
     If MaxX > XMaxMapSize Then MaxX = XMaxMapSize
     
     'If we can, we render around the view area to make it smoother
-    If screenminY > YMinMapSize Then
-        screenminY = screenminY - 1
-    Else
-        screenminY = 1
-        ScreenY = 1
-
-    End If
-    
+    If screenminY > YMinMapSize Then screenminY = screenminY - 1
     If screenmaxY < YMaxMapSize Then screenmaxY = screenmaxY + 1
-    
-    If screenminX > XMinMapSize Then
-        screenminX = screenminX - 1
-    Else
-        screenminX = 1
-        ScreenX = 1
-
-    End If
-    
+    If screenminX > XMinMapSize Then screenminX = screenminX - 1
     If screenmaxX < XMaxMapSize Then screenmaxX = screenmaxX + 1
     
     GenerarVista

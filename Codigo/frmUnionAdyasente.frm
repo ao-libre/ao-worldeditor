@@ -1034,6 +1034,7 @@ Private Sub cmdAplicar_Click()
 
     End If
 
+
     modEdicion.Deshacer_Add "Insertar Translados a mapas Adyasentes" ' Hago deshacer
 
     ' ARRIBA
@@ -1237,7 +1238,12 @@ Private Sub Form_Load()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    Call mnuBasica_Click
+        If frmMain.Option2.Value = True Then
+            Call mnuBasica_Click
+        Else
+            Call mnuUlla_Click
+        End If
+
 
 End Sub
 
@@ -1277,17 +1283,17 @@ End Sub
 
 Private Sub mnuBasica_Click()
     '*************************************************
-    'Author: ^[GS]^
+    'Author: ^[GS]^ 680
     'Last modified: 20/05/06
     '*************************************************
-    PosLim(0).Text = 91
-    PosLim(1).Text = 9
-    PosLim(2).Text = 91
+    PosLim(0).Text = 94
+    PosLim(1).Text = 7
+    PosLim(2).Text = 92
     PosLim(3).Text = 9
-    PosLim(4).Text = 90
-    PosLim(5).Text = 10
+    PosLim(4).Text = 93
+    PosLim(5).Text = 8
     PosLim(6).Text = 10
-    PosLim(7).Text = 90
+    PosLim(7).Text = 91
     Call LeerMapaExit
 
 End Sub
@@ -1311,17 +1317,17 @@ End Sub
 
 Private Sub mnuUlla_Click()
     '*************************************************
-    'Author: ^[GS]^
+    'Author: ^[GS]^ 1024
     'Last modified: 20/05/06
     '*************************************************
     PosLim(0).Text = 91
-    PosLim(1).Text = 9
-    PosLim(2).Text = 91
-    PosLim(3).Text = 9
+    PosLim(1).Text = 10
+    PosLim(2).Text = 88
+    PosLim(3).Text = 13
     PosLim(4).Text = 90
-    PosLim(5).Text = 10
-    PosLim(6).Text = 10
-    PosLim(7).Text = 90
+    PosLim(5).Text = 11
+    PosLim(6).Text = 14
+    PosLim(7).Text = 87
     Call LeerMapaExit
 
 End Sub

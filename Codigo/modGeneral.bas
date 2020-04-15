@@ -42,75 +42,118 @@ Public Sub CheckKeys()
     '[/Loopzer]
     
     If GetKeyState(vbKeyUp) < 0 Then
-        If UserPos.Y < 12 Then Exit Sub ' 10
+        
+        If UserPos.Y < 1 Then Exit Sub ' 10
+        
         If LegalPos(UserPos.X, UserPos.Y - 1) And WalkMode = True Then
+            
             If dLastWalk + 50 > GetTickCount Then Exit Sub
+            
             UserPos.Y = UserPos.Y - 1
-            MoveCharbyPos UserCharIndex, UserPos.X, UserPos.Y
+            
+            Call MoveCharbyPos(UserCharIndex, UserPos.X, UserPos.Y)
+            
             dLastWalk = GetTickCount
+        
         ElseIf WalkMode = False Then
+            
             UserPos.Y = UserPos.Y - 1
-
+        
         End If
+        
+        bRefreshRadar = True ' Radar
+        
+        Call ActualizaMinimap
 
-        Call ActualizaMinimap ' Radar
         frmMain.SetFocus
+        
         Exit Sub
-
     End If
 
     If GetKeyState(vbKeyRight) < 0 Then
-        If UserPos.X > XMaxMapSize Then Exit Sub ' 89
+        
+        If UserPos.X > 100 Then Exit Sub ' 89
+        
         If LegalPos(UserPos.X + 1, UserPos.Y) And WalkMode = True Then
+            
             If dLastWalk + 50 > GetTickCount Then Exit Sub
+            
             UserPos.X = UserPos.X + 1
-            MoveCharbyPos UserCharIndex, UserPos.X, UserPos.Y
+            
+            Call MoveCharbyPos(UserCharIndex, UserPos.X, UserPos.Y)
+            
             dLastWalk = GetTickCount
+        
         ElseIf WalkMode = False Then
             UserPos.X = UserPos.X + 1
-
+        
         End If
-
-        Call ActualizaMinimap ' Radar
+        
+        bRefreshRadar = True ' Radar
+        
+        Call ActualizaMinimap
+        
         frmMain.SetFocus
+        
         Exit Sub
-
+        
     End If
 
     If GetKeyState(vbKeyDown) < 0 Then
-        If UserPos.Y > XMaxMapSize Then Exit Sub ' 92
+        
+        If UserPos.Y > 100 Then Exit Sub ' 92
+        
         If LegalPos(UserPos.X, UserPos.Y + 1) And WalkMode = True Then
+            
             If dLastWalk + 50 > GetTickCount Then Exit Sub
+            
             UserPos.Y = UserPos.Y + 1
-            MoveCharbyPos UserCharIndex, UserPos.X, UserPos.Y
+            
+            Call MoveCharbyPos(UserCharIndex, UserPos.X, UserPos.Y)
+            
             dLastWalk = GetTickCount
+            
         ElseIf WalkMode = False Then
             UserPos.Y = UserPos.Y + 1
-
+        
         End If
+        
+        bRefreshRadar = True ' Radar
+        
+        Call ActualizaMinimap
 
-        Call ActualizaMinimap ' Radar
         frmMain.SetFocus
+        
         Exit Sub
-
+        
     End If
 
     If GetKeyState(vbKeyLeft) < 0 Then
-        If UserPos.X < 17 Then Exit Sub ' 12
+        
+        If UserPos.X < 1 Then Exit Sub ' 12
+        
         If LegalPos(UserPos.X - 1, UserPos.Y) And WalkMode = True Then
+            
             If dLastWalk + 50 > GetTickCount Then Exit Sub
+            
             UserPos.X = UserPos.X - 1
-            MoveCharbyPos UserCharIndex, UserPos.X, UserPos.Y
+            
+            Call MoveCharbyPos(UserCharIndex, UserPos.X, UserPos.Y)
+            
             dLastWalk = GetTickCount
+        
         ElseIf WalkMode = False Then
             UserPos.X = UserPos.X - 1
-
         End If
-
-        Call ActualizaMinimap ' Radar
+        
+        bRefreshRadar = True ' Radar
+        
+        Call ActualizaMinimap
+ 
         frmMain.SetFocus
+        
         Exit Sub
-
+        
     End If
     
 End Sub
@@ -274,6 +317,14 @@ Private Sub CargarMapIni()
     ClienteHeight = Val(Leer.GetValue("RENDER", "ClienteHeight"))
     ClienteWidth = Val(Leer.GetValue("RENDER", "ClienteWidth"))
 
+    If frmMain.Option2.Value = True Then
+        ClienteHeight = 13
+        ClienteWidth = 17
+        Else
+        ClienteHeight = 19
+        ClienteWidth = 21
+    End If
+    
     If ClienteHeight <= 0 Then ClienteHeight = 13
     If ClienteWidth <= 0 Then ClienteWidth = 17
     
@@ -284,15 +335,6 @@ Fallo:
     Resume Next
 
 End Sub
-
-Public Function TomarBPP() As Integer
-
-    Dim ModoDeVideo As typDevMODE
-
-    Call EnumDisplaySettings(0, -1, ModoDeVideo)
-    TomarBPP = CInt(ModoDeVideo.dmBitsPerPel)
-
-End Function
     
 Public Sub Main()
 
@@ -571,3 +613,4 @@ Public Function ReturnNumberFromString(ByVal sString As String) As String
    Next i
    
 End Function
+
