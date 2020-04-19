@@ -879,7 +879,6 @@ Public Sub MapInfo_Actualizar()
         .txtMapVersion = MapInfo.MapVersion
         frmMain.lblMapNombre = MapInfo.name
         frmMain.lblMapMusica = MapInfo.midi
-        frmMain.lblMapMP3 = MapInfo.mp3
         frmMain.lblMapAmbient = MapInfo.ambient
         .TxtlvlMinimo = MapInfo.lvlMinimo
         .TxtAmbient = MapInfo.ambient

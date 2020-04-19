@@ -659,7 +659,6 @@ End Sub
 
 Private Sub txtMapMP3_LostFocus()
     MapInfo.mp3 = txtMapMP3.Text
-    frmMain.lblMapMP3.Caption = MapInfo.mp3
     MapInfo.Changed = 1
 End Sub
 
