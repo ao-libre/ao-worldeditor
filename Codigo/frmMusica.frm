@@ -177,7 +177,6 @@ Private Sub cmdAplicarYCerrar_Click()
         Else
             MapInfo.mp3 = Left$(Actual, Len(Actual) - 4)
             frmMapInfo.txtMapMP3.Text = MapInfo.mp3
-            frmMain.lblMapMP3 = MapInfo.mp3
         End If
 
         Actual = vbNullString
