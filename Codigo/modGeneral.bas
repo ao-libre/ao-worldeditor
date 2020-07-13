@@ -286,9 +286,9 @@ Private Sub CargarMapIni()
 
     Dim Leer As New clsIniReader
     
-    Call Leer.Initialize(IniPath & "WorldEditor.ini")
-    
     IniPath = App.Path & "\"
+    
+    Call Leer.Initialize(IniPath & "WorldEditor.ini")
     
     Call frmImpCliente.verClienteyServer
     
