@@ -87,15 +87,12 @@ Private Function GetElapsedTime() As Single
     'Gets the time that past since the last call
     '**************************************************************
     Dim start_time    As Currency
-
     Static end_time   As Currency
-
     Static timer_freq As Currency
 
     'Get the timer frequency
     If timer_freq = 0 Then
-        QueryPerformanceFrequency timer_freq
-
+        Call QueryPerformanceFrequency(timer_freq)
     End If
     
     'Get current time
@@ -109,24 +106,18 @@ Private Function GetElapsedTime() As Single
 
 End Function
 
-Public Function Engine_Init() As Boolean
-    '*****************************************************
-    'Inicia el motor grafico
-    '*****************************************************
-    On Local Error GoTo ErrorHandler
-
-    Dim aD3dai             As D3DADAPTER_IDENTIFIER8
-
+Public Function Engine_Init_D3DDevice(RENDER_MODE As CONST_D3DCREATEFLAGS) As Boolean
+    
+    On Error GoTo DeviceError
+    
     Dim DispMode           As D3DDISPLAYMODE
     Dim D3DWindow          As D3DPRESENT_PARAMETERS
 
     Set dX = New DirectX8
     Set D3D = dX.Direct3DCreate()
     Set D3DX = New D3DX8
-    
-    Call D3D.GetAdapterIdentifier(D3DADAPTER_DEFAULT, 0, aD3dai)
-    
-    D3D.GetAdapterDisplayMode D3DADAPTER_DEFAULT, DispMode
+
+    Call D3D.GetAdapterDisplayMode(D3DADAPTER_DEFAULT, DispMode)
     
     With D3DWindow
         .Windowed = True
@@ -140,9 +131,47 @@ Public Function Engine_Init() As Boolean
 
     End With
     
-    Set D3DDevice = D3D.CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, frmMain.Renderer.hWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, D3DWindow)
-                                                            
+    If Not D3DDevice Is Nothing Then
+        Set D3DDevice = Nothing
+    End If
+    
+    Set D3DDevice = D3D.CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DWindow.hDeviceWindow, RENDER_MODE, D3DWindow)
+    
+    Engine_Init_D3DDevice = True
+    
+    Exit Function
+    
+DeviceError:
+    
+    Set D3DDevice = Nothing
+    
+    Engine_Init_D3DDevice = False
 
+End Function
+
+Public Function Engine_Init() As Boolean
+    '*****************************************************
+    'Inicia el motor grafico
+    '*****************************************************
+    On Local Error GoTo ErrorHandler
+
+    ' Tratamos de inicializar el DirectX Device con la mejor configuracion posible.
+    If Not Engine_Init_D3DDevice(D3DCREATE_MIXED_VERTEXPROCESSING) Then
+        If Not Engine_Init_D3DDevice(D3DCREATE_HARDWARE_VERTEXPROCESSING) Then
+            If Not Engine_Init_D3DDevice(D3DCREATE_SOFTWARE_VERTEXPROCESSING) Then
+                
+                Call MsgBox("No se pudo inicializar el motor grafico." & vbNewLine & "Compruebe que las librerias esten registradas correctamente.")
+                
+                End
+                
+            End If
+        End If
+    End If
+    
+    ' Con esto obtenemos el nombre de la placa de video detectada.
+    Dim aD3dai As D3DADAPTER_IDENTIFIER8
+    Call D3D.GetAdapterIdentifier(D3DADAPTER_DEFAULT, 0, aD3dai)
+    
     '//Transformed and lit vertices dont need lighting
     '   so we disable it...
     With D3DDevice
@@ -158,6 +187,7 @@ Public Function Engine_Init() As Boolean
     End With
                                              
     Set SurfaceDB = New clsTexManager
+    Call SurfaceDB.Init(D3DX, D3DDevice, General_Get_Free_Ram_Bytes)
                                              
     '************************************************************************************************************************************
     
@@ -174,11 +204,6 @@ Public Function Engine_Init() As Boolean
     'Tama�o del mapa
     'Ultima modificacion 08/05/2020 por ReyarB
     '***********************************
-    'MinXBorder = XMinMapSize + (Round(700 / 32) \ 2) '700 = Width render cliente
-    'MaxXBorder = XMaxMapSize - (Round(700 / 32) \ 2)
-    'MinYBorder = YMinMapSize + (Round(524 / 32) \ 2) '524 = Heigth render cliente
-    'MaxYBorder = YMaxMapSize - (Round(524 / 32) \ 2)
-    
     MinXBorder = XMinMapSize + (ClienteWidth \ 2)
     MaxXBorder = XMaxMapSize - (ClienteWidth \ 2)
     MinYBorder = YMinMapSize + (ClienteHeight \ 2)
@@ -193,28 +218,9 @@ Public Function Engine_Init() As Boolean
     
     UserPos.X = 50
     UserPos.Y = 50
-    
-    Call SurfaceDB.Init(D3DX, D3DDevice, General_Get_Free_Ram_Bytes)
-    
+
     movSpeed = 1
-    
-    If err Then
-        MsgBox "No se puede iniciar DirectX. Por favor asegurese de tener la ultima version correctamente instalada."
-        Exit Function
 
-    End If
-    
-    If err Then
-        MsgBox "No se puede iniciar DirectD3D. Por favor asegurese de tener la ultima version correctamente instalada."
-        Exit Function
-
-    End If
-    
-    If D3DDevice Is Nothing Then
-        MsgBox "No se puede inicializar DirectDevice. Por favor asegurese de tener la ultima version correctamente instalada."
-        Exit Function
-
-    End If
     
     'Display form handle, View window offset from 0,0 of display form, Tile Size, Display size in tiles, Screen buffer
     Call LoadGrhData
@@ -256,8 +262,11 @@ Public Function Engine_Init() As Boolean
     Exit Function
 
 ErrorHandler:
-    Debug.Print "Error Number Returned: " & err.Number
-    MsgBox "Error in engine initialization: " & err.Number & ": " & err.Description & " Dispositivo: " & Trim$(StrConv(aD3dai.Description, vbUnicode)), vbCritical, "Direct3D Initialization"
+
+    MsgBox "Error: " & err.Number & _
+           "Descripcion: " & err.Description & vbNewLine & _
+           "Dispositivo: " & Trim$(StrConv(aD3dai.Description, vbUnicode)), vbCritical, "Direct3D Initialization"
+    
     Engine_Init = False
 
 End Function

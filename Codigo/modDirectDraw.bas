@@ -630,9 +630,15 @@ End Sub
 Public Sub DibujarMiniMapa()
 
     Dim map_x, map_y, Capas As Byte
-
-    frmMain.Minimap.Picture = LoadPicture(App.Path & "\Renderizados\" & NumMap_Save & ".bmp")
-
+    
+    If FileExist(App.Path & "\Renderizados\" & NumMap_Save & ".bmp", vbNormal) Then
+        frmMain.Minimap.Picture = LoadPicture(App.Path & "\Renderizados\" & NumMap_Save & ".bmp")
+    
+    Else
+        Exit Sub
+        
+    End If
+    
     Dim loopc As Long
 
     Call Resolucion
