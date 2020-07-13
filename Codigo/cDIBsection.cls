@@ -13,30 +13,45 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
-Private Declare Sub CopyMemory Lib "kernel32" Alias "RtlMoveMemory" ( _
-    lpvDest As Any, lpvSource As Any, ByVal cbCopy As Long)
+Private Declare Sub CopyMemory _
+                Lib "kernel32" _
+                Alias "RtlMoveMemory" (lpvDest As Any, _
+                                       lpvSource As Any, _
+                                       ByVal cbCopy As Long)
 
 Private Type SAFEARRAYBOUND
+
     cElements As Long
     lLbound As Long
+
 End Type
+
 Private Type SAFEARRAY2D
+
     cDims As Integer
     fFeatures As Integer
     cbElements As Long
     cLocks As Long
     pvData As Long
     Bounds(0 To 1) As SAFEARRAYBOUND
+
 End Type
-Private Declare Function VarPtrArray Lib "msvbvm50.dll" Alias "VarPtr" (Ptr() As Any) As Long
+
+Private Declare Function VarPtrArray _
+                Lib "msvbvm50.dll" _
+                Alias "VarPtr" (Ptr() As Any) As Long
 
 Private Type RGBQUAD
+
     rgbBlue As Byte
     rgbGreen As Byte
     rgbRed As Byte
     rgbReserved As Byte
+
 End Type
+
 Private Type BITMAPINFOHEADER '40 bytes
+
     biSize As Long
     biWidth As Long
     biHeight As Long
@@ -48,35 +63,74 @@ Private Type BITMAPINFOHEADER '40 bytes
     biYPelsPerMeter As Long
     biClrUsed As Long
     biClrImportant As Long
+
 End Type
+
 Private Type BITMAPINFO
+
     bmiHeader As BITMAPINFOHEADER
     bmiColors As RGBQUAD
+
 End Type
+
 Private Declare Function CreateCompatibleDC Lib "gdi32" (ByVal hdc As Long) As Long
+
 Private Declare Function GetDC Lib "user32" (ByVal hWnd As Long) As Long
+
 Private Declare Function GetDesktopWindow Lib "user32" () As Long
+
 ' Note - this is not the declare in the API viewer - modify lplpVoid to be
 ' Byref so we get the pointer back:
-Private Declare Function CreateDIBSection Lib "gdi32" _
-    (ByVal hdc As Long, _
-    pBitmapInfo As BITMAPINFO, _
-    ByVal un As Long, _
-    lplpVoid As Long, _
-    ByVal handle As Long, _
-    ByVal dw As Long) As Long
-Private Declare Function BitBlt Lib "gdi32" (ByVal hDestDC As Long, ByVal X As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal xSrc As Long, ByVal ySrc As Long, ByVal dwRop As Long) As Long
-Private Declare Function SelectObject Lib "gdi32" (ByVal hdc As Long, ByVal hObject As Long) As Long
+Private Declare Function CreateDIBSection _
+                Lib "gdi32" (ByVal hdc As Long, _
+                             pBitmapInfo As BITMAPINFO, _
+                             ByVal un As Long, _
+                             lplpVoid As Long, _
+                             ByVal handle As Long, _
+                             ByVal dw As Long) As Long
+
+Private Declare Function BitBlt _
+                Lib "gdi32" (ByVal hDestDC As Long, _
+                             ByVal X As Long, _
+                             ByVal Y As Long, _
+                             ByVal nWidth As Long, _
+                             ByVal nHeight As Long, _
+                             ByVal hSrcDC As Long, _
+                             ByVal xSrc As Long, _
+                             ByVal ySrc As Long, _
+                             ByVal dwRop As Long) As Long
+
+Private Declare Function SelectObject _
+                Lib "gdi32" (ByVal hdc As Long, _
+                             ByVal hObject As Long) As Long
+
 Private Declare Function DeleteObject Lib "gdi32" (ByVal hObject As Long) As Long
+
 Private Declare Function DeleteDC Lib "gdi32" (ByVal hdc As Long) As Long
-Private Declare Function ReleaseDC Lib "user32" (ByVal hWnd As Long, ByVal hdc As Long) As Long
-Private Declare Function LoadImage Lib "user32" Alias "LoadImageA" (ByVal hInst As Long, ByVal lpsz As String, ByVal un1 As Long, ByVal n1 As Long, ByVal n2 As Long, ByVal un2 As Long) As Long
+
+Private Declare Function ReleaseDC _
+                Lib "user32" (ByVal hWnd As Long, _
+                              ByVal hdc As Long) As Long
+
+Private Declare Function LoadImage _
+                Lib "user32" _
+                Alias "LoadImageA" (ByVal hInst As Long, _
+                                    ByVal lpsz As String, _
+                                    ByVal un1 As Long, _
+                                    ByVal n1 As Long, _
+                                    ByVal n2 As Long, _
+                                    ByVal un2 As Long) As Long
+
 Private Const BI_RGB = 0&
+
 Private Const BI_RLE4 = 2&
+
 Private Const BI_RLE8 = 1&
+
 Private Const DIB_RGB_COLORS = 0 '  color table in RGBs
 
 Private Type BITMAP
+
     bmType As Long
     bmWidth As Long
     bmHeight As Long
@@ -84,49 +138,80 @@ Private Type BITMAP
     bmPlanes As Integer
     bmBitsPixel As Integer
     bmBits As Long
+
 End Type
-Private Declare Function GetObjectAPI Lib "gdi32" Alias "GetObjectA" (ByVal hObject As Long, ByVal nCount As Long, lpObject As Any) As Long
+
+Private Declare Function GetObjectAPI _
+                Lib "gdi32" _
+                Alias "GetObjectA" (ByVal hObject As Long, _
+                                    ByVal nCount As Long, _
+                                    lpObject As Any) As Long
+
 Private Declare Function timeGetTime Lib "winmm.dll" () As Long
-Private Declare Function CreateCompatibleBitmap Lib "gdi32" (ByVal hdc As Long, ByVal nWidth As Long, ByVal nHeight As Long) As Long
+
+Private Declare Function CreateCompatibleBitmap _
+                Lib "gdi32" (ByVal hdc As Long, _
+                             ByVal nWidth As Long, _
+                             ByVal nHeight As Long) As Long
 
 ' Clipboard functions:
 Private Declare Function OpenClipboard Lib "user32" (ByVal hWnd As Long) As Long
+
 Private Declare Function CloseClipboard Lib "user32" () As Long
-Private Declare Function SetClipboardData Lib "user32" (ByVal wFormat As Long, ByVal hMem As Long) As Long
+
+Private Declare Function SetClipboardData _
+                Lib "user32" (ByVal wFormat As Long, _
+                              ByVal hMem As Long) As Long
+
 Private Declare Function EmptyClipboard Lib "user32" () As Long
+
 Private Const CF_BITMAP = 2
+
 Private Const CF_DIB = 8
 
 ' Handle to the current DIBSection:
-Private m_hDIb As Long
+Private m_hDIb    As Long
+
 ' Handle to the old bitmap in the DC, for clear up:
 Private m_hBmpOld As Long
-' Handle to the Device context holding the DIBSection:
-Private m_hDC As Long
-' Address of memory pointing to the DIBSection's bits:
-Private m_lPtr As Long
-' Type containing the Bitmap information:
-Private m_tBI As BITMAPINFO
 
-Public Function CopyToClipboard( _
-        Optional ByVal bAsDIB As Boolean = True _
-    ) As Boolean
-Dim lhDCDesktop As Long
-Dim lhDC As Long
-Dim lhBmpOld As Long
-Dim hObj As Long
-Dim lFmt As Long
-Dim b() As Byte
-Dim tBI As BITMAPINFO
-Dim lPtr As Long
-Dim hDibCopy As Long
+' Handle to the Device context holding the DIBSection:
+Private m_hDC     As Long
+
+' Address of memory pointing to the DIBSection's bits:
+Private m_lPtr    As Long
+
+' Type containing the Bitmap information:
+Private m_tBI     As BITMAPINFO
+
+Public Function CopyToClipboard(Optional ByVal bAsDIB As Boolean = True) As Boolean
+
+    Dim lhDCDesktop As Long
+
+    Dim lhDC        As Long
+
+    Dim lhBmpOld    As Long
+
+    Dim hObj        As Long
+
+    Dim lFmt        As Long
+
+    Dim B()         As Byte
+
+    Dim tBI         As BITMAPINFO
+
+    Dim lPtr        As Long
+
+    Dim hDibCopy    As Long
 
     lhDCDesktop = GetDC(GetDesktopWindow())
+
     If (lhDCDesktop <> 0) Then
         lhDC = CreateCompatibleDC(lhDCDesktop)
+
         If (lhDC <> 0) Then
             If (bAsDIB) Then
-               MsgBox "I don't know how to put a DIB on the clipboard! Copy as bitmap instead!!!"
+                MsgBox "I don't know how to put a DIB on the clipboard! Copy as bitmap instead!!!"
                 ' Create a duplicate DIBSection and copy
                 ' to the clipboard:
                 'LSet tBI = m_tBI
@@ -151,33 +236,45 @@ Dim hDibCopy As Long
                 ' Create a compatible bitmap and copy to
                 ' the clipboard:
                 hObj = CreateCompatibleBitmap(lhDCDesktop, Width, Height)
+
                 If (hObj <> 0) Then
                     lhBmpOld = SelectObject(lhDC, hObj)
                     PaintPicture lhDC
                     SelectObject lhDC, lhBmpOld
                     lFmt = CF_BITMAP
+
                     ' Now set the clipboard to the bitmap:
                     If (OpenClipboard(0) <> 0) Then
                         EmptyClipboard
+
                         If (SetClipboardData(lFmt, hObj) <> 0) Then
                             CopyToClipboard = True
+
                         End If
+
                         CloseClipboard
+
                     End If
+
                 End If
+
             End If
+
             DeleteDC lhDC
+
         End If
+
         DeleteDC lhDCDesktop
+
     End If
+
 End Function
 
-Public Function CreateDIB( _
-        ByVal lhDC As Long, _
-        ByVal lWidth As Long, _
-        ByVal lHeight As Long, _
-        ByRef hDib As Long _
-    ) As Boolean
+Public Function CreateDIB(ByVal lhDC As Long, _
+                          ByVal lWidth As Long, _
+                          ByVal lHeight As Long, _
+                          ByRef hDib As Long) As Boolean
+
     With m_tBI.bmiHeader
         .biSize = Len(m_tBI.bmiHeader)
         .biWidth = lWidth
@@ -186,46 +283,54 @@ Public Function CreateDIB( _
         .biBitCount = 24
         .biCompression = BI_RGB
         .biSizeImage = BytesPerScanLine * .biHeight
+
     End With
-    hDib = CreateDIBSection( _
-            lhDC, _
-            m_tBI, _
-            DIB_RGB_COLORS, _
-            m_lPtr, _
-            0, 0)
+
+    hDib = CreateDIBSection(lhDC, m_tBI, DIB_RGB_COLORS, m_lPtr, 0, 0)
     CreateDIB = (hDib <> 0)
+
 End Function
-Public Function CreateFromPicture( _
-        ByRef picThis As StdPicture _
-    )
-Dim lhDC As Long
-Dim lhDCDesktop As Long
-Dim lhBmpOld As Long
-Dim tBMP As BITMAP
-Dim lhWnd As Long
+
+Public Function CreateFromPicture(ByRef picThis As StdPicture)
+
+    Dim lhDC        As Long
+
+    Dim lhDCDesktop As Long
+
+    Dim lhBmpOld    As Long
+
+    Dim tBMP        As BITMAP
+
+    Dim lhWnd       As Long
     
     GetObjectAPI picThis.handle, Len(tBMP), tBMP
+
     If (Create(tBMP.bmWidth, tBMP.bmHeight)) Then
         lhWnd = GetDesktopWindow()
         lhDCDesktop = GetDC(lhWnd)
+
         If (lhDCDesktop <> 0) Then
             lhDC = CreateCompatibleDC(lhDCDesktop)
             ReleaseDC lhWnd, lhDCDesktop
+
             If (lhDC <> 0) Then
                 lhBmpOld = SelectObject(lhDC, picThis.handle)
                 LoadPictureBlt lhDC
                 SelectObject lhDC, lhBmpOld
                 DeleteDC lhDC
+
             End If
+
         End If
+
     End If
+
 End Function
-Public Function Create( _
-        ByVal lWidth As Long, _
-        ByVal lHeight As Long _
-    ) As Boolean
+
+Public Function Create(ByVal lWidth As Long, ByVal lHeight As Long) As Boolean
     ClearUp
     m_hDC = CreateCompatibleDC(0)
+
     If (m_hDC <> 0) Then
         If (CreateDIB(m_hDC, lWidth, lHeight, m_hDIb)) Then
             m_hBmpOld = SelectObject(m_hDC, m_hDIb)
@@ -233,67 +338,83 @@ Public Function Create( _
         Else
             DeleteDC m_hDC
             m_hDC = 0
+
         End If
+
     End If
+
 End Function
+
 Public Property Get BytesPerScanLine() As Long
     ' Scans must align on dword boundaries:
     BytesPerScanLine = (m_tBI.bmiHeader.biWidth * 3 + 3) And &HFFFFFFFC
+
 End Property
 
 Public Property Get Width() As Long
     Width = m_tBI.bmiHeader.biWidth
-End Property
-Public Property Get Height() As Long
-    Height = m_tBI.bmiHeader.biHeight
+
 End Property
 
-Public Sub LoadPictureBlt( _
-        ByVal lhDC As Long, _
-        Optional ByVal lSrcLeft As Long = 0, _
-        Optional ByVal lSrcTop As Long = 0, _
-        Optional ByVal lSrcWidth As Long = -1, _
-        Optional ByVal lSrcHeight As Long = -1, _
-        Optional ByVal eRop As RasterOpConstants = vbSrcCopy _
-    )
+Public Property Get Height() As Long
+    Height = m_tBI.bmiHeader.biHeight
+
+End Property
+
+Public Sub LoadPictureBlt(ByVal lhDC As Long, _
+                          Optional ByVal lSrcLeft As Long = 0, _
+                          Optional ByVal lSrcTop As Long = 0, _
+                          Optional ByVal lSrcWidth As Long = -1, _
+                          Optional ByVal lSrcHeight As Long = -1, _
+                          Optional ByVal eRop As RasterOpConstants = vbSrcCopy)
+
     If lSrcWidth < 0 Then lSrcWidth = m_tBI.bmiHeader.biWidth
     If lSrcHeight < 0 Then lSrcHeight = m_tBI.bmiHeader.biHeight
     BitBlt m_hDC, 0, 0, lSrcWidth, lSrcHeight, lhDC, lSrcLeft, lSrcTop, eRop
+
 End Sub
 
+Public Sub PaintPicture(ByVal lhDC As Long, _
+                        Optional ByVal lDestLeft As Long = 0, _
+                        Optional ByVal lDestTop As Long = 0, _
+                        Optional ByVal lDestWidth As Long = -1, _
+                        Optional ByVal lDestHeight As Long = -1, _
+                        Optional ByVal lSrcLeft As Long = 0, _
+                        Optional ByVal lSrcTop As Long = 0, _
+                        Optional ByVal eRop As RasterOpConstants = vbSrcCopy)
 
-Public Sub PaintPicture( _
-        ByVal lhDC As Long, _
-        Optional ByVal lDestLeft As Long = 0, _
-        Optional ByVal lDestTop As Long = 0, _
-        Optional ByVal lDestWidth As Long = -1, _
-        Optional ByVal lDestHeight As Long = -1, _
-        Optional ByVal lSrcLeft As Long = 0, _
-        Optional ByVal lSrcTop As Long = 0, _
-        Optional ByVal eRop As RasterOpConstants = vbSrcCopy _
-    )
     If (lDestWidth < 0) Then lDestWidth = m_tBI.bmiHeader.biWidth
     If (lDestHeight < 0) Then lDestHeight = m_tBI.bmiHeader.biHeight
     BitBlt lhDC, lDestLeft, lDestTop, lDestWidth, lDestHeight, m_hDC, lSrcLeft, lSrcTop, eRop
+
 End Sub
 
 Public Property Get hdc() As Long
     hdc = m_hDC
+
 End Property
+
 Public Property Get hDib() As Long
     hDib = m_hDIb
+
 End Property
+
 Public Property Get DIBSectionBitsPtr() As Long
     DIBSectionBitsPtr = m_lPtr
+
 End Property
-Public Sub RandomiseBits( _
-        Optional ByVal bGray As Boolean = False _
-    )
-Dim bDib() As Byte
-Dim X As Long, y As Long
-Dim lC As Long
-Dim tSA As SAFEARRAY2D
-Dim xEnd As Long
+
+Public Sub RandomiseBits(Optional ByVal bGray As Boolean = False)
+
+    Dim bDib() As Byte
+
+    Dim X      As Long, Y As Long
+
+    Dim lC     As Long
+
+    Dim tSA    As SAFEARRAY2D
+
+    Dim xEnd   As Long
     
     ' Get the bits in the from DIB section:
     With tSA
@@ -304,30 +425,37 @@ Dim xEnd As Long
         .Bounds(1).lLbound = 0
         .Bounds(1).cElements = BytesPerScanLine()
         .pvData = m_lPtr
+
     End With
+
     CopyMemory ByVal VarPtrArray(bDib()), VarPtr(tSA), 4
 
     ' random:
-    Randomize Timer
+    Randomize timer
     
     xEnd = (Width - 1) * 3
+
     If (bGray) Then
-        For y = 0 To m_tBI.bmiHeader.biHeight - 1
+
+        For Y = 0 To m_tBI.bmiHeader.biHeight - 1
             For X = 0 To xEnd Step 3
                 lC = Rnd * 255
-                bDib(X, y) = lC
-                bDib(X + 1, y) = lC
-                bDib(X + 2, y) = lC
+                bDib(X, Y) = lC
+                bDib(X + 1, Y) = lC
+                bDib(X + 2, Y) = lC
             Next X
-        Next y
+        Next Y
+
     Else
+
         For X = 0 To xEnd Step 3
-            For y = 0 To m_tBI.bmiHeader.biHeight - 1
-                bDib(X, y) = 0
-                bDib(X + 1, y) = Rnd * 255
-                bDib(X + 2, y) = Rnd * 255
-            Next y
+            For Y = 0 To m_tBI.bmiHeader.biHeight - 1
+                bDib(X, Y) = 0
+                bDib(X + 1, Y) = Rnd * 255
+                bDib(X + 2, Y) = Rnd * 255
+            Next Y
         Next X
+
     End If
     
     ' Clear the temporary array descriptor
@@ -338,22 +466,28 @@ Dim xEnd As Long
 End Sub
 
 Public Sub ClearUp()
+
     If (m_hDC <> 0) Then
         If (m_hDIb <> 0) Then
             SelectObject m_hDC, m_hBmpOld
             DeleteObject m_hDIb
+
         End If
+
         DeleteDC m_hDC
+
     End If
+
     m_hDC = 0: m_hDIb = 0: m_hBmpOld = 0: m_lPtr = 0
+
 End Sub
 
-Public Function Resample( _
-        ByVal lNewHeight As Long, _
-        ByVal lNewWidth As Long _
-    ) As cDIBSection
-Dim cDib As cDIBSection
+Public Function Resample(ByVal lNewHeight As Long, ByVal lNewWidth As Long) As cDIBSection
+
+    Dim cDib As cDIBSection
+
     Set cDib = New cDIBSection
+
     If cDib.Create(lNewWidth, lNewHeight) Then
         If (lNewWidth <> m_tBI.bmiHeader.biWidth) Or (lNewHeight <> m_tBI.bmiHeader.biHeight) Then
             ' Change in size, do resample:
@@ -361,17 +495,24 @@ Dim cDib As cDIBSection
         Else
             ' No size change so just return a copy:
             cDib.LoadPictureBlt m_hDC
+
         End If
+
         Set Resample = cDib
+
     End If
+
 End Function
 
 Private Function ResampleDib(ByRef cDibTo As cDIBSection) As Boolean
-Dim bDibFrom() As Byte
-Dim bDibTo() As Byte
 
-Dim tSAFrom As SAFEARRAY2D
-Dim tSATo As SAFEARRAY2D
+    Dim bDibFrom() As Byte
+
+    Dim bDibTo()   As Byte
+
+    Dim tSAFrom    As SAFEARRAY2D
+
+    Dim tSATo      As SAFEARRAY2D
 
     ' Get the bits in the from DIB section:
     With tSAFrom
@@ -382,7 +523,9 @@ Dim tSATo As SAFEARRAY2D
         .Bounds(1).lLbound = 0
         .Bounds(1).cElements = BytesPerScanLine()
         .pvData = m_lPtr
+
     End With
+
     CopyMemory ByVal VarPtrArray(bDibFrom()), VarPtr(tSAFrom), 4
 
     ' Get the bits in the to DIB section:
@@ -394,31 +537,41 @@ Dim tSATo As SAFEARRAY2D
         .Bounds(1).lLbound = 0
         .Bounds(1).cElements = cDibTo.BytesPerScanLine()
         .pvData = cDibTo.DIBSectionBitsPtr
+
     End With
+
     CopyMemory ByVal VarPtrArray(bDibTo()), VarPtr(tSATo), 4
 
-Dim xScale As Single
-Dim yScale As Single
+    Dim xScale As Single
 
-Dim X As Long, y As Long, xEnd As Long, xOut As Long
+    Dim yScale As Single
 
-Dim fX As Single, fY As Single
-Dim ifY As Long, ifX As Long
-Dim dX As Single, dy As Single
-Dim r As Long, r1 As Single, r2 As Single, r3 As Single, r4 As Single
-Dim g As Long, g1 As Single, g2 As Single, g3 As Single, g4 As Single
-Dim b As Long, b1 As Single, b2 As Single, b3 As Single, b4 As Single
-Dim ir1 As Long, ig1 As Long, ib1 As Long
-Dim ir2 As Long, ig2 As Long, ib2 As Long
+    Dim X      As Long, Y As Long, xEnd As Long, xOut As Long
+
+    Dim fX     As Single, fY As Single
+
+    Dim ifY    As Long, ifX As Long
+
+    Dim dX     As Single, dy As Single
+
+    Dim R      As Long, r1 As Single, r2 As Single, r3 As Single, r4 As Single
+
+    Dim G      As Long, g1 As Single, g2 As Single, g3 As Single, g4 As Single
+
+    Dim B      As Long, b1 As Single, b2 As Single, b3 As Single, b4 As Single
+
+    Dim ir1    As Long, ig1 As Long, ib1 As Long
+
+    Dim ir2    As Long, ig2 As Long, ib2 As Long
 
     xScale = (Width - 1) / cDibTo.Width
     yScale = (Height - 1) / cDibTo.Height
     
     xEnd = cDibTo.Width - 1
         
-    For y = 0 To cDibTo.Height - 1
+    For Y = 0 To cDibTo.Height - 1
         
-        fY = y * yScale
+        fY = Y * yScale
         ifY = Int(fY)
         dy = fY - ifY
         
@@ -438,25 +591,27 @@ Dim ir2 As Long, ig2 As Long, ib2 As Long
             ir1 = r1 * (1 - dy) + r3 * dy: ig1 = g1 * (1 - dy) + g3 * dy: ib1 = b1 * (1 - dy) + b3 * dy
             ir2 = r2 * (1 - dy) + r4 * dy: ig2 = g2 * (1 - dy) + g4 * dy: ib2 = b2 * (1 - dy) + b4 * dy
             ' Interpolate in y:
-            r = ir1 * (1 - dX) + ir2 * dX: g = ig1 * (1 - dX) + ig2 * dX: b = ib1 * (1 - dX) + ib2 * dX
+            R = ir1 * (1 - dX) + ir2 * dX: G = ig1 * (1 - dX) + ig2 * dX: B = ib1 * (1 - dX) + ib2 * dX
             
             ' Set output:
-            If (r < 0) Then r = 0
-            If (r > 255) Then r = 255
-            If (g < 0) Then g = 0
-            If (g > 255) Then g = 255
-            If (b < 0) Then b = 0
-            If (b > 255) Then
-                b = 255
+            If (R < 0) Then R = 0
+            If (R > 255) Then R = 255
+            If (G < 0) Then G = 0
+            If (G > 255) Then G = 255
+            If (B < 0) Then B = 0
+            If (B > 255) Then
+                B = 255
+
             End If
+
             xOut = X * 3
-            bDibTo(xOut, y) = b
-            bDibTo(xOut + 1, y) = g
-            bDibTo(xOut + 2, y) = r
+            bDibTo(xOut, Y) = B
+            bDibTo(xOut + 1, Y) = G
+            bDibTo(xOut + 2, Y) = R
             
         Next X
         
-    Next y
+    Next Y
 
     ' Clear the temporary array descriptor
     ' (This does not appear to be necessary, but
@@ -464,17 +619,10 @@ Dim ir2 As Long, ig2 As Long, ib2 As Long
     CopyMemory ByVal VarPtrArray(bDibFrom), 0&, 4
     CopyMemory ByVal VarPtrArray(bDibTo), 0&, 4
 
-
 End Function
 
 Private Sub Class_Terminate()
     ClearUp
+
 End Sub
-
-
-
-
-
-
-
 

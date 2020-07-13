@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "Mscomctl.ocx"
 Begin VB.Form frmRender 
    BorderStyle     =   0  'None
    ClientHeight    =   3000
@@ -217,34 +217,36 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 Option Explicit
-    '*************************************************************
-     ' Capturar la imagen de controles
+'*************************************************************
+' Capturar la imagen de controles
        
-     '  1 - Colocar un picturebox llamado picture1, un Command1 y un Command2 _
-        2 - Agragar algunos controles _
-        3 - Indicar en la Sub " Capturar_Imagen " .. el control a capturar
-    '*************************************************************
+'  1 - Colocar un picturebox llamado picture1, un Command1 y un Command2 _
+   2 - Agragar algunos controles _
+   3 - Indicar en la Sub " Capturar_Imagen " .. el control a capturar
+'*************************************************************
       
+' Declaraciones del Api
       
-    ' Declaraciones del Api
+'*************************************************************
+' Función BitBlt para copiar la imagen del control en un picturebox
+Private Automatico As Boolean
+
+Private Declare Function BitBlt _
+                Lib "gdi32" (ByVal hDestDC As Long, _
+                             ByVal X As Long, _
+                             ByVal Y As Long, _
+                             ByVal nWidth As Long, _
+                             ByVal nHeight As Long, _
+                             ByVal hSrcDC As Long, _
+                             ByVal xSrc As Long, _
+                             ByVal ySrc As Long, _
+                             ByVal dwRop As Long) As Long
       
-    '*************************************************************
-    ' Función BitBlt para copiar la imagen del control en un picturebox
-    Private Automatico As Boolean
-    Private Declare Function BitBlt Lib "gdi32" ( _
-        ByVal hDestDC As Long, _
-        ByVal X As Long, _
-        ByVal Y As Long, _
-        ByVal nWidth As Long, _
-        ByVal nHeight As Long, _
-        ByVal hSrcDC As Long, _
-        ByVal xSrc As Long, _
-        ByVal ySrc As Long, _
-        ByVal dwRop As Long) As Long
-      
-    ' Recupera la imagen del área del control
-    Private Declare Function GetWindowDC Lib "user32" (ByVal hwnd As Long) As Long
+' Recupera la imagen del área del control
+Private Declare Function GetWindowDC Lib "user32" (ByVal hWnd As Long) As Long
+
 Private Sub Check1_Click()
+
     If Check1.value = False Then
         Label6.Visible = False
         Label7.Visible = False
@@ -257,84 +259,104 @@ Private Sub Check1_Click()
         Label8.Visible = True
         Text2.Visible = True
         Automatico = True
+
     End If
+
 End Sub
 
-
-    '*************************************************************
+'*************************************************************
       
-    ' Sub que copia la imagen del control en un picturebox
-    '*************************************************************
-    Public Sub Capturar_Imagen(Control As Control, destino As Object)
+' Sub que copia la imagen del control en un picturebox
+'*************************************************************
+Public Sub Capturar_Imagen(Control As Control, destino As Object)
           
-        Dim hdc As Long
-        Dim Escala_Anterior As Integer
-        Dim ancho As Long
-        Dim alto As Long
+    Dim hdc             As Long
+
+    Dim Escala_Anterior As Integer
+
+    Dim ancho           As Long
+
+    Dim alto            As Long
           
-        ' Para que se mantenga la imagen por si se repinta la ventana
-        destino.AutoRedraw = True
+    ' Para que se mantenga la imagen por si se repinta la ventana
+    destino.AutoRedraw = True
           
-        On Error Resume Next
-        ' Si da error es por que el control está dentro de un Frame _
-          ya que  los Frame no tiene  dicha propiedad
-        Escala_Anterior = Control.Container.ScaleMode
+    On Error Resume Next
+
+    ' Si da error es por que el control está dentro de un Frame _
+      ya que  los Frame no tiene  dicha propiedad
+    Escala_Anterior = Control.Container.ScaleMode
           
-        If err.Number = 438 Then
-           ' Si el control está en un Frame, convierte la escala
-           ancho = ScaleX(Control.Width, vbTwips, vbPixels)
-           alto = ScaleY(Control.Height, vbTwips, vbPixels)
-        Else
-           ' Si no cambia la escala del  contenedor a pixeles
-           Control.Container.ScaleMode = vbPixels
-           ancho = Control.Width
-           alto = Control.Height
-        End If
+    If err.Number = 438 Then
+        ' Si el control está en un Frame, convierte la escala
+        ancho = ScaleX(Control.Width, vbTwips, vbPixels)
+        alto = ScaleY(Control.Height, vbTwips, vbPixels)
+    Else
+        ' Si no cambia la escala del  contenedor a pixeles
+        Control.Container.ScaleMode = vbPixels
+        ancho = Control.Width
+        alto = Control.Height
+
+    End If
           
-        ' limpia el error
-        On Error GoTo 0
-        ' Captura el área de pantalla correspondiente al control
-        hdc = GetWindowDC(Control.hwnd)
-        ' Copia esa área al picturebox
-        BitBlt destino.hdc, 0, 0, ancho, alto, hdc, 0, 0, vbSrcCopy
-        'BitBlt destino.hdc, 10, 10, ancho, alto, hdc, 10, 10, vbSrcCopy
-        ' Convierte la imagen anterior en un Mapa de bits
-        destino.Picture = destino.Image
-        ' Borra la imagen ya que ahora usa el Picture
-        destino.Cls
+    ' limpia el error
+    On Error GoTo 0
+
+    ' Captura el área de pantalla correspondiente al control
+    hdc = GetWindowDC(Control.hWnd)
+    ' Copia esa área al picturebox
+    BitBlt destino.hdc, 0, 0, ancho, alto, hdc, 0, 0, vbSrcCopy
+    'BitBlt destino.hdc, 10, 10, ancho, alto, hdc, 10, 10, vbSrcCopy
+    ' Convierte la imagen anterior en un Mapa de bits
+    destino.Picture = destino.Image
+    ' Borra la imagen ya que ahora usa el Picture
+    destino.Cls
           
-        On Error Resume Next
-        If err.Number = 0 Then
-           ' Si el control no está en un  Frame, restaura la escala del contenedor
-           Control.Container.ScaleMode = Escala_Anterior
-        End If
+    On Error Resume Next
+
+    If err.Number = 0 Then
+        ' Si el control no está en un  Frame, restaura la escala del contenedor
+        Control.Container.ScaleMode = Escala_Anterior
+
+    End If
           
-    End Sub
+End Sub
 
 Private Sub Command1_Click()
     Unload Me
+
 End Sub
+
 Private Sub cmdAceptar_Click()
     frmRender.Height = 4000
+
     Dim i As Integer
 
     If Automatico = False Then
         i = Text1.Text
-            If FileExist(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map", vbNormal) = True Then
-                Call modMapIO.NuevoMapa
-                Call MapaV2_Cargar(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map")
-                Call MapCapture(0)
-                Info.Caption = "Minimapas renderizados correctamente!"
-                End If
+
+        If FileExist(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map", vbNormal) = True Then
+            Call modMapIO.NuevoMapa
+            Call MapaV2_Cargar(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map")
+            Call MapCapture(0)
+            Info.Caption = "Minimapas renderizados correctamente!"
+
+        End If
+
     Else
+
         For i = Text1.Text To Text2.Text
+
             If FileExist(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map", vbNormal) = True Then
                 Call modMapIO.NuevoMapa
                 Call MapaV2_Cargar(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map")
                 Call MapCapture(0)
                 Info.Caption = "Mapa" & i & " renderizado correctamente!"
+
             End If
+
         Next i
+
     End If
 
 End Sub
@@ -343,55 +365,72 @@ End Sub
 'Ultima modificacion 08/05/2020 por ReyarB
 '******************************************************
 Private Sub RenderizarMinimap_Click()
-frmRender.Height = 3000
+    frmRender.Height = 3000
 
-Dim i As Integer
+    Dim i As Integer
 
     If Automatico = False Then
         i = Text1.Text
-            If FileExist(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map", vbNormal) = True Then
-                Call modMapIO.NuevoMapa
-                Call MapaV2_Cargar(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map")
-                Call MapCapture(1)
-                Info.Caption = "Minimapas renderizados correctamente!"
-            End If
+
+        If FileExist(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map", vbNormal) = True Then
+            Call modMapIO.NuevoMapa
+            Call MapaV2_Cargar(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map")
+            Call MapCapture(1)
+            Info.Caption = "Minimapas renderizados correctamente!"
+
+        End If
+
     Else
+
         For i = Text1.Text To Text2.Text
+
             If FileExist(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map", vbNormal) = True Then
                 Call modMapIO.NuevoMapa
                 Call MapaV2_Cargar(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map")
                 Call MapCapture(1)
                 Info.Caption = "Mapa" & i & " renderizado correctamente!"
+
             End If
+
         Next i
+
     End If
+
 End Sub
 
-
 Private Sub RenderizarMinimapM_Click()
-'******************************************************
-'Ultima modificacion 08/05/2020 por ReyarB
-'******************************************************
-frmRender.Height = 3000
+    '******************************************************
+    'Ultima modificacion 08/05/2020 por ReyarB
+    '******************************************************
+    frmRender.Height = 3000
 
-Dim i As Integer
+    Dim i As Integer
 
     If Automatico = False Then
         i = Text1.Text
-            If FileExist(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map", vbNormal) = True Then
-                Call modMapIO.NuevoMapa
-                Call MapaV2_Cargar(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map")
-                Call MapCapture(2)
-                Info.Caption = "Minimapas renderizados correctamente!"
-            End If
+
+        If FileExist(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map", vbNormal) = True Then
+            Call modMapIO.NuevoMapa
+            Call MapaV2_Cargar(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map")
+            Call MapCapture(2)
+            Info.Caption = "Minimapas renderizados correctamente!"
+
+        End If
+
     Else
+
         For i = Text1.Text To Text2.Text
+
             If FileExist(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map", vbNormal) = True Then
                 Call modMapIO.NuevoMapa
                 Call MapaV2_Cargar(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map")
                 Call MapCapture(2)
                 Info.Caption = "Mapa" & i & " renderizado correctamente!"
+
             End If
+
         Next i
+
     End If
+
 End Sub

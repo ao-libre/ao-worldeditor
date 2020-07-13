@@ -200,9 +200,11 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 Private Automatico As Boolean
 
 Private Sub Check1_Click()
+
     If Check1.value = False Then
         Label6.Visible = False
         Label7.Visible = False
@@ -215,14 +217,18 @@ Private Sub Check1_Click()
         Label8.Visible = True
         Text2.Visible = True
         Automatico = True
+
     End If
+
 End Sub
 
 '************************************************
 'Ultima modificacion 08/05/2020 por ReyarB
 '************************************************
 Private Sub Command1_Click()
-Dim i As Integer
+
+    Dim i As Integer
+
     If Automatico = False Then
         i = Text1.Text
         Call modMapIO.NuevoMapa
@@ -230,19 +236,27 @@ Dim i As Integer
         Call MapaV2_Guardar(App.Path & "\Conversor\Mapas Long\Mapa" & Text1.Text & ".map")
         Info.Caption = "Conversion realizada correctamente!"
     Else
+
         For i = Text1.Text To Text2.Text
+
             If FileExist(App.Path & "\Conversor\Mapas Integer\Mapa" & i & ".map", vbNormal) = True Then
                 Call modMapIO.NuevoMapa
                 Call MapaV2_Cargar(App.Path & "\Conversor\Mapas Integer\Mapa" & i & ".map", True)
                 Call MapaV2_Guardar(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map")
                 Info.Caption = "Mapa" & i & " convertido correctamente!"
+
             End If
+
         Next i
+
     End If
+
 End Sub
 
 Private Sub Command2_Click()
-Dim i As Integer
+
+    Dim i As Integer
+
     If Automatico = False Then
         Call modMapIO.NuevoMapa
         Call MapaV2_Cargar(App.Path & "\Conversor\Mapas Long\Mapa" & Text1.Text & ".map")
@@ -250,6 +264,7 @@ Dim i As Integer
         
         Info.Caption = "Conversion realizada correctamente!"
     Else
+
         For i = Text1.Text To Text2.Text
             
             If FileExist(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map", vbNormal) = True Then
@@ -258,15 +273,19 @@ Dim i As Integer
                 Call Save_CSM(App.Path & "\Conversor\Mapas CSM\Mapa" & i & ".csm")
             
                 Info.Caption = "Mapa" & i & " convertido correctamente!"
+
             End If
+
         Next i
+
     End If
+
 End Sub
 
 Private Sub Command3_Click()
 
+    Dim i As Integer
 
-Dim i As Integer
     If Automatico = False Then
         Call modMapIO.NuevoMapa
         Call MapaV2_Cargar(App.Path & "\Conversor\Mapas Long\Mapa" & Text1.Text & ".map")
@@ -274,6 +293,7 @@ Dim i As Integer
         Call MapaV2_Guardar(App.Path & "\Conversor\Mapas Cliente\Mapa" & Text1.Text & ".map")
         Info.Caption = "Conversion realizada correctamente!"
     Else
+
         For i = Text1.Text To Text2.Text
             
             If FileExist(App.Path & "\Conversor\Mapas Long\Mapa" & i & ".map", vbNormal) = True Then
@@ -282,9 +302,12 @@ Dim i As Integer
                 Call MapaV5_Guardar(App.Path & "\Conversor\Mapas Server\Mapa" & i & ".map")
                 Call MapaV2_Guardar(App.Path & "\Conversor\Mapas Cliente\Mapa" & i & ".map")
                 Info.Caption = "Mapa" & i & " convertido correctamente!"
-            End If
-        Next i
-    End If
-End Sub
 
+            End If
+
+        Next i
+
+    End If
+
+End Sub
 

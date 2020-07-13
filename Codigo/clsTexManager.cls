@@ -143,10 +143,12 @@ Private Function CrearGrafico(ByVal Archivo As Integer, _
     On Error GoTo errhandler
 
     Dim surface_desc As D3DSURFACE_DESC
+
     Dim texture_info As D3DXIMAGE_INFO
     
     Dim index        As Integer
-        index = Archivo Mod HASH_TABLE_SIZE
+
+    index = Archivo Mod HASH_TABLE_SIZE
 
     Dim ArchivoGrafico As String
     
@@ -173,8 +175,7 @@ Private Function CrearGrafico(ByVal Archivo As Integer, _
                 Call ModCompression.Get_Image(App.Path & "\Recursos\Graficos\", CStr(Archivo), Buffer())
                 
                 'Seteamos la textura.
-                Set .Texture = D3DX.CreateTextureFromFileInMemoryEx(D3DDevice, Buffer(0), UBound(Buffer()) + 1, D3DX_DEFAULT, D3DX_DEFAULT, 0, 0, D3DFMT_A8R8G8B8, _
-                                                                    D3DPOOL_MANAGED, D3DX_FILTER_POINT, D3DX_FILTER_NONE, &HFF000000, texture_info, ByVal 0)
+                Set .Texture = D3DX.CreateTextureFromFileInMemoryEx(D3DDevice, Buffer(0), UBound(Buffer()) + 1, D3DX_DEFAULT, D3DX_DEFAULT, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, D3DX_FILTER_POINT, D3DX_FILTER_NONE, &HFF000000, texture_info, ByVal 0)
                 Erase Buffer
                 
             Else 'Si no existe (Graphics.AO), cargamos los .PNG's o .BMP's descompromodos en la carpeta "\Recursos\Graficos\"
@@ -188,8 +189,7 @@ Private Function CrearGrafico(ByVal Archivo As Integer, _
     
                 End If
                 
-                Set .Texture = D3DX.CreateTextureFromFileEx(D3DDevice, ArchivoGrafico, D3DX_DEFAULT, D3DX_DEFAULT, 0, 0, D3DFMT_A8R8G8B8, _
-                                                            D3DPOOL_MANAGED, D3DX_FILTER_NONE, D3DX_FILTER_NONE, &HFF000000, texture_info, ByVal 0)
+                Set .Texture = D3DX.CreateTextureFromFileEx(D3DDevice, ArchivoGrafico, D3DX_DEFAULT, D3DX_DEFAULT, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, D3DX_FILTER_NONE, D3DX_FILTER_NONE, &HFF000000, texture_info, ByVal 0)
               
             End If
               
@@ -302,6 +302,4 @@ Private Function RemoveLRU() As Boolean
     mFreeMemoryBytes = mFreeMemoryBytes + surface_desc.Size
 
 End Function
-
-
 

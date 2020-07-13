@@ -3,10 +3,10 @@ Begin VB.Form frmMapa
    AutoRedraw      =   -1  'True
    BackColor       =   &H80000008&
    Caption         =   "frmMapa"
-   ClientHeight    =   15045
+   ClientHeight    =   12990
    ClientLeft      =   2775
    ClientTop       =   450
-   ClientWidth     =   24015
+   ClientWidth     =   21420
    BeginProperty Font 
       Name            =   "Tahoma"
       Size            =   8.25
@@ -17,9 +17,9 @@ Begin VB.Form frmMapa
       Strikethrough   =   0   'False
    EndProperty
    LinkTopic       =   "Form1"
-   ScaleHeight     =   1003
+   ScaleHeight     =   866
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   1601
+   ScaleWidth      =   1428
    Begin VB.Image Mapa 
       Appearance      =   0  'Flat
       Height          =   1500
@@ -2738,24 +2738,33 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub Form_Load()
- Call ActualizarMapa
+    Call ActualizarMapa
+
 End Sub
 
 Private Sub ActualizarMapa() ' modificar  no funciona ReyarB
-  Dim i As Integer
-  For i = 1 To 299 ' 99 original
-          Mapa(i).Stretch = True
-          If Len(Dir(App.Path & "\Recursos\miniMapa\" & i & ".bmp", vbNormal)) > 0 Then
-              Set Mapa(i).Picture = LoadPicture(App.Path & "\Renderizados\Minimapa\" & i & ".bmp")
-      End If
 
-  Next i
+    Dim i As Integer
+
+    For i = 1 To 299 ' 99 original
+        Mapa(i).Stretch = True
+
+        If Len(Dir(App.Path & "\Recursos\miniMapa\" & i & ".bmp", vbNormal)) > 0 Then
+            Set Mapa(i).Picture = LoadPicture(App.Path & "\Renderizados\Minimapa\" & i & ".bmp")
+
+        End If
+
+    Next i
+
 End Sub
 
 Private Sub Mapa_Click(index As Integer)
- If Len(Dir(App.Path & "\Conversor\Mapas CSM" & index & ".csm", vbNormal)) > 0 Then
-    Call modMapIO.NuevoMapa
-    Call modMapIO.Cargar_CSM("Mapa" & index & ".csm")
-    Call ActualizarMapa
-  End If
+
+    If Len(Dir(App.Path & "\Conversor\Mapas CSM" & index & ".csm", vbNormal)) > 0 Then
+        Call modMapIO.NuevoMapa
+        Call modMapIO.Cargar_CSM("Mapa" & index & ".csm")
+        Call ActualizarMapa
+
+    End If
+
 End Sub

@@ -178,11 +178,12 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cmdCerrar_Click()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-Unload Me
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    Unload Me
+
 End Sub
 
 ''
@@ -190,27 +191,34 @@ End Sub
 '
 
 Private Sub ActalizarObjetos()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-On Error Resume Next
-Dim Y As Integer
-Dim X As Integer
 
-If Not MapaCargado Then
-    Exit Sub
-End If
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    On Error Resume Next
 
-txtInfo.Text = "Informe de Objetos (X,Y)"
+    Dim Y As Integer
 
-For Y = YMinMapSize To YMaxMapSize
-    For X = XMinMapSize To XMaxMapSize
-        If MapData(X, Y).OBJInfo.objindex > 0 Then
-            txtInfo.Text = txtInfo.Text & vbCrLf & " X " & X & "," & " Y " & Y & " tiene " & MapData(X, Y).OBJInfo.Amount & " del Objeto " & MapData(X, Y).OBJInfo.objindex & " - " & ObjData(MapData(X, Y).OBJInfo.objindex).name
-        End If
-    Next X
-Next Y
+    Dim X As Integer
+
+    If Not MapaCargado Then
+        Exit Sub
+
+    End If
+
+    txtInfo.Text = "Informe de Objetos (X,Y)"
+
+    For Y = YMinMapSize To YMaxMapSize
+        For X = XMinMapSize To XMaxMapSize
+
+            If MapData(X, Y).OBJInfo.objindex > 0 Then
+                txtInfo.Text = txtInfo.Text & vbCrLf & " X " & X & "," & " Y " & Y & " tiene " & MapData(X, Y).OBJInfo.Amount & " del Objeto " & MapData(X, Y).OBJInfo.objindex & " - " & ObjData(MapData(X, Y).OBJInfo.objindex).name
+
+            End If
+
+        Next X
+    Next Y
 
 End Sub
 
@@ -219,31 +227,39 @@ End Sub
 '
 
 Private Sub ActalizarNPCs()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-On Error Resume Next
-Dim Y As Integer
-Dim X As Integer
 
-If Not MapaCargado Then
-    Exit Sub
-End If
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    On Error Resume Next
 
-txtInfo.Text = "Informe de NPCs/Hostiles (X,Y)"
+    Dim Y As Integer
 
-For Y = YMinMapSize To YMaxMapSize
-    For X = XMinMapSize To XMaxMapSize
-        If MapData(X, Y).NPCIndex > 0 Then
-            If MapData(X, Y).NPCIndex >= 500 Then
-                txtInfo.Text = txtInfo.Text & vbCrLf & " X " & X & "," & " Y " & Y & " tiene " & NpcData(MapData(X, Y).NPCIndex).name & " (Hostil)"
-            Else
-                txtInfo.Text = txtInfo.Text & vbCrLf & " X " & X & "," & " Y " & Y & " tiene " & NpcData(MapData(X, Y).NPCIndex).name
+    Dim X As Integer
+
+    If Not MapaCargado Then
+        Exit Sub
+
+    End If
+
+    txtInfo.Text = "Informe de NPCs/Hostiles (X,Y)"
+
+    For Y = YMinMapSize To YMaxMapSize
+        For X = XMinMapSize To XMaxMapSize
+
+            If MapData(X, Y).NPCIndex > 0 Then
+                If MapData(X, Y).NPCIndex >= 500 Then
+                    txtInfo.Text = txtInfo.Text & vbCrLf & " X " & X & "," & " Y " & Y & " tiene " & NpcData(MapData(X, Y).NPCIndex).name & " (Hostil)"
+                Else
+                    txtInfo.Text = txtInfo.Text & vbCrLf & " X " & X & "," & " Y " & Y & " tiene " & NpcData(MapData(X, Y).NPCIndex).name
+
+                End If
+
             End If
-        End If
-    Next X
-Next Y
+
+        Next X
+    Next Y
 
 End Sub
 
@@ -252,56 +268,70 @@ End Sub
 '
 
 Private Sub ActalizarTranslados()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-On Error Resume Next
-Dim Y As Integer
-Dim X As Integer
 
-If Not MapaCargado Then
-    Exit Sub
-End If
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    On Error Resume Next
 
-txtInfo.Text = "Informe de Translados (X,Y)"
+    Dim Y As Integer
 
-For Y = YMinMapSize To YMaxMapSize
-    For X = XMinMapSize To XMaxMapSize
+    Dim X As Integer
+
+    If Not MapaCargado Then
+        Exit Sub
+
+    End If
+
+    txtInfo.Text = "Informe de Translados (X,Y)"
+
+    For Y = YMinMapSize To YMaxMapSize
+        For X = XMinMapSize To XMaxMapSize
+
             If MapData(X, Y).TileExit.Map > 0 Then
                 txtInfo.Text = txtInfo.Text & vbCrLf & " X " & X & "," & " Y " & Y & " nos traslada a la posición " & MapData(X, Y).TileExit.X & "," & MapData(X, Y).TileExit.Y & " del Mapa " & MapData(X, Y).TileExit.Map
+
                 If ((X < 20 And MapData(X, Y).TileExit.X < 20) Or (X > 80 And MapData(X, Y).TileExit.X > 80)) And (X <> MapData(X, Y).TileExit.X) Then
                     txtInfo.Text = txtInfo.Text & " (X sospechoso)"
+
                 End If
+
                 If ((Y < 20 And MapData(X, Y).TileExit.Y < 20) Or (Y > 80 And MapData(X, Y).TileExit.Y > 80)) And (Y <> MapData(X, Y).TileExit.Y) Then
                     txtInfo.Text = txtInfo.Text & " (Y sospechoso)"
+
                 End If
+
             End If
-    Next X
-Next Y
+
+        Next X
+    Next Y
 
 End Sub
 
 Private Sub cmdNPCs_Click()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-Call ActalizarNPCs
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    Call ActalizarNPCs
+
 End Sub
 
 Private Sub cmdObjetos_Click()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-Call ActalizarObjetos
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    Call ActalizarObjetos
+
 End Sub
 
 Private Sub cmdTranslados_Click()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-Call ActalizarTranslados
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    Call ActalizarTranslados
+
 End Sub

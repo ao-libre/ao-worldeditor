@@ -272,7 +272,7 @@ Sub Engine_Init_FontSettings()
                 .Vertex(0).tv = v
                 .Vertex(0).X = 0
                 .Vertex(0).Y = 0
-                .Vertex(0).Z = 0
+                .Vertex(0).z = 0
                   
                 .Vertex(1).color = D3DColorARGB(255, 0, 0, 0)
                 .Vertex(1).rhw = 1
@@ -280,7 +280,7 @@ Sub Engine_Init_FontSettings()
                 .Vertex(1).tv = v
                 .Vertex(1).X = cfonts(i).HeaderInfo.CellWidth
                 .Vertex(1).Y = 0
-                .Vertex(1).Z = 0
+                .Vertex(1).z = 0
                   
                 .Vertex(2).color = D3DColorARGB(255, 0, 0, 0)
                 .Vertex(2).rhw = 1
@@ -288,7 +288,7 @@ Sub Engine_Init_FontSettings()
                 .Vertex(2).tv = v + cfonts(i).RowFactor
                 .Vertex(2).X = 0
                 .Vertex(2).Y = cfonts(i).HeaderInfo.CellHeight
-                .Vertex(2).Z = 0
+                .Vertex(2).z = 0
                   
                 .Vertex(3).color = D3DColorARGB(255, 0, 0, 0)
                 .Vertex(3).rhw = 1
@@ -296,7 +296,7 @@ Sub Engine_Init_FontSettings()
                 .Vertex(3).tv = v + cfonts(i).RowFactor
                 .Vertex(3).X = cfonts(i).HeaderInfo.CellWidth
                 .Vertex(3).Y = cfonts(i).HeaderInfo.CellHeight
-                .Vertex(3).Z = 0
+                .Vertex(3).z = 0
                 
             End With
             
@@ -345,5 +345,4 @@ eDebug:
     End
 
 End Sub
-
 

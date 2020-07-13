@@ -2,19 +2,25 @@ Attribute VB_Name = "ModCompression"
 Option Explicit
 
 Public Const PNG_SOURCE_FILE_EXT  As String = ".png"
+
 Public Const BMP_SOURCE_FILE_EXT  As String = ".bmp"
 
 Public Const GRH_RESOURCE_FILE    As String = "Graficos.AO"
+
 Public Const GRH_PATCH_FILE       As String = "Graficos.PATCH"
 
 Public Const MAPS_SOURCE_FILE_EXT As String = ".map"
 
 Public Const MAPS_RESOURCE_FILE   As String = "Mapas.AO"
+
 Public Const MAPS_PATCH_FILE      As String = "Mapas.PATCH"
 
 Public GrhDatContra()             As Byte ' Contrase?a
+
 Public GrhUsaContra               As Boolean ' Usa Contrase?a?
+
 Public MapsDatContra()            As Byte ' Contrase?a
+
 Public MapsUsaContra              As Boolean  ' Usa Contrase?a?
 
 'This structure will describe our binary file's
@@ -1735,6 +1741,4 @@ errhandler:
     TestZLib = False
 
 End Function
-
-
 

@@ -166,32 +166,37 @@ Private MidiActual As String
 '
 
 Private Sub cmdAplicarYCerrar_Click()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-On Error Resume Next
-If Len(MidiActual) >= 5 Then
-    MapInfo.Music = Left(MidiActual, Len(MidiActual) - 4)
-    frmMapInfo.txtMapMusica.Text = MapInfo.Music
-    frmMain.lblMapMusica = MapInfo.Music
-    frmMain.lblMapAmbient = MapInfo.ambient
-    MidiActual = Empty
-End If
-Me.Hide
-End Sub
 
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    On Error Resume Next
+
+    If Len(MidiActual) >= 5 Then
+        MapInfo.Music = Left(MidiActual, Len(MidiActual) - 4)
+        frmMapInfo.txtMapMusica.Text = MapInfo.Music
+        frmMain.lblMapMusica = MapInfo.Music
+        frmMain.lblMapAmbient = MapInfo.ambient
+        MidiActual = Empty
+
+    End If
+
+    Me.Hide
+
+End Sub
 
 ''
 ' Oculta la ventana
 '
 
 Private Sub cmdCerrar_Click()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-Me.Hide
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    Me.Hide
+
 End Sub
 
 ''
@@ -199,14 +204,15 @@ End Sub
 '
 
 Private Sub cmdDetener_Click()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
 
-cmdEscuchar.Enabled = True
-cmdDetener.Enabled = False
-Play = False
+    cmdEscuchar.Enabled = True
+    cmdDetener.Enabled = False
+    Play = False
+
 End Sub
 
 ''
@@ -214,14 +220,15 @@ End Sub
 '
 
 Private Sub cmdEscuchar_Click()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
 
-cmdDetener.Enabled = True
-cmdEscuchar.Enabled = False
-Play = True
+    cmdDetener.Enabled = True
+    cmdEscuchar.Enabled = False
+    Play = True
+
 End Sub
 
 ''

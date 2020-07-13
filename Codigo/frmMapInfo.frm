@@ -488,194 +488,205 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub chkMapBackup_LostFocus()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-MapInfo.BackUp = chkMapBackup.value
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    MapInfo.BackUp = chkMapBackup.value
 
 End Sub
 
 Private Sub chkMapMagiaSinEfecto_LostFocus()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-MapInfo.MagiaSinEfecto = chkMapMagiaSinEfecto.value
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    MapInfo.MagiaSinEfecto = chkMapMagiaSinEfecto.value
 
 End Sub
 
 Private Sub chkMapInviSinEfecto_LostFocus()
-'*************************************************
-'Author:
-'Last modified:
-'*************************************************
-MapInfo.InviSinEfecto = chkMapInviSinEfecto.value
+    '*************************************************
+    'Author:
+    'Last modified:
+    '*************************************************
+    MapInfo.InviSinEfecto = chkMapInviSinEfecto.value
 
 End Sub
 
 Private Sub chkMapnpc_LostFocus()
-'*************************************************
-'Author: Hardoz
-'Last modified: 28/08/2010
-'*************************************************
-MapInfo.SePuedeDomar = ChkMapNpc.value
+    '*************************************************
+    'Author: Hardoz
+    'Last modified: 28/08/2010
+    '*************************************************
+    MapInfo.SePuedeDomar = ChkMapNpc.value
  
 End Sub
 
 Private Sub chkMapResuSinEfecto_LostFocus()
-'*************************************************
-'Author:
-'Last modified:
-'*************************************************
-MapInfo.ResuSinEfecto = chkMapResuSinEfecto.value
+    '*************************************************
+    'Author:
+    'Last modified:
+    '*************************************************
+    MapInfo.ResuSinEfecto = chkMapResuSinEfecto.value
 
 End Sub
 
 Private Sub chkMapNoEncriptarMP_LostFocus()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-MapInfo.NoEncriptarMP = chkMapNoEncriptarMP.value
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    MapInfo.NoEncriptarMP = chkMapNoEncriptarMP.value
 
 End Sub
 
 Private Sub chkMapPK_LostFocus()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-MapInfo.PK = chkMapPK.value
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    MapInfo.PK = chkMapPK.value
 
 End Sub
 
 Private Sub cmdCerrar_Click()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-MapInfo.Changed = 1
-Me.Hide
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    MapInfo.Changed = 1
+    Me.Hide
+
 End Sub
 
-
 Private Sub cmdMusica_Click()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-frmMusica.Show
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    frmMusica.Show
+
 End Sub
 
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-If UnloadMode = vbFormControlMenu Then
-    Cancel = True
-    Me.Hide
-End If
+
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    If UnloadMode = vbFormControlMenu Then
+        Cancel = True
+        Me.Hide
+
+    End If
+
 End Sub
 
 Private Sub lvButtons_H1_Click()
-'MapInfo.Changed = 1
-Me.Hide
+    'MapInfo.Changed = 1
+    Me.Hide
+
 End Sub
 
 Private Sub TxtAmbient_Change()
-'*************************************************
-'Author: Lorwik
-'Last modified: 10/08/14
-'*************************************************
-MapInfo.ambient = TxtAmbient.Text
+    '*************************************************
+    'Author: Lorwik
+    'Last modified: 10/08/14
+    '*************************************************
+    MapInfo.ambient = TxtAmbient.Text
 
 End Sub
 
 Private Sub txtMapMusica_LostFocus()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-MapInfo.Music = txtMapMusica.Text
-frmMain.lblMapMusica.Caption = MapInfo.Music
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    MapInfo.Music = txtMapMusica.Text
+    frmMain.lblMapMusica.Caption = MapInfo.Music
 
 End Sub
 
 Private Sub txtMapVersion_LostFocus()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 29/05/06
-'*************************************************
-MapInfo.MapVersion = txtMapVersion.Text
-frmMain.lblMapVersion.Caption = MapInfo.MapVersion
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 29/05/06
+    '*************************************************
+    MapInfo.MapVersion = txtMapVersion.Text
+    frmMain.lblMapVersion.Caption = MapInfo.MapVersion
 
 End Sub
 
 Private Sub txtMapNombre_LostFocus()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-MapInfo.name = txtMapNombre.Text
-frmMain.lblMapNombre.Caption = MapInfo.name
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    MapInfo.name = txtMapNombre.Text
+    frmMain.lblMapNombre.Caption = MapInfo.name
 
 End Sub
+
 Private Sub txtlvlminimo_LostFocus()
-'*************************************************
-'Author: Lorwik
-'Last modified: 13/09/11
-'*************************************************
-MapInfo.lvlMinimo = TxtlvlMinimo.Text
+    '*************************************************
+    'Author: Lorwik
+    'Last modified: 13/09/11
+    '*************************************************
+    MapInfo.lvlMinimo = TxtlvlMinimo.Text
+
 End Sub
+
 Private Sub txtMapRestringir_KeyPress(KeyAscii As Integer)
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-KeyAscii = 0
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    KeyAscii = 0
+
 End Sub
 
 Private Sub txtMapRestringir_LostFocus()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-MapInfo.Restringir = txtMapRestringir.Text
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    MapInfo.Restringir = txtMapRestringir.Text
 
 End Sub
 
 Private Sub txtMapTerreno_KeyPress(KeyAscii As Integer)
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-KeyAscii = 0
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    KeyAscii = 0
+
 End Sub
 
 Private Sub txtMapTerreno_LostFocus()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-MapInfo.Terreno = txtMapTerreno.Text
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    MapInfo.Terreno = txtMapTerreno.Text
 
 End Sub
 
 Private Sub txtMapZona_KeyPress(KeyAscii As Integer)
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-KeyAscii = 0
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    KeyAscii = 0
+
 End Sub
 
 Private Sub txtMapZona_LostFocus()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-MapInfo.Zona = txtMapZona.Text
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    MapInfo.Zona = txtMapZona.Text
 
 End Sub

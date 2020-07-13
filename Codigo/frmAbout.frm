@@ -285,20 +285,22 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cmdOK_Click()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
-  Unload Me
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
+    Unload Me
+
 End Sub
 
 Private Sub Form_Load()
-'*************************************************
-'Author: ^[GS]^
-'Last modified: 20/05/06
-'*************************************************
+    '*************************************************
+    'Author: ^[GS]^
+    'Last modified: 20/05/06
+    '*************************************************
     Me.Caption = "Acerca de " & App.Title
     lblVersion.Caption = "Versión " & App.Major & "." & App.Minor & "." & App.Revision
     lblTitle.Caption = App.Title
+
 End Sub
 

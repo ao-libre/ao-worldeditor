@@ -148,23 +148,28 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub Command1_Click()
-Dim Borrado As Boolean
+
+    Dim Borrado As Boolean
+
     Borrado = False
     Call PegarMapa(0 + Val(Text10.Text), 0 + (Val(Text9.Text)))
+
 End Sub
 
 Private Sub LvBTraslados_Click()
-Dim X As Long, Y As Long
+
+    Dim X As Long, Y As Long
 
     For X = 1 To XMaxMapSize
         For Y = 1 To 8
         
-           If MapData(X, Y).TileExit.Map > 0 Then
-              MapData(X, 9).TileExit = MapData(X, Y).TileExit
-              MapData(X, Y).TileExit.Map = 0
-              MapData(X, Y).TileExit.X = 0
-              MapData(X, Y).TileExit.Y = 0
-           End If
+            If MapData(X, Y).TileExit.Map > 0 Then
+                MapData(X, 9).TileExit = MapData(X, Y).TileExit
+                MapData(X, Y).TileExit.Map = 0
+                MapData(X, Y).TileExit.X = 0
+                MapData(X, Y).TileExit.Y = 0
+
+            End If
         
         Next Y
     Next X
@@ -172,12 +177,13 @@ Dim X As Long, Y As Long
     For X = 1 To XMaxMapSize
         For Y = 93 To YMaxMapSize
         
-           If MapData(X, Y).TileExit.Map > 0 Then
-              MapData(X, 92).TileExit = MapData(X, Y).TileExit
-              MapData(X, Y).TileExit.Map = 0
-              MapData(X, Y).TileExit.X = 0
-              MapData(X, Y).TileExit.Y = 0
-           End If
+            If MapData(X, Y).TileExit.Map > 0 Then
+                MapData(X, 92).TileExit = MapData(X, Y).TileExit
+                MapData(X, Y).TileExit.Map = 0
+                MapData(X, Y).TileExit.X = 0
+                MapData(X, Y).TileExit.Y = 0
+
+            End If
         
         Next Y
     Next X
@@ -185,12 +191,13 @@ Dim X As Long, Y As Long
     For X = 1 To 11
         For Y = 1 To YMaxMapSize
         
-           If MapData(X, Y).TileExit.Map > 0 Then
-              MapData(12, Y).TileExit = MapData(X, Y).TileExit
-              MapData(X, Y).TileExit.Map = 0
-              MapData(X, Y).TileExit.X = 0
-              MapData(X, Y).TileExit.Y = 0
-           End If
+            If MapData(X, Y).TileExit.Map > 0 Then
+                MapData(12, Y).TileExit = MapData(X, Y).TileExit
+                MapData(X, Y).TileExit.Map = 0
+                MapData(X, Y).TileExit.X = 0
+                MapData(X, Y).TileExit.Y = 0
+
+            End If
         
         Next Y
     Next X
@@ -198,12 +205,13 @@ Dim X As Long, Y As Long
     For X = 90 To XMaxMapSize
         For Y = 1 To YMaxMapSize
         
-           If MapData(X, Y).TileExit.Map > 0 Then
-              MapData(89, Y).TileExit = MapData(X, Y).TileExit
-              MapData(X, Y).TileExit.Map = 0
-              MapData(X, Y).TileExit.X = 0
-              MapData(X, Y).TileExit.Y = 0
-           End If
+            If MapData(X, Y).TileExit.Map > 0 Then
+                MapData(89, Y).TileExit = MapData(X, Y).TileExit
+                MapData(X, Y).TileExit.Map = 0
+                MapData(X, Y).TileExit.X = 0
+                MapData(X, Y).TileExit.Y = 0
+
+            End If
         
         Next Y
     Next X
@@ -211,12 +219,16 @@ Dim X As Long, Y As Long
     'modMapIO.GuardarMapa Dialog.FileName
 
 End Sub
+
 Private Sub LvBCopiarMapa_Click()
-Dim X As Integer
-Dim Y As Integer
+
+    Dim X As Integer
+
+    Dim Y As Integer
 
     For X = 1 To XMaxMapSize
         For Y = 1 To YMaxMapSize
+
             With MapData2(X, Y)
                 .Graphic(1) = MapData(X, Y).Graphic(1)
                 .Graphic(2) = MapData(X, Y).Graphic(2)
@@ -227,92 +239,125 @@ Dim Y As Integer
                 .Trigger = MapData(X, Y).Trigger
                 .ObjGrh = MapData(X, Y).ObjGrh
                 .OBJInfo = MapData(X, Y).OBJInfo
+
             End With
+
         Next
     Next
+
 End Sub
 
 Private Sub LvBBorrarBloqueos_Click()
-Dim X As Integer
-Dim Y As Integer
+
+    Dim X As Integer
+
+    Dim Y As Integer
+
     For X = XMinMapSize To XMaxMapSize
         For Y = YMinMapSize To YMaxMapSize
         
-        If MapData(X, Y).Graphic(2).GrhIndex > 0 Or _
-           MapData(X, Y).Graphic(3).GrhIndex > 0 Or _
-           MapData(X, Y).Graphic(4).GrhIndex > 0 Or _
-           MapData(X, Y).OBJInfo.objindex > 0 Then GoTo Jump
+            If MapData(X, Y).Graphic(2).GrhIndex > 0 Or MapData(X, Y).Graphic(3).GrhIndex > 0 Or MapData(X, Y).Graphic(4).GrhIndex > 0 Or MapData(X, Y).OBJInfo.objindex > 0 Then GoTo Jump
         
-        If X >= 10 And Y >= 93 And Y <= 108 Then MapData(X, Y).blocked = 0
-        If X >= 92 And X <= 108 And Y >= 8 Then MapData(X, Y).blocked = 0
-        If X >= 192 And X <= 208 And Y >= 8 Then MapData(X, Y).blocked = 0
-        If X >= 9 And X <= 91 And Y >= 182 And Y <= 193 Then MapData(X, Y).blocked = 0
-        If X >= 109 And X <= 191 And Y >= 188 And Y <= 193 Then MapData(X, Y).blocked = 0
-        If X >= 209 And X <= 274 And Y >= 195 And Y <= 206 Then MapData(X, Y).blocked = 0
-        If X >= 109 And X <= 192 Then MapData(X, Y).blocked = 0
-        If Y >= 182 And Y <= 188 Then MapData(X, Y).blocked = 0
+            If X >= 10 And Y >= 93 And Y <= 108 Then MapData(X, Y).blocked = 0
+            If X >= 92 And X <= 108 And Y >= 8 Then MapData(X, Y).blocked = 0
+            If X >= 192 And X <= 208 And Y >= 8 Then MapData(X, Y).blocked = 0
+            If X >= 9 And X <= 91 And Y >= 182 And Y <= 193 Then MapData(X, Y).blocked = 0
+            If X >= 109 And X <= 191 And Y >= 188 And Y <= 193 Then MapData(X, Y).blocked = 0
+            If X >= 209 And X <= 274 And Y >= 195 And Y <= 206 Then MapData(X, Y).blocked = 0
+            If X >= 109 And X <= 192 Then MapData(X, Y).blocked = 0
+            If Y >= 182 And Y <= 188 Then MapData(X, Y).blocked = 0
         
 Jump:
         Next
     Next
+
 End Sub
 
 Private Sub Label2_Click(index As Integer)
+
     Dim Borrado As Boolean
+
     Borrado = False
+
     If Not Borrado Then
+
         Select Case index
+
             Case 0
                 Call PegarMapa(0 + Val(Text10.Text), 0 + (Val(Text9.Text)))
+
             Case 1
                 Call PegarMapa(100 + Val(Text10.Text), 0 + Val(Text9.Text))
+
             Case 2
                 Call PegarMapa(200 + Val(Text10.Text), 0 + Val(Text9.Text))
+
             Case 3
                 Call PegarMapa(0 + Val(Text10.Text), 100 + Val(Text9.Text))
+
             Case 4
                 Call PegarMapa(100 + Val(Text10.Text), 100 + Val(Text9.Text))
+
             Case 5
                 Call PegarMapa(200 + Val(Text10.Text), 100 + Val(Text9.Text))
+
             Case 6
-             Call PegarMapa(0 + Val(Text10.Text), 200 + Val(Text9.Text))
+                Call PegarMapa(0 + Val(Text10.Text), 200 + Val(Text9.Text))
+
             Case 7
                 Call PegarMapa(100 + Val(Text10.Text), 200 + Val(Text9.Text))
+
             Case 8
                 Call PegarMapa(200 + Val(Text10.Text), 200 + Val(Text9.Text))
+
         End Select
+
     Else
+
         Select Case index
         
             Case 0
                 Call BorrarMapa(0, 0)
+
             Case 1
                 Call BorrarMapa(100, 0)
+
             Case 2
                 Call BorrarMapa(200, 0)
+
             Case 3
                 Call BorrarMapa(0, 100)
+
             Case 4
                 Call BorrarMapa(100, 100)
+
             Case 5
                 Call BorrarMapa(200, 100)
+
             Case 6
                 Call BorrarMapa(0, 200)
+
             Case 7
                 Call BorrarMapa(100, 200)
+
             Case 8
                 Call BorrarMapa(200, 200)
+
         End Select
+
     End If
 
 End Sub
 
 Private Sub PegarMapa(ByVal mX As Integer, ByVal mY As Integer)
-On Error GoTo err
-Dim OffsetX As Integer
-Dim OffsetY As Integer
-Dim X As Integer, Y As Integer
 
+    On Error GoTo err
+
+    Dim OffsetX As Integer
+
+    Dim OffsetY As Integer
+
+    Dim X       As Integer, Y As Integer
 
     OffsetX = X + mX
     OffsetY = Y + mY
@@ -321,50 +366,61 @@ Dim X As Integer, Y As Integer
         For Y = 1 To YMaxMapSize
         
             If OffsetX + X > 0 And OffsetX + X < 201 Then
-              If OffsetY + Y > 0 And OffsetY + Y < 201 Then
+                If OffsetY + Y > 0 And OffsetY + Y < 201 Then
               
-                With MapData(X + OffsetX, Y + OffsetY)
+                    With MapData(X + OffsetX, Y + OffsetY)
     
-                    .Graphic(1) = MapData2(X, Y).Graphic(1)
-                    .Graphic(2) = MapData2(X, Y).Graphic(2)
-                    .Graphic(3) = MapData2(X, Y).Graphic(3)
-                    .Graphic(4) = MapData2(X, Y).Graphic(4)
-                    .blocked = MapData2(X, Y).blocked
-                    .NPCIndex = MapData2(X, Y).NPCIndex
-                    .Trigger = MapData2(X, Y).Trigger
-                    .ObjGrh = MapData2(X, Y).ObjGrh
-                    .OBJInfo = MapData2(X, Y).OBJInfo
-                End With
-              End If
+                        .Graphic(1) = MapData2(X, Y).Graphic(1)
+                        .Graphic(2) = MapData2(X, Y).Graphic(2)
+                        .Graphic(3) = MapData2(X, Y).Graphic(3)
+                        .Graphic(4) = MapData2(X, Y).Graphic(4)
+                        .blocked = MapData2(X, Y).blocked
+                        .NPCIndex = MapData2(X, Y).NPCIndex
+                        .Trigger = MapData2(X, Y).Trigger
+                        .ObjGrh = MapData2(X, Y).ObjGrh
+                        .OBJInfo = MapData2(X, Y).OBJInfo
+
+                    End With
+
+                End If
+
             End If
           
         Next
     Next
 err:
-Debug.Print err.Description
-Debug.Print "error en pegarmapa"
+    Debug.Print err.Description
+    Debug.Print "error en pegarmapa"
+
 End Sub
 
 Private Sub BorrarMapa(ByVal mX As Integer, ByVal mY As Integer)
-Dim GrhNull As Grh
-Dim ObjectNull As Obj
-Dim X As Integer, Y As Integer
 
-For X = 1 To XMaxMapSize
-    For Y = 1 To YMaxMapSize
-        With MapData(X + mX, Y + mY)
-            .Graphic(1) = GrhNull
-            .Graphic(2) = GrhNull
-            .Graphic(3) = GrhNull
-            .Graphic(4) = GrhNull
-            .blocked = 0
-            .NPCIndex = 0
-            .Trigger = 0
-            .ObjGrh = GrhNull
-            .OBJInfo = ObjectNull
-        End With
+    Dim GrhNull    As Grh
+
+    Dim ObjectNull As Obj
+
+    Dim X          As Integer, Y As Integer
+
+    For X = 1 To XMaxMapSize
+        For Y = 1 To YMaxMapSize
+
+            With MapData(X + mX, Y + mY)
+                .Graphic(1) = GrhNull
+                .Graphic(2) = GrhNull
+                .Graphic(3) = GrhNull
+                .Graphic(4) = GrhNull
+                .blocked = 0
+                .NPCIndex = 0
+                .Trigger = 0
+                .ObjGrh = GrhNull
+                .OBJInfo = ObjectNull
+
+            End With
+
+        Next
     Next
-Next
+
 End Sub
 
 Private Sub Picture1_Click()
