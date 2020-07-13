@@ -40,6 +40,47 @@ Begin VB.Form frmAbout
       Value           =   0   'False
       cBack           =   -2147483633
    End
+   Begin VB.Label Label1 
+      BackColor       =   &H80000007&
+      Caption         =   "  Retoques finales por ReyarB"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H0000FF00&
+      Height          =   255
+      Left            =   720
+      TabIndex        =   9
+      Top             =   2040
+      Width           =   3135
+   End
+   Begin VB.Label lblReMejorado 
+      Alignment       =   2  'Center
+      AutoSize        =   -1  'True
+      BackColor       =   &H00000000&
+      Caption         =   "Re-Mejorado por Lorwik"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   9
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFF80&
+      Height          =   210
+      Index           =   5
+      Left            =   765
+      TabIndex        =   8
+      Top             =   1800
+      Width           =   3090
+   End
    Begin VB.Label lblCred 
       Alignment       =   2  'Center
       BackColor       =   &H00000000&
@@ -119,7 +160,7 @@ Begin VB.Form frmAbout
       Index           =   0
       Left            =   960
       TabIndex        =   3
-      Top             =   2040
+      Top             =   2280
       Width           =   2565
    End
    Begin VB.Label lblCred 
@@ -161,7 +202,7 @@ Begin VB.Form frmAbout
       Index           =   3
       Left            =   960
       TabIndex        =   1
-      Top             =   2640
+      Top             =   2760
       Width           =   2565
    End
    Begin VB.Line Line1 
@@ -210,10 +251,10 @@ Begin VB.Form frmAbout
       DrawMode        =   9  'Not Mask Pen
       FillColor       =   &H00C0C0FF&
       FillStyle       =   0  'Solid
-      Height          =   2655
+      Height          =   2775
       Left            =   120
       Shape           =   4  'Rounded Rectangle
-      Top             =   960
+      Top             =   840
       Width           =   4095
    End
 End
@@ -244,22 +285,20 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cmdOK_Click()
-    '*************************************************
-    'Author: ^[GS]^
-    'Last modified: 20/05/06
-    '*************************************************
-    Unload Me
-
+'*************************************************
+'Author: ^[GS]^
+'Last modified: 20/05/06
+'*************************************************
+  Unload Me
 End Sub
 
 Private Sub Form_Load()
-    '*************************************************
-    'Author: ^[GS]^
-    'Last modified: 20/05/06
-    '*************************************************
+'*************************************************
+'Author: ^[GS]^
+'Last modified: 20/05/06
+'*************************************************
     Me.Caption = "Acerca de " & App.Title
     lblVersion.Caption = "Versión " & App.Major & "." & App.Minor & "." & App.Revision
     lblTitle.Caption = App.Title
-
 End Sub
 

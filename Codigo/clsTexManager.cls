@@ -61,16 +61,16 @@ Private Sub Class_Terminate()
     '**************************************************************
     Dim i As Long
 
-    Dim j As Long
+    Dim J As Long
    
     'Destroy every surface in memory
     For i = 0 To HASH_TABLE_SIZE - 1
 
         With TexList(i)
 
-            For j = 1 To .surfaceCount
-                Set .SurfaceEntry(j).Texture = Nothing
-            Next j
+            For J = 1 To .surfaceCount
+                Set .SurfaceEntry(J).Texture = Nothing
+            Next J
            
             'Destroy the arrays
             Erase .SurfaceEntry
@@ -140,7 +140,7 @@ Private Function CrearGrafico(ByVal Archivo As Integer, _
                               ByRef texwidth As Long, _
                               ByRef textheight As Long) As Direct3DTexture8
 
-    On Error GoTo ErrHandler
+    On Error GoTo errhandler
 
     Dim surface_desc As D3DSURFACE_DESC
     Dim texture_info As D3DXIMAGE_INFO
@@ -170,7 +170,7 @@ Private Function CrearGrafico(ByVal Archivo As Integer, _
                 Dim Buffer() As Byte
                 
                 'Obtenemos el .bmp del archivo en Graphics.AO
-                Call modCompression.Get_Image(App.Path & "\Recursos\Graficos\", CStr(Archivo), Buffer())
+                Call ModCompression.Get_Image(App.Path & "\Recursos\Graficos\", CStr(Archivo), Buffer())
                 
                 'Seteamos la textura.
                 Set .Texture = D3DX.CreateTextureFromFileInMemoryEx(D3DDevice, Buffer(0), UBound(Buffer()) + 1, D3DX_DEFAULT, D3DX_DEFAULT, 0, 0, D3DFMT_A8R8G8B8, _
@@ -179,7 +179,7 @@ Private Function CrearGrafico(ByVal Archivo As Integer, _
                 
             Else 'Si no existe (Graphics.AO), cargamos los .PNG's o .BMP's descompromodos en la carpeta "\Recursos\Graficos\"
             
-                ArchivoGrafico = App.Path & "\Recursos\Graficos\" & .FileName
+                ArchivoGrafico = DirGraficos & .FileName
                 
                 If FileExist(ArchivoGrafico & ".png", vbNormal) Then
                     ArchivoGrafico = ArchivoGrafico & ".png"
@@ -222,7 +222,7 @@ Private Function CrearGrafico(ByVal Archivo As Integer, _
     
     Exit Function
     
-ErrHandler:
+errhandler:
     Debug.Print "ERROR EN GRHLOAD>" & Archivo & ".png"
     
 End Function
@@ -242,7 +242,7 @@ Private Function RemoveLRU() As Boolean
 
     Dim i            As Long
 
-    Dim j            As Long
+    Dim J            As Long
 
     Dim surface_desc As D3DSURFACE_DESC
    
@@ -253,16 +253,16 @@ Private Function RemoveLRU() As Boolean
 
         With TexList(i)
 
-            For j = 1 To .surfaceCount
+            For J = 1 To .surfaceCount
 
-                If LRUtime > .SurfaceEntry(j).UltimoAcceso Then
+                If LRUtime > .SurfaceEntry(J).UltimoAcceso Then
                     LRUi = i
-                    LRUj = j
-                    LRUtime = .SurfaceEntry(j).UltimoAcceso
+                    LRUj = J
+                    LRUtime = .SurfaceEntry(J).UltimoAcceso
 
                 End If
 
-            Next j
+            Next J
 
         End With
 
@@ -281,9 +281,9 @@ Private Function RemoveLRU() As Boolean
        
         With TexList(LRUi)
 
-            For j = LRUj To .surfaceCount - 1
-                .SurfaceEntry(j) = .SurfaceEntry(j + 1)
-            Next j
+            For J = LRUj To .surfaceCount - 1
+                .SurfaceEntry(J) = .SurfaceEntry(J + 1)
+            Next J
            
             .surfaceCount = .surfaceCount - 1
 
@@ -302,4 +302,6 @@ Private Function RemoveLRU() As Boolean
     mFreeMemoryBytes = mFreeMemoryBytes + surface_desc.Size
 
 End Function
+
+
 

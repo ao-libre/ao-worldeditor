@@ -117,7 +117,7 @@ Private Sub Engine_Render_Text(ByRef UseFont As CustomFont, _
 
     Dim i              As Long
 
-    Dim j              As Long
+    Dim J              As Long
 
     Dim TempColor      As Long
 
@@ -160,10 +160,10 @@ Private Sub Engine_Render_Text(ByRef UseFont As CustomFont, _
             ascii() = StrConv(tempstr(i), vbFromUnicode)
        
             'Loop through the characters
-            For j = 1 To Len(tempstr(i))
+            For J = 1 To Len(tempstr(i))
    
                 'Copy from the cached vertex array to the temp vertex array
-                CopyMemory TempVA(0), UseFont.HeaderInfo.CharVA(ascii(j - 1)).Vertex(0), 32 * 4
+                CopyMemory TempVA(0), UseFont.HeaderInfo.CharVA(ascii(J - 1)).Vertex(0), 32 * 4
  
                 'Set up the verticies
                 TempVA(0).X = X + count
@@ -189,7 +189,7 @@ Private Sub Engine_Render_Text(ByRef UseFont As CustomFont, _
                 D3DDevice.DrawPrimitiveUP D3DPT_TRIANGLESTRIP, 2, TempVA(0), Len(TempVA(0))
                                 
                 'Shift over the the position to render the next character
-                count = count + UseFont.HeaderInfo.CharWidth(ascii(j - 1))
+                count = count + UseFont.HeaderInfo.CharWidth(ascii(J - 1))
  
                 'Check to reset the color
                 If ResetColor Then
@@ -198,7 +198,7 @@ Private Sub Engine_Render_Text(ByRef UseFont As CustomFont, _
 
                 End If
                
-            Next j
+            Next J
            
         End If
  
@@ -238,7 +238,7 @@ Sub Engine_Init_FontSettings()
 
     Dim i        As Byte
 
-    Dim file     As String
+    Dim File     As String
 
     '*** Default font ***
         
@@ -336,7 +336,7 @@ Sub Engine_Init_FontTextures()
 
 eDebug:
 
-    If Err.Number = "-2005529767" Then
+    If err.Number = "-2005529767" Then
         MsgBox "Error en la textura de fuente utilizada " & App.Path & "\Recursos\Fonts\Font.png", vbCritical
         End
 
@@ -345,3 +345,5 @@ eDebug:
     End
 
 End Sub
+
+

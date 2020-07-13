@@ -125,47 +125,39 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub cmdCerrar_Click()
-    '*************************************************
-    'Author: ^[GS]^
-    'Last modified: 01/11/08
-    '*************************************************
-    Unload Me
-
+'*************************************************
+'Author: ^[GS]^
+'Last modified: 01/11/08
+'*************************************************
+Unload Me
 End Sub
 
 Private Sub Form_Load()
-    '*************************************************
-    'Author: ^[GS]^
-    'Last modified: 01/11/08
-    '*************************************************
-    Me.Icon = frmMain.Icon
-
+'*************************************************
+'Author: ^[GS]^
+'Last modified: 01/11/08
+'*************************************************
+Me.Icon = frmMain.Icon
 End Sub
 
 Private Sub txtGRH_Change()
-
-    '*************************************************
-    'Author: ^[GS]^
-    'Last modified: 01/11/08
-    '*************************************************
-    If txtGRH.Text <> "" And IsNumeric(txtGRH.Text) = True Then
-        If txtGRH.Text > MaxGrhs Then Exit Sub
-        If txtGRH.Text < 1 Then Exit Sub
-        lblBMP.Caption = GrhData(txtGRH.Text).FileNum
-
-    End If
-
+'*************************************************
+'Author: ^[GS]^
+'Last modified: 01/11/08
+'*************************************************
+If txtGRH.Text <> "" And IsNumeric(txtGRH.Text) = True Then
+    If txtGRH.Text > MaxGrhs Then Exit Sub
+    If txtGRH.Text < 1 Then Exit Sub
+    lblBMP.Caption = GrhData(txtGRH.Text).FileNum
+End If
 End Sub
 
 Private Sub txtGRH_KeyPress(KeyAscii As Integer)
-
-    '*************************************************
-    'Author: ^[GS]^
-    'Last modified: 01/11/08
-    '*************************************************
-    If IsNumeric(Chr(KeyAscii)) = False And KeyAscii <> 8 Then
-        KeyAscii = 0
-
-    End If
-
+'*************************************************
+'Author: ^[GS]^
+'Last modified: 01/11/08
+'*************************************************
+If IsNumeric(Chr(KeyAscii)) = False And KeyAscii <> 8 Then
+    KeyAscii = 0
+End If
 End Sub
