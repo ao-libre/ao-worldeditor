@@ -2,12 +2,11 @@ VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
 Begin VB.Form frmMain 
-   BorderStyle     =   1  'Fixed Single
    Caption         =   "WorldEditor Versión 2.0.56  ReyarB"
-   ClientHeight    =   11850
-   ClientLeft      =   3270
-   ClientTop       =   690
-   ClientWidth     =   21660
+   ClientHeight    =   11730
+   ClientLeft      =   3345
+   ClientTop       =   765
+   ClientWidth     =   20835
    BeginProperty Font 
       Name            =   "Tahoma"
       Size            =   8.25
@@ -20,9 +19,9 @@ Begin VB.Form frmMain
    Icon            =   "frmMain.frx":0000
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
-   ScaleHeight     =   790
+   ScaleHeight     =   782
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   1444
+   ScaleWidth      =   1389
    Visible         =   0   'False
    Begin MSComDlg.CommonDialog CommonDialog1 
       Left            =   4680
@@ -34,7 +33,7 @@ Begin VB.Form frmMain
    Begin WorldEditor.lvButtons_H SelectPanelextra 
       Height          =   1275
       Index           =   2
-      Left            =   24360
+      Left            =   24840
       TabIndex        =   210
       Top             =   0
       Width           =   1785
@@ -65,7 +64,7 @@ Begin VB.Form frmMain
    Begin WorldEditor.lvButtons_H SelectPanelextra 
       Height          =   1275
       Index           =   1
-      Left            =   22680
+      Left            =   23160
       TabIndex        =   209
       Top             =   0
       Width           =   2985
@@ -99,9 +98,9 @@ Begin VB.Form frmMain
       TabIndex        =   88
       TabStop         =   0   'False
       ToolTipText     =   "Mensajes del servidor"
-      Top             =   10560
-      Width           =   12135
-      _ExtentX        =   21405
+      Top             =   11640
+      Width           =   11055
+      _ExtentX        =   19500
       _ExtentY        =   1693
       _Version        =   393217
       BackColor       =   16777215
@@ -131,9 +130,9 @@ Begin VB.Form frmMain
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   2220
+      Height          =   4740
       Left            =   120
-      ScaleHeight     =   2160
+      ScaleHeight     =   4680
       ScaleWidth      =   4425
       TabIndex        =   205
       Top             =   9600
@@ -195,9 +194,9 @@ Begin VB.Form frmMain
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   2220
+      Height          =   4380
       Left            =   120
-      ScaleHeight     =   2160
+      ScaleHeight     =   4320
       ScaleWidth      =   4425
       TabIndex        =   202
       Top             =   9600
@@ -253,12 +252,12 @@ Begin VB.Form frmMain
       BorderStyle     =   0  'None
       ForeColor       =   &H80000008&
       Height          =   495
-      Left            =   20280
+      Left            =   18960
       Picture         =   "frmMain.frx":B647
       ScaleHeight     =   495
       ScaleWidth      =   1335
       TabIndex        =   201
-      Top             =   10440
+      Top             =   11640
       Width           =   1335
    End
    Begin VB.PictureBox pPaneles 
@@ -3203,13 +3202,13 @@ Begin VB.Form frmMain
       BorderStyle     =   0  'None
       ForeColor       =   &H80000008&
       Height          =   900
-      Left            =   19320
+      Left            =   18120
       Picture         =   "frmMain.frx":6A155
       ScaleHeight     =   900
       ScaleWidth      =   855
       TabIndex        =   173
       TabStop         =   0   'False
-      Top             =   10560
+      Top             =   11760
       Width           =   855
    End
    Begin VB.Frame FraFormatoDel 
@@ -3225,9 +3224,9 @@ Begin VB.Form frmMain
          Strikethrough   =   0   'False
       EndProperty
       Height          =   960
-      Left            =   16920
+      Left            =   15840
       TabIndex        =   170
-      Top             =   10560
+      Top             =   11640
       Width           =   2295
       Begin VB.OptionButton OptX 
          BackColor       =   &H00FFFFFF&
@@ -3307,11 +3306,11 @@ Begin VB.Form frmMain
    End
    Begin WorldEditor.lvButtons_H LvBVerMapa 
       Height          =   615
-      Left            =   20520
+      Left            =   20880
       TabIndex        =   163
       Top             =   0
-      Width           =   1095
-      _ExtentX        =   1931
+      Width           =   1335
+      _ExtentX        =   2355
       _ExtentY        =   1085
       Caption         =   "Ver Mapa"
       CapAlign        =   2
@@ -3638,12 +3637,12 @@ Begin VB.Form frmMain
       EndProperty
       ForeColor       =   &H80000008&
       Height          =   660
-      Left            =   20160
+      Left            =   18960
       Picture         =   "frmMain.frx":6FD11
       ScaleHeight     =   660
       ScaleWidth      =   1455
       TabIndex        =   121
-      Top             =   10800
+      Top             =   12000
       Width           =   1455
    End
    Begin VB.PictureBox Minimap 
@@ -3700,14 +3699,14 @@ Begin VB.Form frmMain
       Left            =   17640
       TabIndex        =   89
       Top             =   0
-      Width           =   2865
+      Width           =   3225
       Begin WorldEditor.lvButtons_H cmdInformacionDelMapa 
          Height          =   375
          Left            =   105
          TabIndex        =   90
          Top             =   600
-         Width           =   2655
-         _ExtentX        =   4683
+         Width           =   3015
+         _ExtentX        =   5318
          _ExtentY        =   661
          Caption         =   "&Información del Mapa"
          CapAlign        =   2
@@ -3766,7 +3765,7 @@ Begin VB.Form frmMain
          Left            =   1680
          TabIndex        =   138
          Top             =   315
-         Width           =   1095
+         Width           =   1455
       End
       Begin VB.Label lblFNombreMapa 
          BackColor       =   &H8000000D&
@@ -3787,7 +3786,7 @@ Begin VB.Form frmMain
          Left            =   120
          TabIndex        =   96
          Top             =   0
-         Width           =   2655
+         Width           =   3015
       End
       Begin VB.Label lblFVersion 
          BackStyle       =   0  'Transparent
@@ -3807,7 +3806,7 @@ Begin VB.Form frmMain
          Left            =   120
          TabIndex        =   95
          Top             =   960
-         Width           =   2655
+         Width           =   3015
       End
       Begin VB.Label lblFMusica 
          BackStyle       =   0  'Transparent
@@ -3905,9 +3904,9 @@ Begin VB.Form frmMain
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   2220
+      Height          =   4380
       Left            =   120
-      ScaleHeight     =   2160
+      ScaleHeight     =   4320
       ScaleWidth      =   4425
       TabIndex        =   87
       Top             =   9600
@@ -3971,14 +3970,14 @@ Begin VB.Form frmMain
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H80000008&
-      Height          =   9000
+      Height          =   10080
       Left            =   4680
-      ScaleHeight     =   605.569
+      ScaleHeight     =   678.481
       ScaleMode       =   0  'User
-      ScaleWidth      =   1127
+      ScaleWidth      =   1167
       TabIndex        =   86
       Top             =   1440
-      Width           =   16935
+      Width           =   17535
    End
    Begin WorldEditor.lvButtons_H SelectPanel 
       Height          =   1035
@@ -4173,14 +4172,14 @@ Begin VB.Form frmMain
    End
    Begin WorldEditor.lvButtons_H cmdQuitarFunciones 
       Height          =   555
-      Left            =   20520
+      Left            =   20880
       TabIndex        =   31
       ToolTipText     =   "Quitar Todas las Funciones Activadas"
       Top             =   720
-      Width           =   1095
-      _ExtentX        =   1931
+      Width           =   1335
+      _ExtentX        =   2355
       _ExtentY        =   979
-      Caption         =   "&Quitar Funcion (F4)"
+      Caption         =   "&Quitar Funciones (F4)"
       CapAlign        =   2
       BackStyle       =   2
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -4368,7 +4367,7 @@ Begin VB.Form frmMain
    Begin WorldEditor.lvButtons_H SelectPanelextra 
       Height          =   1275
       Index           =   0
-      Left            =   21960
+      Left            =   22440
       TabIndex        =   208
       Top             =   0
       Width           =   2115
@@ -7940,8 +7939,9 @@ Private Sub Form_Resize()
 'Fecha: 11/05/2020
 'Descripcion: Ajusta los controles cuando se redimensiona la ventana
 '***********************************************
-    Me.Renderer.Height = Me.Height / 20 'Alto
-    Me.Renderer.Width = Me.Width / 18 'Ancho
+      
+    Me.Renderer.Height = (Me.Height / 19) - 50 'Alto
+    Me.Renderer.Width = (Me.Width / 18) - 100 'Ancho
 
     StatTxt.Top = Me.Renderer.Height + 100
     FraFormatoDel.Top = Me.Renderer.Height + 100
