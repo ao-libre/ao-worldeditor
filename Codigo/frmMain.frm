@@ -2,7 +2,7 @@ VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
 Begin VB.Form frmMain 
-   Caption         =   "WorldEditor Versión 2.0.56  ReyarB"
+   Caption         =   "WorldEditor Versión 2.0.80  ReyarB"
    ClientHeight    =   11730
    ClientLeft      =   3345
    ClientTop       =   765
@@ -104,6 +104,7 @@ Begin VB.Form frmMain
       _ExtentY        =   1693
       _Version        =   393217
       BackColor       =   16777215
+      Enabled         =   -1  'True
       ReadOnly        =   -1  'True
       ScrollBars      =   2
       DisableNoScroll =   -1  'True
