@@ -3,7 +3,7 @@ Option Explicit
 
 Public Sub PutCoast()
  
-    Dim aux As Integer
+    Dim aux As Long
 
     Dim X   As Integer
 

@@ -266,7 +266,7 @@ Public Sub Superficie_Azar()
 
             If frmConfigSup.MOSAICO.value = vbChecked Then
 
-                Dim aux As Integer
+                Dim aux As Long
 
                 Dim dy  As Integer
 
@@ -364,7 +364,7 @@ Public Sub Superficie_Bordes()
 
                 If frmConfigSup.MOSAICO.value = vbChecked Then
 
-                    Dim aux As Integer
+                    Dim aux As Long
 
                     aux = Val(frmMain.cGrh.Text) + ((Y Mod frmConfigSup.mLargo) * frmConfigSup.mAncho) + (X Mod frmConfigSup.mAncho)
 
@@ -451,7 +451,7 @@ Public Sub Superficie_Todo()
 
             If frmConfigSup.MOSAICO.value = vbChecked Then
 
-                Dim aux As Integer
+                Dim aux As Long
 
                 aux = Val(frmMain.cGrh.Text) + ((Y Mod frmConfigSup.mLargo) * frmConfigSup.mAncho) + (X Mod frmConfigSup.mAncho)
                 MapData(X, Y).Graphic(Val(frmMain.cCapas.Text)).GrhIndex = aux
@@ -502,7 +502,7 @@ Public Sub Superficie_Area(ByVal X1 As Byte, _
             If Poner = True Then
                 If frmConfigSup.MOSAICO.value = vbChecked Then
 
-                    Dim aux As Integer
+                    Dim aux As Long
 
                     aux = Val(frmMain.cGrh.Text) + ((Y Mod frmConfigSup.mLargo) * frmConfigSup.mAncho) + (X Mod frmConfigSup.mAncho)
                     MapData(X, Y).Graphic(Val(frmMain.cCapas.Text)).GrhIndex = aux
@@ -1246,7 +1246,7 @@ Sub ClickEdit(Button As Integer, tX As Integer, tY As Integer)
             
             If frmConfigSup.MOSAICO.value = vbChecked Then
 
-                Dim aux As Integer
+                Dim aux As Long
 
                 Dim dy  As Integer
 
