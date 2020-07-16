@@ -369,7 +369,7 @@ Function InMapBounds(X As Integer, Y As Integer) As Boolean
 
 End Function
 
-Public Sub Draw_GrhIndex(ByVal grh_index As Integer, _
+Public Sub Draw_GrhIndex(ByVal grh_index As Long, _
                          ByVal X As Integer, _
                          ByVal Y As Integer, _
                          ByRef Light() As Long)
