@@ -4,171 +4,6 @@ Option Explicit
 Public GrhCount As Long
 
 ''
-' Loads grh data using the Graficos.INI
-'
-
-Public Sub LoadGrhIni()
-    On Error GoTo hErr
-
-    Dim FileHandle     As Integer
-    Dim Grh            As Long
-    Dim Frame          As Long
-    Dim SeparadorClave As String
-    Dim SeparadorGrh   As String
-    Dim CurrentLine    As String
-    Dim Fields()       As String
-
-    ' Guardo el separador en una variable asi no lo busco en cada bucle.
-    SeparadorClave = "="
-    SeparadorGrh = "-"
-
-    ' Abrimos el archivo. No uso FileManager porque obliga a cargar todo el archivo en memoria
-    ' y es demasiado grande. En cambio leo linea por linea y procesamos de a una.
-    FileHandle = FreeFile()
-    Open InitPath & "Graficos.ini" For Input As FileHandle
-
-    ' Leemos el total de Grhs
-    Do While Not EOF(FileHandle)
-        ' Leemos la linea actual
-        Line Input #FileHandle, CurrentLine
-
-        Fields = Split(CurrentLine, SeparadorClave)
-
-        ' Buscamos la clave "NumGrh"
-        If Fields(0) = "NumGrh" Then
-            ' Asignamos el tamano al array de Grhs
-            GrhCount = Val(Fields(1))
-            ReDim GrhData(1 To GrhCount) As GrhData
-
-            Exit Do
-        End If
-    Loop
-
-    ' Chequeamos si pudimos leer la cantidad de Grhs
-    If UBound(GrhData) <= 0 Then GoTo hErr
-
-    ' Buscamos la posicion del primer Grh
-    Do While Not EOF(FileHandle)
-        ' Leemos la linea actual
-        Line Input #FileHandle, CurrentLine
-
-        ' Buscamos el nodo "[Graphics]"
-        If UCase$(CurrentLine) = "[GRAPHICS]" Then
-            ' Ya lo tenemos, salimos
-            Exit Do
-        End If
-    Loop
-
-    ' Recorremos todos los Grhs
-    Do While Not EOF(FileHandle)
-        ' Leemos la linea actual
-        Line Input #FileHandle, CurrentLine
-
-        ' Ignoramos lineas vacias
-        If CurrentLine <> vbNullString Then
-
-            ' Divimos por el "="
-            Fields = Split(CurrentLine, SeparadorClave)
-
-            ' Leemos el numero de Grh (el numero a la derecha de la palabra "Grh")
-            Grh = Right$(Fields(0), Len(Fields(0)) - 3)
-
-            ' Leemos los campos de datos del Grh
-            Fields = Split(Fields(1), SeparadorGrh)
-
-            With GrhData(Grh)
-
-                ' Primer lugar: cantidad de frames.
-                .NumFrames = Val(Fields(0))
-
-                ReDim .Frames(1 To .NumFrames)
-
-                ' Tiene mas de un frame entonces es una animacion
-                If .NumFrames > 1 Then
-
-                    ' Segundo lugar: Leemos los numeros de grh de la animacion
-                    For Frame = 1 To .NumFrames
-                        .Frames(Frame) = Val(Fields(Frame))
-                        If .Frames(Frame) <= LBound(GrhData) Or .Frames(Frame) > UBound(GrhData) Then GoTo hErr
-                    Next
-
-                    ' Tercer lugar: leemos la velocidad de la animacion
-                    .Speed = Val(Fields(Frame))
-                    If .Speed <= 0 Then GoTo hErr
-
-                    ' Por ultimo, copiamos las dimensiones del primer frame
-                    .PixelHeight = GrhData(.Frames(1)).PixelHeight
-                    If .PixelHeight <= 0 Then GoTo hErr
-
-                    .PixelWidth = GrhData(.Frames(1)).PixelWidth
-                    If .PixelWidth <= 0 Then GoTo hErr
-
-                    .TileWidth = GrhData(.Frames(1)).TileWidth
-                    If .TileWidth <= 0 Then GoTo hErr
-
-                    .TileHeight = GrhData(.Frames(1)).TileHeight
-                    If .TileHeight <= 0 Then GoTo hErr
-
-                ElseIf .NumFrames = 1 Then
-
-                    ' Si es un solo frame lo asignamos a si mismo
-                    .Frames(1) = Grh
-
-                    ' Segundo lugar: NumeroDelGrafico.bmp, pero sin el ".bmp"
-                    .FileNum = Val(Fields(1))
-                    If .FileNum <= 0 Then GoTo hErr
-
-                    ' Tercer Lugar: La coordenada X del grafico
-                    .sX = Val(Fields(2))
-                    If .sX < 0 Then GoTo hErr
-
-                    ' Cuarto Lugar: La coordenada Y del grafico
-                    .sY = Val(Fields(3))
-                    If .sY < 0 Then GoTo hErr
-
-                    ' Quinto lugar: El ancho del grafico
-                    .PixelWidth = Val(Fields(4))
-                    If .PixelWidth <= 0 Then GoTo hErr
-
-                    ' Sexto lugar: La altura del grafico
-                    .PixelHeight = Val(Fields(5))
-                    If .PixelHeight <= 0 Then GoTo hErr
-
-                    ' Calculamos el ancho y alto en tiles
-                    .TileWidth = .PixelWidth / TilePixelHeight
-                    .TileHeight = .PixelHeight / TilePixelWidth
-
-                Else
-                    ' 0 frames o negativo? Error
-                    GoTo hErr
-                End If
-
-            End With
-        End If
-    Loop
-
-hErr:
-    Close FileHandle
-
-    If Err.Number <> 0 Then
-
-        If Err.Number = 53 Then
-            Call MsgBox("El archivo Graficos.ini no existe. Por favor, reinstale el juego.", , "Argentum Online")
-
-        ElseIf Grh > 0 Then
-            Call MsgBox("Hay un error en Graficos.ini con el Grh" & Grh & ".", , "Argentum Online")
-
-        Else
-            Call MsgBox("Hay un error en Graficos.ini. Por favor, reinstale el juego.", , "Argentum Online")
-        End If
-
-    End If
-
-    Exit Sub
-
-End Sub
-
-''
 ' Carga los indices de Graficos
 '
 Public Function LoadGrhData() As Boolean
@@ -183,7 +18,7 @@ Public Function LoadGrhData() As Boolean
 
     'Open files
     handle = FreeFile()
-    Open InitPath & "Graficos.ind" For Binary Access Read As handle
+    Open DirIndex & "Graficos.ind" For Binary Access Read As handle
     Seek #1, 1
     
     'Get file version
@@ -225,18 +60,17 @@ Public Function LoadGrhData() As Boolean
                     If .Speed <= 0 Then GoTo ErrorHandler
                     
                     'Compute width and height
-                    .PixelHeight = GrhData(.Frames(1)).PixelHeight
-                    If .PixelHeight <= 0 Then GoTo ErrorHandler
+                    .pixelHeight = GrhData(.Frames(1)).pixelHeight
+                    If .pixelHeight <= 0 Then GoTo ErrorHandler
                     
-                    .PixelWidth = GrhData(.Frames(1)).PixelWidth
-                    If .PixelWidth <= 0 Then GoTo ErrorHandler
+                    .pixelWidth = GrhData(.Frames(1)).pixelWidth
+                    If .pixelWidth <= 0 Then GoTo ErrorHandler
                     
                     .TileWidth = GrhData(.Frames(1)).TileWidth
                     If .TileWidth <= 0 Then GoTo ErrorHandler
                     
                     .TileHeight = GrhData(.Frames(1)).TileHeight
                     If .TileHeight <= 0 Then GoTo ErrorHandler
-                    
                 Else
                     'Read in normal GRH data
                     Get handle, , .FileNum
@@ -248,24 +82,20 @@ Public Function LoadGrhData() As Boolean
                     Get handle, , .sY
                     If .sY < 0 Then GoTo ErrorHandler
                     
-                    Get handle, , .PixelWidth
-                    If .PixelWidth <= 0 Then GoTo ErrorHandler
+                    Get handle, , .pixelWidth
+                    If .pixelWidth <= 0 Then GoTo ErrorHandler
                     
-                    Get handle, , .PixelHeight
-                    If .PixelHeight <= 0 Then GoTo ErrorHandler
+                    Get handle, , .pixelHeight
+                    If .pixelHeight <= 0 Then GoTo ErrorHandler
                     
                     'Compute width and height
-                    .TileWidth = .PixelWidth / TilePixelHeight
-                    .TileHeight = .PixelHeight / TilePixelWidth
+                    .TileWidth = .pixelWidth / TilePixelHeight
+                    .TileHeight = .pixelHeight / TilePixelWidth
                     
                     .Frames(1) = Grh
-
                 End If
-
             End With
-
         End If
-
     Wend
     
     Close handle
@@ -280,60 +110,61 @@ ErrorHandler:
 
 End Function
 
+
 ''
 ' Carga los indices de Superficie
 '
 
 Public Sub CargarIndicesSuperficie()
-    '*************************************************
-    'Author: ^[GS]^
-    'Last modified: 29/05/06
-    '*************************************************
+'*************************************************
+'Author: ^[GS]^
+'Last modified: 29/05/06
+'*************************************************
 
-    On Error GoTo Fallo
-
-    If FileExist(IniPath & "GrhIndex\indices.ini", vbArchive) = False Then
-        Call MsgBox("Falta el archivo 'GrhIndex\indices.ini'", vbCritical)
+On Error GoTo Fallo
+    If FileExist(IniPath & "Datos\indices.ini", vbArchive) = False Then
+        MsgBox "Falta el archivo 'Datos\indices.ini'", vbCritical
         End
     End If
-
-    Dim Leer As New clsIniManager
-    Set Leer = New clsIniManager
-    Call Leer.Initialize(IniPath & "GrhIndex\indices.ini")
-    
-    Dim i    As Long
-    
+    Dim Leer As New clsIniReader
+    Dim i As Integer
+    Leer.Initialize IniPath & "Datos\indices.ini"
     MaxSup = Leer.GetValue("INIT", "Referencias")
     ReDim SupData(MaxSup) As SupData
-    
-    Call frmMain.lListado(0).Clear
-
+    frmMain.lListado(0).Clear
     For i = 0 To MaxSup
-        
-        With SupData(i)
-        
-            .name = Leer.GetValue("REFERENCIA" & i, "Nombre")
-            .Grh = Val(Leer.GetValue("REFERENCIA" & i, "GrhIndice"))
-            .Width = Val(Leer.GetValue("REFERENCIA" & i, "Ancho"))
-            .Height = Val(Leer.GetValue("REFERENCIA" & i, "Alto"))
-            .Block = IIf(Val(Leer.GetValue("REFERENCIA" & i, "Bloquear")) = 1, True, False)
-            .Capa = Val(Leer.GetValue("REFERENCIA" & i, "Capa"))
-            
-            Call frmMain.lListado(0).AddItem(.name & " - #" & i)
-        
-        End With
-        
+        SupData(i).name = Leer.GetValue("REFERENCIA" & i, "Nombre")
+        SupData(i).Grh = Val(Leer.GetValue("REFERENCIA" & i, "GrhIndice"))
+        SupData(i).Width = Val(Leer.GetValue("REFERENCIA" & i, "Ancho"))
+        SupData(i).Height = Val(Leer.GetValue("REFERENCIA" & i, "Alto"))
+        SupData(i).Block = IIf(Val(Leer.GetValue("REFERENCIA" & i, "Bloquear")) = 1, True, False)
+        SupData(i).Capa = Val(Leer.GetValue("REFERENCIA" & i, "Capa"))
+        frmMain.lListado(0).AddItem SupData(i).name & " - #" & i
     Next
     
-    DoEvents
-    
-    Set Leer = Nothing
-    
     Exit Sub
-    
 Fallo:
-    Call MsgBox("Error al intentar cargar el indice " & i & " de GrhIndex\indices.ini" & vbCrLf & "Err: " & Err.Number & " - " & Err.Description, vbCritical + vbOKOnly)
+    MsgBox "Error al intentar cargar el indice " & i & " de Datos\indices.ini" & vbCrLf & "Err: " & err.Number & " - " & err.Description, vbCritical + vbOKOnly
+End Sub
 
+Public Sub CargarBloqueables()
+    If FileExist(IniPath & "Datos\Bloqueables.ini", vbArchive) = False Then
+        MsgBox "Falta el archivo 'Datos\Bloqueables.ini'", vbCritical
+        End
+    End If
+    
+    Dim Leer As New clsIniReader
+    Dim i As Integer
+    
+    Leer.Initialize IniPath & "Datos\Bloqueables.ini"
+    MaxBloqueables = Leer.GetValue("INIT", "Num")
+    
+    ReDim Bloqueables(MaxBloqueables) As Long
+    
+    
+    For i = 1 To MaxBloqueables
+        Bloqueables(i) = Leer.GetValue("BLOQUEABLES", i)
+    Next i
 End Sub
 
 ''
@@ -341,58 +172,38 @@ End Sub
 '
 
 Public Sub CargarIndicesOBJ()
-    '*************************************************
-    'Author: ^[GS]^
-    'Last modified: 20/05/06
-    '*************************************************
+'*************************************************
+'Author: ^[GS]^
+'Last modified: 20/05/06
+'*************************************************
 
-    On Error GoTo Fallo
-
+On Error GoTo Fallo
     If FileExist(DirDats & "\OBJ.dat", vbArchive) = False Then
-        Call MsgBox("Falta el archivo 'OBJ.dat' en " & DirDats, vbCritical)
+        MsgBox "Falta el archivo 'OBJ.dat' en " & DirDats, vbCritical
         End
     End If
-
-    Dim Obj  As Long
-
-    Dim Leer As New clsIniManager
-    Set Leer = New clsIniManager
+    Dim Obj As Integer
+    Dim Leer As New clsIniReader
     Call Leer.Initialize(DirDats & "\OBJ.dat")
-    
-    Call frmMain.lListado(3).Clear
-    
+    frmMain.lListado(3).Clear
     NumOBJs = Val(Leer.GetValue("INIT", "NumOBJs"))
-    
     ReDim ObjData(1 To NumOBJs) As ObjData
-
     For Obj = 1 To NumOBJs
-    
         frmCargando.X.Caption = "Cargando Datos de Objetos..." & Obj & "/" & NumOBJs
         DoEvents
-        
-        With ObjData(Obj)
-        
-            .name = Leer.GetValue("OBJ" & Obj, "Name")
-            .GrhIndex = Val(Leer.GetValue("OBJ" & Obj, "GrhIndex"))
-            .ObjType = Val(Leer.GetValue("OBJ" & Obj, "ObjType"))
-            .Ropaje = Val(Leer.GetValue("OBJ" & Obj, "NumRopaje"))
-            .Info = Leer.GetValue("OBJ" & Obj, "Info")
-            .WeaponAnim = Val(Leer.GetValue("OBJ" & Obj, "Anim"))
-            .Texto = Leer.GetValue("OBJ" & Obj, "Texto")
-            .GrhSecundario = Val(Leer.GetValue("OBJ" & Obj, "GrhSec"))
-            
-            Call frmMain.lListado(3).AddItem(.name & " - #" & Obj)
-        
-        End With
-        
+        ObjData(Obj).name = Leer.GetValue("OBJ" & Obj, "Name")
+        ObjData(Obj).GrhIndex = Val(Leer.GetValue("OBJ" & Obj, "GrhIndex"))
+        ObjData(Obj).ObjType = Val(Leer.GetValue("OBJ" & Obj, "ObjType"))
+        ObjData(Obj).Ropaje = Val(Leer.GetValue("OBJ" & Obj, "NumRopaje"))
+        ObjData(Obj).Info = Leer.GetValue("OBJ" & Obj, "Info")
+        ObjData(Obj).WeaponAnim = Val(Leer.GetValue("OBJ" & Obj, "Anim"))
+        ObjData(Obj).Texto = Leer.GetValue("OBJ" & Obj, "Texto")
+        ObjData(Obj).GrhSecundario = Val(Leer.GetValue("OBJ" & Obj, "GrhSec"))
+        frmMain.lListado(3).AddItem ObjData(Obj).name & " - #" & Obj
     Next Obj
-    
-    Set Leer = Nothing
-    
     Exit Sub
-    
 Fallo:
-    Call MsgBox("Error al intentar cargar el Objteto " & Obj & " de OBJ.dat en " & DirDats & vbCrLf & "Err: " & Err.Number & " - " & Err.Description, vbCritical + vbOKOnly)
+MsgBox "Error al intentar cargar el Objteto " & Obj & " de OBJ.dat en " & DirDats & vbCrLf & "Err: " & err.Number & " - " & err.Description, vbCritical + vbOKOnly
 
 End Sub
 
@@ -401,37 +212,29 @@ End Sub
 '
 
 Public Sub CargarIndicesTriggers()
-    '*************************************************
-    'Author: ^[GS]^
-    'Last modified: 28/05/06
-    '*************************************************
+'*************************************************
+'Author: ^[GS]^
+'Last modified: 28/05/06
+'*************************************************
 
-    On Error GoTo Fallo
-
-    If FileExist(InitPath & "Triggers.ini", vbArchive) = False Then
-        Call MsgBox("Falta el archivo 'Triggers.ini' en \Init\Triggers.ini", vbCritical)
+On Error GoTo Fallo
+    If FileExist(App.Path & "\Datos\Triggers.ini", vbArchive) = False Then
+        MsgBox "Falta el archivo 'Triggers.ini' en \Datos\Triggers.ini", vbCritical
         End
     End If
-
-    Dim NumT As Long
-    Dim T    As Long
-
-    Dim Leer As New clsIniManager
-    Set Leer = New clsIniManager
-    Call Leer.Initialize(InitPath & "Triggers.ini")
-    
-    Call frmMain.lListado(4).Clear
-    
+    Dim NumT As Integer
+    Dim T As Integer
+    Dim Leer As New clsIniReader
+    Call Leer.Initialize(App.Path & "\Datos\Triggers.ini")
+    frmMain.lListado(4).Clear
     NumT = Val(Leer.GetValue("INIT", "NumTriggers"))
     For T = 1 To NumT
-        Call frmMain.lListado(4).AddItem(Leer.GetValue("Trig" & T, "Name") & " - #" & (T - 1))
+         frmMain.lListado(4).AddItem Leer.GetValue("Trig" & T, "Name") & " - #" & (T - 1)
     Next T
-    
-    Set Leer = Nothing
-    
-    Exit Sub
+
+Exit Sub
 Fallo:
-    Call MsgBox("Error al intentar cargar el Trigger " & T & " de Triggers.ini en " & App.Path & "\Init\Triggers.ini" & vbCrLf & "Err: " & Err.Number & " - " & Err.Description, vbCritical + vbOKOnly)
+    MsgBox "Error al intentar cargar el Trigger " & T & " de Triggers.ini en " & App.Path & "\Datos\Triggers.ini" & vbCrLf & "Err: " & err.Number & " - " & err.Description, vbCritical + vbOKOnly
 
 End Sub
 
@@ -449,7 +252,7 @@ Public Sub CargarIndicesDeCuerpos()
     Dim MisCuerpos() As tIndiceCuerpo
     
     n = FreeFile()
-    Open InitPath & "Personajes.ind" For Binary Access Read As #n
+    Open DirIndex & "Personajes.ind" For Binary Access Read As #n
     
     'cabecera
     Get #n, , MiCabecera
@@ -495,7 +298,7 @@ Public Sub CargarIndicesDeCabezas()
     
     'Cabezas
     n = FreeFile()
-    Open InitPath & "Cabezas.ind" For Binary Access Read As #n
+    Open DirIndex & "Cabezas.ind" For Binary Access Read As #n
     
     'cabecera
     Get #n, , MiCabecera
@@ -529,59 +332,42 @@ End Sub
 '
 
 Public Sub CargarIndicesNPC()
-
-    '*************************************************
-    'Author: ^[GS]^
-    'Last modified: 26/05/06
-    '*************************************************
-    On Error GoTo Fallo
-    
+'*************************************************
+'Author: ^[GS]^
+'Last modified: 26/05/06
+'*************************************************
+On Error Resume Next
+'On Error GoTo Fallo
     If FileExist(DirDats & "\NPCs.dat", vbArchive) = False Then
-        Call MsgBox("Falta el archivo 'NPCs.dat' en " & DirDats, vbCritical)
+        MsgBox "Falta el archivo 'NPCs.dat' en " & DirDats, vbCritical
         End
     End If
-
     'If FileExist(DirDats & "\NPCs-HOSTILES.dat", vbArchive) = False Then
-    '    call MsgBox("Falta el archivo 'NPCs-HOSTILES.dat' en " & DirDats, vbCritical)
+    '    MsgBox "Falta el archivo 'NPCs-HOSTILES.dat' en " & DirDats, vbCritical
     '    End
     'End If
-    
     Dim Trabajando As String
-    Dim NPC        As Integer
-    
-    Dim Leer       As New clsIniManager
-    Set Leer = New clsIniManager
-
-    Call frmMain.lListado(1).Clear
-    Call frmMain.lListado(2).Clear
-    
+    Dim NPC As Integer
+    Dim Leer As New clsIniReader
+    frmMain.lListado(1).Clear
+    frmMain.lListado(2).Clear
     Call Leer.Initialize(DirDats & "\NPCs.dat")
     NumNPCs = Val(Leer.GetValue("INIT", "NumNPCs"))
-    
     'Call Leer.Initialize(DirDats & "\NPCs-HOSTILES.dat")
     'NumNPCsHOST = Val(Leer.GetValue("INIT", "NumNPCs"))
-    
-    ReDim NpcData(NumNPCs) As NpcData
+    ReDim NpcData(1000) As NpcData
     Trabajando = "Dats\NPCs.dat"
-
     'Call Leer.Initialize(DirDats & "\NPCs.dat")
     'MsgBox "  "
     For NPC = 1 To NumNPCs
+        NpcData(NPC).name = Leer.GetValue("NPC" & NPC, "Name")
         
-        With NpcData(NPC)
-        
-            .name = Leer.GetValue("NPC" & NPC, "Name")
-        
-            .Body = Val(Leer.GetValue("NPC" & NPC, "Body"))
-            .Head = Val(Leer.GetValue("NPC" & NPC, "Head"))
-            .Heading = Val(Leer.GetValue("NPC" & NPC, "Heading"))
-    
-            If LenB(.name) <> 0 Then
-                Call frmMain.lListado(1).AddItem(.name & " - #" & NPC)
-            End If
-        
-        End With
- 
+        NpcData(NPC).Body = Val(Leer.GetValue("NPC" & NPC, "Body"))
+        NpcData(NPC).Head = Val(Leer.GetValue("NPC" & NPC, "Head"))
+        NpcData(NPC).Heading = Val(Leer.GetValue("NPC" & NPC, "Heading"))
+        If LenB(NpcData(NPC).name) <> 0 Then
+            frmMain.lListado(1).AddItem NpcData(NPC).name & " - #" & NPC
+        End If
     Next
     'MsgBox "  "
     'Trabajando = "Dats\NPCs-HOSTILES.dat"
@@ -593,12 +379,9 @@ Public Sub CargarIndicesNPC()
     '    NpcData(NPC + 499).Heading = Val(Leer.GetValue("NPC" & (NPC + 499), "Heading"))
     '    If LenB(NpcData(NPC + 499).name) <> 0 Then frmMain.lListado(2).AddItem NpcData(NPC + 499).name & " - #" & (NPC + 499)
     'Next NPC
-    
-    Set Leer = Nothing
-    
     Exit Sub
 Fallo:
-    Call MsgBox("Error al intentar cargar el NPC " & NPC & " de " & Trabajando & " en " & DirDats & vbCrLf & "Err: " & Err.Number & " - " & Err.Description, vbCritical + vbOKOnly)
+    MsgBox "Error al intentar cargar el NPC " & NPC & " de " & Trabajando & " en " & DirDats & vbCrLf & "Err: " & err.Number & " - " & err.Description, vbCritical + vbOKOnly
 
 End Sub
 
@@ -606,7 +389,7 @@ Public Sub LoadMiniMap()
 
     On Error GoTo ErrorHandler
     
-    If Not FileExist(InitPath & "minimap.dat", vbNormal) Then Exit Sub
+    If Not FileExist(DirIndex & "minimap.dat", vbNormal) Then Exit Sub
     
     Dim File   As String
     Dim count  As Long
@@ -615,7 +398,7 @@ Public Sub LoadMiniMap()
     'Open files
     handle = FreeFile()
     
-    Open InitPath & "minimap.dat" For Binary As handle
+    Open DirIndex & "minimap.dat" For Binary As handle
     Seek handle, 1
 
     For count = 1 To GrhCount
@@ -643,13 +426,13 @@ Public Sub CargarParticulas()
     
     On Error GoTo ErrorHandler
     
-    Dim loopC      As Long
+    Dim loopc      As Long
     Dim i          As Long
     Dim GrhListing As String
     Dim TempSet    As String
     Dim ColorSet   As Long
     Dim StreamFile As String
-    Dim Leer       As New clsIniManager
+    Dim Leer       As New clsIniReader
 
     Call Leer.Initialize(App.Path & "\Recursos\Init\Particulas.ini")
     
@@ -658,47 +441,47 @@ Public Sub CargarParticulas()
     'resize StreamData array
     ReDim StreamData(1 To TotalStreams) As Stream
     
-    For loopC = 1 To TotalStreams
+    For loopc = 1 To TotalStreams
 
-        With StreamData(loopC)
+        With StreamData(loopc)
         
-            .name = Leer.GetValue(Val(loopC), "Name")
+            .name = Leer.GetValue(Val(loopc), "Name")
         
-            Call frmMain.lstParticle.AddItem(loopC & "-" & .name)
+            Call frmMain.lstParticle.AddItem(loopc & "-" & .name)
         
-            .NumOfParticles = Leer.GetValue(Val(loopC), "NumOfParticles")
-            .X1 = Leer.GetValue(Val(loopC), "X1")
-            .Y1 = Leer.GetValue(Val(loopC), "Y1")
-            .X2 = Leer.GetValue(Val(loopC), "X2")
-            .Y2 = Leer.GetValue(Val(loopC), "Y2")
-            .angle = Leer.GetValue(Val(loopC), "Angle")
-            .vecx1 = Leer.GetValue(Val(loopC), "VecX1")
-            .vecx2 = Leer.GetValue(Val(loopC), "VecX2")
-            .vecy1 = Leer.GetValue(Val(loopC), "VecY1")
-            .vecy2 = Leer.GetValue(Val(loopC), "VecY2")
-            .life1 = Leer.GetValue(Val(loopC), "Life1")
-            .life2 = Leer.GetValue(Val(loopC), "Life2")
-            .friction = Leer.GetValue(Val(loopC), "Friction")
-            .spin = Leer.GetValue(Val(loopC), "Spin")
-            .spin_speedL = Leer.GetValue(Val(loopC), "Spin_SpeedL")
-            .spin_speedH = Leer.GetValue(Val(loopC), "Spin_SpeedH")
-            .AlphaBlend = Leer.GetValue(Val(loopC), "AlphaBlend")
-            .gravity = Leer.GetValue(Val(loopC), "Gravity")
-            .grav_strength = Leer.GetValue(Val(loopC), "Grav_Strength")
-            .bounce_strength = Leer.GetValue(Val(loopC), "Bounce_Strength")
-            .XMove = Leer.GetValue(Val(loopC), "XMove")
-            .YMove = Leer.GetValue(Val(loopC), "YMove")
-            .move_x1 = Leer.GetValue(Val(loopC), "move_x1")
-            .move_x2 = Leer.GetValue(Val(loopC), "move_x2")
-            .move_y1 = Leer.GetValue(Val(loopC), "move_y1")
-            .move_y2 = Leer.GetValue(Val(loopC), "move_y2")
-            .Radio = Val(Leer.GetValue(Val(loopC), "Radio"))
-            .life_counter = Leer.GetValue(Val(loopC), "life_counter")
-            .Speed = Val(Leer.GetValue(Val(loopC), "Speed"))
-            .NumGrhs = Leer.GetValue(Val(loopC), "NumGrhs")
+            .NumOfParticles = Leer.GetValue(Val(loopc), "NumOfParticles")
+            .X1 = Leer.GetValue(Val(loopc), "X1")
+            .Y1 = Leer.GetValue(Val(loopc), "Y1")
+            .X2 = Leer.GetValue(Val(loopc), "X2")
+            .Y2 = Leer.GetValue(Val(loopc), "Y2")
+            .angle = Leer.GetValue(Val(loopc), "Angle")
+            .vecx1 = Leer.GetValue(Val(loopc), "VecX1")
+            .vecx2 = Leer.GetValue(Val(loopc), "VecX2")
+            .vecy1 = Leer.GetValue(Val(loopc), "VecY1")
+            .vecy2 = Leer.GetValue(Val(loopc), "VecY2")
+            .life1 = Leer.GetValue(Val(loopc), "Life1")
+            .life2 = Leer.GetValue(Val(loopc), "Life2")
+            .friction = Leer.GetValue(Val(loopc), "Friction")
+            .spin = Leer.GetValue(Val(loopc), "Spin")
+            .spin_speedL = Leer.GetValue(Val(loopc), "Spin_SpeedL")
+            .spin_speedH = Leer.GetValue(Val(loopc), "Spin_SpeedH")
+            .AlphaBlend = Leer.GetValue(Val(loopc), "AlphaBlend")
+            .gravity = Leer.GetValue(Val(loopc), "Gravity")
+            .grav_strength = Leer.GetValue(Val(loopc), "Grav_Strength")
+            .bounce_strength = Leer.GetValue(Val(loopc), "Bounce_Strength")
+            .XMove = Leer.GetValue(Val(loopc), "XMove")
+            .YMove = Leer.GetValue(Val(loopc), "YMove")
+            .move_x1 = Leer.GetValue(Val(loopc), "move_x1")
+            .move_x2 = Leer.GetValue(Val(loopc), "move_x2")
+            .move_y1 = Leer.GetValue(Val(loopc), "move_y1")
+            .move_y2 = Leer.GetValue(Val(loopc), "move_y2")
+            .Radio = Val(Leer.GetValue(Val(loopc), "Radio"))
+            .life_counter = Leer.GetValue(Val(loopc), "life_counter")
+            .Speed = Val(Leer.GetValue(Val(loopc), "Speed"))
+            .NumGrhs = Leer.GetValue(Val(loopc), "NumGrhs")
            
             ReDim .grh_list(1 To .NumGrhs)
-            GrhListing = Leer.GetValue(Val(loopC), "Grh_List")
+            GrhListing = Leer.GetValue(Val(loopc), "Grh_List")
            
             For i = 1 To .NumGrhs
                 .grh_list(i) = ReadField(Str(i), GrhListing, 44)
@@ -707,7 +490,7 @@ Public Sub CargarParticulas()
             .grh_list(i - 1) = .grh_list(i - 1)
 
             For ColorSet = 1 To 4
-                TempSet = Leer.GetValue(Val(loopC), "ColorSet" & ColorSet)
+                TempSet = Leer.GetValue(Val(loopc), "ColorSet" & ColorSet)
                 .colortint(ColorSet - 1).R = ReadField(1, TempSet, 44)
                 .colortint(ColorSet - 1).G = ReadField(2, TempSet, 44)
                 .colortint(ColorSet - 1).B = ReadField(3, TempSet, 44)
@@ -715,7 +498,7 @@ Public Sub CargarParticulas()
         
         End With
         
-    Next loopC
+    Next loopc
 
     Set Leer = Nothing
     
@@ -723,12 +506,12 @@ Public Sub CargarParticulas()
     
 ErrorHandler:
 
-    If Err.Number <> 0 Then
+    If err.Number <> 0 Then
         
-        Select Case Err.Number
+        Select Case err.Number
         
             Case 9
-                Call MsgBox("Se han encontrado valores invalidos en el Particulas.ini - Index: " & loopC)
+                Call MsgBox("Se han encontrado valores invalidos en el Particulas.ini - Index: " & loopc)
                 Exit Sub
                 
             Case 53

@@ -1,4 +1,4 @@
-Attribute VB_Name = "modGameIni"
+Attribute VB_Name = "modDirectMusic"
 '**************************************************************
 'This program is free software; you can redistribute it and/or modify
 'it under the terms of the GNU General Public License as published by
@@ -20,77 +20,69 @@ Attribute VB_Name = "modGameIni"
 '**************************************************************
 
 ''
-' modGameIni
+' modDirectMusic
 '
-' @remarks Operaciones de Cabezera y inicio.con
+' @remarks Operaciones de control de MIDIs por DirectX
 ' @author unkwown
 ' @version 0.0.01
 ' @date 20060520
 
 Option Explicit
 
-Public Type tCabecera 'Cabecera de los con
-    Desc As String * 255
-    CRC As Long
-    MagicWord As Long
-End Type
-
-Public Type tGameIni
-    Puerto As Long
-    Musica As Byte
-    fx As Byte
-    tip As Byte
-    Password As String
-    name As String
-    DirGraficos As String
-    DirSonidos As String
-    DirMusica As String
-    DirMapas As String
-    NumeroDeBMPs As Long
-    NumeroMapas As Integer
-End Type
-
-Public MiCabecera As tCabecera
-Public Config_Inicio As tGameIni
-
-Public Sub IniciarCabecera(ByRef Cabecera As tCabecera)
+Public Sub CargarMIDI(ByRef Archivo As String)
 '*************************************************
 'Author: Unkwown
 'Last modified: 20/05/06
 '*************************************************
-Cabecera.Desc = "Argentum Online by Noland Studios. Copyright Noland-Studios 2001, pablomarquez@noland-studios.com.ar"
-Cabecera.CRC = Rnd * 100
-Cabecera.MagicWord = Rnd * 10
+On Error GoTo fin
+    
+    If Loader Is Nothing Then Set Loader = DirectX.DirectMusicLoaderCreate()
+    Set Seg = Loader.LoadSegment(Archivo)
+    Set Loader = Nothing 'Liberamos el cargador
+    Exit Sub
+fin:
+    MsgBox ("Error producido en 'CargarMIDI' " & Err.Description & " " & Err.Number & " " & Archivo)
+
 End Sub
 
-Public Function LeerGameIni() As tGameIni
+Public Sub Stop_Midi()
 '*************************************************
 'Author: Unkwown
 'Last modified: 20/05/06
 '*************************************************
-Dim n As Integer
-Dim GameIni As tGameIni
-n = FreeFile
-Open DirIndex & "Inicio.con" For Binary As #n
-Get #n, , MiCabecera
+If IsPlayingCheck Then
+    If Perf.IsPlaying(Seg, SegState) Then Call Perf.Stop(Seg, SegState, 0, 0)
+    
+    IsPlayingCheck = False
+    Seg.SetStartPoint (0)
+    
+    Call Perf.Reset(0)
+End If
+End Sub
 
-Get #n, , GameIni
+Public Sub Play_Midi()
+'*************************************************
+'Author: Unkwown
+'Last modified: 20/05/06
+'*************************************************
+On Error GoTo fin
+    If IsPlayingCheck Then Stop_Midi
+    
+    If Perf.IsPlaying(Seg, SegState) Then Call Perf.Stop(Seg, SegState, 0, 0)
+    
+    Seg.SetStartPoint (0)
+    Set SegState = Perf.PlaySegment(Seg, 0, 0)
+    IsPlayingCheck = True
+    Exit Sub
+fin:
+    MsgBox "Error producido en Public Sub Play_Midi()"
 
-Close #n
-LeerGameIni = GameIni
+End Sub
+
+Public Function Sonando()
+'*************************************************
+'Author: Unkwown
+'Last modified: 20/05/06
+'*************************************************
+Sonando = (Perf.IsPlaying(Seg, SegState) = True)
 End Function
-
-Public Sub EscribirGameIni(ByRef GameIniConfiguration As tGameIni)
-'*************************************************
-'Author: Unkwown
-'Last modified: 20/05/06
-'*************************************************
-Dim n As Integer
-n = FreeFile
-Open DirIndex & "Inicio.con" For Binary As #n
-Put #n, , MiCabecera
-GameIniConfiguration.Password = "DAMMLAMERS!"
-Put #n, , GameIniConfiguration
-Close #n
-End Sub
-
