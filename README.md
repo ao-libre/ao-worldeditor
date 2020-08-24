@@ -1,4 +1,4 @@
-**WorldEditor by Lorwik**
+**WorldEditor**
 
 - Carga de Graphics.AO (graficos comprimidos) en Recursos\Graficos. Si NO existe, carga los .PNG's/.BMP's descomprimidos. (jopiortiz)
 - Ahora en el Dialog para abrir/guardar mapa se muestra primero los ".map" (jopiortiz)
