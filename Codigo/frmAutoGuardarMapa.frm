@@ -73,9 +73,9 @@ Begin VB.Form frmAutoGuardarMapa
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      ItemData        =   "frmAutoGuardarMapa.frx":628A
+      ItemData        =   "frmAutoGuardarMapa.frx":1E74E
       Left            =   1440
-      List            =   "frmAutoGuardarMapa.frx":62A3
+      List            =   "frmAutoGuardarMapa.frx":1E767
       TabIndex        =   1
       Text            =   "10"
       Top             =   840

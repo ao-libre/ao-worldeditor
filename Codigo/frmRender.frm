@@ -7,6 +7,7 @@ Begin VB.Form frmRender
    ClientWidth     =   8760
    ClipControls    =   0   'False
    ControlBox      =   0   'False
+   Icon            =   "frmRender.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False

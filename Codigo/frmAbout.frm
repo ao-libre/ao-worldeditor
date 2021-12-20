@@ -10,7 +10,7 @@ Begin VB.Form frmAbout
    Icon            =   "frmAbout.frx":0000
    LinkTopic       =   "Form2"
    MaxButton       =   0   'False
-   Picture         =   "frmAbout.frx":628A
+   Picture         =   "frmAbout.frx":1E74E
    ScaleHeight     =   3002.447
    ScaleMode       =   0  'User
    ScaleWidth      =   4098.96

@@ -5,6 +5,7 @@ Begin VB.Form frmConvert
    ClientLeft      =   60
    ClientTop       =   405
    ClientWidth     =   6855
+   Icon            =   "frmConvert.frx":0000
    LinkTopic       =   "Form1"
    ScaleHeight     =   2745
    ScaleWidth      =   6855
@@ -111,7 +112,7 @@ Begin VB.Form frmConvert
       Width           =   6375
    End
    Begin VB.Label Label5 
-      Caption         =   $"frmConvert.frx":0000
+      Caption         =   $"frmConvert.frx":1E74E
       Height          =   1095
       Left            =   1320
       TabIndex        =   5
@@ -179,7 +180,7 @@ Private Automatico As Boolean
 
 Private Sub Check1_Click()
 
-    If Check1.Value = False Then
+    If Check1.value = False Then
         Label6.Visible = False
         Label7.Visible = False
         Label8.Visible = False
