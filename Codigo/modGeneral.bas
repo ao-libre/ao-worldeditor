@@ -13,6 +13,10 @@ Public Const DISP_CHANGE_SUCCESSFUL = 0
 Public Const DISP_CHANGE_RESTART = 1
 
 Public InitPath As String
+Public GraphicsPath As String
+Public ClientPath As String
+Public ServerPath As String
+
 
 Public Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
 
@@ -302,8 +306,8 @@ Private Sub CargarMapIni()
     frmMain.mnuVerGrilla.Checked = Val(Leer.GetValue("MOSTRAR", "Grilla")) ' Grilla
     VerGrilla = frmMain.mnuVerGrilla.Checked
     frmMain.mnuVerBloqueos.Checked = Val(Leer.GetValue("MOSTRAR", "Bloqueos"))
-    frmMain.cVerTriggers.Value = frmMain.mnuVerTriggers.Checked
-    frmMain.cVerBloqueos.Value = frmMain.mnuVerBloqueos.Checked
+    frmMain.cVerTriggers.value = frmMain.mnuVerTriggers.Checked
+    frmMain.cVerBloqueos.value = frmMain.mnuVerBloqueos.Checked
     
     ' Tamaño de visualizacion
     PantallaX = Val(Leer.GetValue("MOSTRAR", "PantallaX"))
@@ -316,8 +320,31 @@ Private Sub CargarMapIni()
     ' Tamaño de visualizacion en el cliente
     ClienteHeight = Val(Leer.GetValue("RENDER", "ClienteHeight"))
     ClienteWidth = Val(Leer.GetValue("RENDER", "ClienteWidth"))
+    
+    ' Paths GS 2021
+    InitPath = App.Path & "\" & Leer.GetValue("PATH", "Init")
+    DirDats = App.Path & "\" & Leer.GetValue("PATH", "Dats")
+    DirMinimapas = App.Path & "\" & Leer.GetValue("PATH", "Minimapas")
+    DirAudio = App.Path & "\" & Leer.GetValue("PATH", "Audio")
+    GraphicsPath = App.Path & "\" & Leer.GetValue("PATH", "Graficos")
+    
+    If Len(InitPath) = 0 Then
+        InitPath = App.Path & "\Recursos\Init\"
+    End If
+    If Len(DirDats) = 0 Then
+        DirDats = App.Path & "\Dats\"
+    End If
+    If Len(DirMinimapas) = 0 Then
+        DirMinimapas = App.Path & "\Recursos\Graficos\Minimapa\"
+    End If
+    If Len(DirAudio) = 0 Then
+        DirAudio = App.Path & "\Recursos\Audio\"
+    End If
+    If Len(GraphicsPath) = 0 Then
+        GraphicsPath = App.Path & "\Recursos\Graficos\"
+    End If
 
-    If frmMain.Option2.Value = True Then
+    If frmMain.Option2.value = True Then
         ClienteHeight = 13
         ClienteWidth = 17
         Else
@@ -366,15 +393,22 @@ Public Sub Main()
                 
         .X.Caption = "Inicializando constantes..."
             IniPath = App.Path & "\"
-            InitPath = App.Path & "\Recursos\Init\"
-            DirDats = App.Path & "\Dats\"
-            DirMinimapas = App.Path & "\Recursos\Graficos\MiniMapa\"
-            DirAudio = App.Path & "\Recursos\Audio\"
+            'InitPath = App.Path & "\Recursos\Init\"
+            'DirDats = App.Path & "\Dats\"
+            'DirMinimapas = App.Path & "\Recursos\Graficos\MiniMapa\"
+            'DirAudio = App.Path & "\Recursos\Audio\"
+            ClientPath = "..\Cliente\Init\"
+            ServerPath = "..\Server\Dat\"
+            'GraphicsPath = "..\Cliente\Graficos\"
         DoEvents
         
         .X.Caption = "Cargando Indice de Superficies..."
             Call modIndices.CargarIndicesSuperficie
         DoEvents
+
+        .X.Caption = "Comprobando recursos..."
+        DoEvents
+        Call CheckResources
 
         .X.Caption = "Indexando Cargado de Imagenes..."
         DoEvents
@@ -439,13 +473,13 @@ Public Function GetVar(File As String, Main As String, Var As String) As String
 
 End Function
 
-Public Sub WriteVar(File As String, Main As String, Var As String, Value As String)
+Public Sub WriteVar(File As String, Main As String, Var As String, value As String)
     '*************************************************
     'Author: Unkwown
     'Last modified: 20/05/06
     '*************************************************
     
-    Call writeprivateprofilestring(Main, Var, Value, File)
+    Call writeprivateprofilestring(Main, Var, value, File)
 
 End Sub
 
@@ -612,5 +646,65 @@ Public Function ReturnNumberFromString(ByVal sString As String) As String
        
    Next i
    
+End Function
+
+Private Function DirExists(Path As String) As Boolean
+On Error GoTo error
+
+    Dim Val As Integer
+    Val = GetAttr(Path) And vbDirectory
+    If Val <> 0 Then
+        DirExists = True
+     Else
+        DirExists = False
+    End If
+
+Exit Function
+
+error:
+
+    If Err.Number = 53 Then
+        DirExists = False
+    End If
+
+End Function
+
+Public Sub CheckResources()
+    
+    Call CheckDir(InitPath)
+    Call CheckDir(DirDats)
+    Call CheckDir(DirMinimapas)
+    Call CheckDir(DirAudio)
+    
+    Call CheckFile(InitPath, ClientPath, "Graficos.ini")
+    Call CheckFile(InitPath, ClientPath, "Graficos.ind")
+    Call CheckFile(InitPath, ClientPath, "Triggers.ini")
+    Call CheckFile(InitPath, ClientPath, "Personajes.ind")
+    Call CheckFile(InitPath, ClientPath, "Cabezas.ind")
+    Call CheckFile(InitPath, ClientPath, "Minimap.dat")
+    Call CheckFile(InitPath, ClientPath, "Particulas.ini")
+    Call CheckFile(DirDats, ServerPath, "OBJ.dat")
+    Call CheckFile(DirDats, ServerPath, "NPCs.dat")
+    
+End Sub
+
+Private Sub CheckDir(Path As String)
+    If DirExists(Path) = False Then
+        MkDir Path
+    End If
+End Sub
+
+Private Function CheckFile(WherePath As String, FromPath As String, FileName As String) As Boolean
+
+    CheckFile = False
+    If Dir(WherePath & FileName) = vbNullString Then
+        If DirExists(FromPath) = True And Dir(FromPath & FileName) <> vbNullString Then
+            Call FileCopy(FromPath & FileName, WherePath & FileName)
+        End If
+    End If
+    If Dir(WherePath & FileName) <> vbNullString Then
+        CheckFile = True
+    End If
+
 End Function
 

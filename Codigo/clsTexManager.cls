@@ -23,7 +23,7 @@ Private Const MIN_MEMORY_TO_USE As Long = 16 * BYTES_PER_MB          '4 Mb
  
 Private Type SURFACE_ENTRY_DYN
 
-    FileName As Integer
+    Filename As Integer
     UltimoAcceso As Long
     Texture As Direct3DTexture8
     Size As Long
@@ -81,11 +81,11 @@ Private Sub Class_Terminate()
 
 End Sub
  
-Public Function GetTexture(ByVal FileName As Integer, _
+Public Function GetTexture(ByVal Filename As Integer, _
                            ByRef textwidth As Long, _
                            ByRef textheight As Long) As Direct3DTexture8
 
-    If FileName = 0 Then
+    If Filename = 0 Then
         Debug.Print "0 GRH ATMPT TO BE LOADED"
         Exit Function
 
@@ -94,11 +94,11 @@ Public Function GetTexture(ByVal FileName As Integer, _
     Dim i As Long
 
     ' Search the index on the list
-    With TexList(FileName Mod HASH_TABLE_SIZE)
+    With TexList(Filename Mod HASH_TABLE_SIZE)
 
         For i = 1 To .surfaceCount
 
-            If .SurfaceEntry(i).FileName = FileName Then
+            If .SurfaceEntry(i).Filename = Filename Then
                 .SurfaceEntry(i).UltimoAcceso = GetTickCount
                 textwidth = .SurfaceEntry(i).texture_width
                 textheight = .SurfaceEntry(i).texture_height
@@ -112,7 +112,7 @@ Public Function GetTexture(ByVal FileName As Integer, _
     End With
  
     'Not in memory, load it!
-    Set GetTexture = CrearGrafico(FileName, textwidth, textheight)
+    Set GetTexture = CrearGrafico(Filename, textwidth, textheight)
 
 End Function
 
@@ -140,7 +140,7 @@ Private Function CrearGrafico(ByVal Archivo As Integer, _
                               ByRef texwidth As Long, _
                               ByRef textheight As Long) As Direct3DTexture8
 
-    On Error GoTo ErrHandler
+    On Error GoTo errhandler
 
     Dim surface_desc As D3DSURFACE_DESC
     Dim texture_info As D3DXIMAGE_INFO
@@ -159,27 +159,27 @@ Private Function CrearGrafico(ByVal Archivo As Integer, _
         With .SurfaceEntry(.surfaceCount)
             
             'Nombre
-            .FileName = Archivo
+            .Filename = Archivo
            
             'Ultimo acceso
             .UltimoAcceso = GetTickCount
             
             'Si existe Graphics.AO, lo cargamos.
-            If FileExist(App.Path & "\Recursos\Graficos\Graphics.AO", vbNormal) Then
+            If FileExist(GraphicsPath & "Graphics.AO", vbNormal) Then
                 
                 Dim Buffer() As Byte
                 
                 'Obtenemos el .bmp del archivo en Graphics.AO
-                Call modCompression.Get_Image(App.Path & "\Recursos\Graficos\", CStr(Archivo), Buffer())
+                Call modCompression.Get_Image(GraphicsPath, CStr(Archivo), Buffer())
                 
                 'Seteamos la textura.
                 Set .Texture = D3DX.CreateTextureFromFileInMemoryEx(D3DDevice, Buffer(0), UBound(Buffer()) + 1, D3DX_DEFAULT, D3DX_DEFAULT, 0, 0, D3DFMT_A8R8G8B8, _
                                                                     D3DPOOL_MANAGED, D3DX_FILTER_POINT, D3DX_FILTER_NONE, &HFF000000, texture_info, ByVal 0)
                 Erase Buffer
                 
-            Else 'Si no existe (Graphics.AO), cargamos los .PNG's o .BMP's descompromodos en la carpeta "\Recursos\Graficos\"
+            Else 'Si no existe (Graphics.AO), cargamos los .PNG's o .BMP's descompromodos en la carpeta "GraphicsPath"
             
-                ArchivoGrafico = App.Path & "\Recursos\Graficos\" & .FileName
+                ArchivoGrafico = GraphicsPath & .Filename
                 
                 If FileExist(ArchivoGrafico & ".png", vbNormal) Then
                     ArchivoGrafico = ArchivoGrafico & ".png"
@@ -222,7 +222,7 @@ Private Function CrearGrafico(ByVal Archivo As Integer, _
     
     Exit Function
     
-ErrHandler:
+errhandler:
     Debug.Print "ERROR EN GRHLOAD>" & Archivo & ".png"
     
 End Function
@@ -273,7 +273,7 @@ Private Function RemoveLRU() As Boolean
    
     'Remove it
     Set TexList(LRUi).SurfaceEntry(LRUj).Texture = Nothing
-    TexList(LRUi).SurfaceEntry(LRUj).FileName = 0
+    TexList(LRUi).SurfaceEntry(LRUj).Filename = 0
    
     'Move back the list (if necessary)
     If LRUj Then

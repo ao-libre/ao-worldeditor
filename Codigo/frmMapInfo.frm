@@ -134,9 +134,9 @@ Begin VB.Form frmMapInfo
       capalign        =   2
       backstyle       =   2
       cgradient       =   0
-      font            =   "frmMapInfo.frx":628A
+      font            =   "frmMapInfo.frx":1E74E
       mode            =   0
-      value           =   0   'False
+      value           =   0
       cback           =   -2147483633
    End
    Begin WorldEditor.lvButtons_H cmdCerrar 
@@ -151,9 +151,9 @@ Begin VB.Form frmMapInfo
       capalign        =   2
       backstyle       =   2
       cgradient       =   0
-      font            =   "frmMapInfo.frx":62B6
+      font            =   "frmMapInfo.frx":1E77A
       mode            =   0
-      value           =   0   'False
+      value           =   0
       cback           =   -2147483633
    End
    Begin VB.ComboBox txtMapRestringir 
@@ -167,9 +167,9 @@ Begin VB.Form frmMapInfo
          Strikethrough   =   0   'False
       EndProperty
       Height          =   330
-      ItemData        =   "frmMapInfo.frx":62E2
+      ItemData        =   "frmMapInfo.frx":1E7A6
       Left            =   1680
-      List            =   "frmMapInfo.frx":62F8
+      List            =   "frmMapInfo.frx":1E7BC
       TabIndex        =   12
       Text            =   "NO"
       Top             =   2280
@@ -212,9 +212,9 @@ Begin VB.Form frmMapInfo
          Strikethrough   =   0   'False
       EndProperty
       Height          =   330
-      ItemData        =   "frmMapInfo.frx":6327
+      ItemData        =   "frmMapInfo.frx":1E7EB
       Left            =   1680
-      List            =   "frmMapInfo.frx":6334
+      List            =   "frmMapInfo.frx":1E7F8
       TabIndex        =   10
       Top             =   1920
       Width           =   2655
@@ -230,9 +230,9 @@ Begin VB.Form frmMapInfo
          Strikethrough   =   0   'False
       EndProperty
       Height          =   330
-      ItemData        =   "frmMapInfo.frx":6351
+      ItemData        =   "frmMapInfo.frx":1E815
       Left            =   1680
-      List            =   "frmMapInfo.frx":635E
+      List            =   "frmMapInfo.frx":1E822
       TabIndex        =   9
       Top             =   1560
       Width           =   2655
@@ -335,9 +335,9 @@ Begin VB.Form frmMapInfo
       capalign        =   2
       backstyle       =   2
       cgradient       =   0
-      font            =   "frmMapInfo.frx":637A
+      font            =   "frmMapInfo.frx":1E83E
       mode            =   0
-      value           =   0   'False
+      value           =   0
       cback           =   -2147483633
    End
    Begin VB.Label Label9 
@@ -543,7 +543,7 @@ Private Sub chkMapBackup_LostFocus()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    MapInfo.BackUp = chkMapBackup.Value
+    MapInfo.BackUp = chkMapBackup.value
     MapInfo.Changed = 1
 
 End Sub
@@ -553,7 +553,7 @@ Private Sub chkMapMagiaSinEfecto_LostFocus()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    MapInfo.MagiaSinEfecto = chkMapMagiaSinEfecto.Value
+    MapInfo.MagiaSinEfecto = chkMapMagiaSinEfecto.value
     MapInfo.Changed = 1
 
 End Sub
@@ -563,7 +563,7 @@ Private Sub chkMapInviSinEfecto_LostFocus()
     'Author:
     'Last modified:
     '*************************************************
-    MapInfo.InviSinEfecto = chkMapInviSinEfecto.Value
+    MapInfo.InviSinEfecto = chkMapInviSinEfecto.value
     MapInfo.Changed = 1
 
 End Sub
@@ -573,7 +573,7 @@ Private Sub chkMapnpc_LostFocus()
     'Author: Hardoz
     'Last modified: 28/08/2010
     '*************************************************
-    MapInfo.SePuedeDomar = ChkMapNpc.Value
+    MapInfo.SePuedeDomar = ChkMapNpc.value
     MapInfo.Changed = 1
  
 End Sub
@@ -583,7 +583,7 @@ Private Sub chkMapResuSinEfecto_LostFocus()
     'Author:
     'Last modified:
     '*************************************************
-    MapInfo.ResuSinEfecto = chkMapResuSinEfecto.Value
+    MapInfo.ResuSinEfecto = chkMapResuSinEfecto.value
     MapInfo.Changed = 1
 
 End Sub
@@ -593,7 +593,7 @@ Private Sub chkMapNoEncriptarMP_LostFocus()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    MapInfo.NoEncriptarMP = chkMapNoEncriptarMP.Value
+    MapInfo.NoEncriptarMP = chkMapNoEncriptarMP.value
     MapInfo.Changed = 1
 
 End Sub
@@ -603,7 +603,7 @@ Private Sub chkMapPK_LostFocus()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    MapInfo.PK = chkMapPK.Value
+    MapInfo.PK = chkMapPK.value
     MapInfo.Changed = 1
 
 End Sub

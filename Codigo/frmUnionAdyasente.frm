@@ -79,24 +79,16 @@ Begin VB.Form frmUnionAdyacente
       TabIndex        =   29
       Top             =   4080
       Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   661
-      Caption         =   "&Aplicar"
-      CapAlign        =   2
-      BackStyle       =   2
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      cGradient       =   0
-      Mode            =   0
-      Value           =   0   'False
-      cBack           =   -2147483633
+      _extentx        =   2355
+      _extenty        =   661
+      caption         =   "&Aplicar"
+      capalign        =   2
+      backstyle       =   2
+      cgradient       =   0
+      font            =   "frmUnionAdyasente.frx":1E74E
+      mode            =   0
+      value           =   0
+      cback           =   -2147483633
    End
    Begin VB.TextBox PosLim 
       BackColor       =   &H008080FF&
@@ -413,24 +405,16 @@ Begin VB.Form frmUnionAdyacente
       TabIndex        =   30
       Top             =   4080
       Width           =   1335
-      _ExtentX        =   2355
-      _ExtentY        =   661
-      Caption         =   "&Cancelar"
-      CapAlign        =   2
-      BackStyle       =   2
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      cGradient       =   0
-      Mode            =   0
-      Value           =   0   'False
-      cBack           =   -2147483633
+      _extentx        =   2355
+      _extenty        =   661
+      caption         =   "&Cancelar"
+      capalign        =   2
+      backstyle       =   2
+      cgradient       =   0
+      font            =   "frmUnionAdyasente.frx":1E77A
+      mode            =   0
+      value           =   0
+      cback           =   -2147483633
    End
    Begin WorldEditor.lvButtons_H cmdDefault 
       Height          =   375
@@ -438,24 +422,16 @@ Begin VB.Form frmUnionAdyacente
       TabIndex        =   31
       Top             =   4080
       Width           =   1095
-      _ExtentX        =   1931
-      _ExtentY        =   661
-      Caption         =   "&Default"
-      CapAlign        =   2
-      BackStyle       =   2
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      cGradient       =   0
-      Mode            =   0
-      Value           =   0   'False
-      cBack           =   -2147483633
+      _extentx        =   1931
+      _extenty        =   661
+      caption         =   "&Default"
+      capalign        =   2
+      backstyle       =   2
+      cgradient       =   0
+      font            =   "frmUnionAdyasente.frx":1E7A6
+      mode            =   0
+      value           =   0
+      cback           =   -2147483633
    End
    Begin VB.CheckBox AutoMapeo 
       BackColor       =   &H00E0E0E0&
@@ -1012,7 +988,7 @@ Private Sub Aplicar_Click(index As Integer)
 
     For i = 0 To 3
 
-        If Aplicar(i).Value = 1 Then cmdAplicar.Enabled = True
+        If Aplicar(i).value = 1 Then cmdAplicar.Enabled = True
     Next
 
 End Sub
@@ -1038,7 +1014,7 @@ Private Sub cmdAplicar_Click()
     modEdicion.Deshacer_Add "Insertar Translados a mapas Adyasentes" ' Hago deshacer
 
     ' ARRIBA
-    If Mapa(0).Text > -1 And Aplicar(0).Value = 1 Then
+    If Mapa(0).Text > -1 And Aplicar(0).value = 1 Then
         Y = PosLim(1).Text
 
         For X = (PosLim(3).Text + 1) To (PosLim(2).Text - 1)
@@ -1062,7 +1038,7 @@ Private Sub cmdAplicar_Click()
     End If
 
     ' DERECHA
-    If Mapa(1).Text > -1 And Aplicar(1).Value = 1 Then
+    If Mapa(1).Text > -1 And Aplicar(1).value = 1 Then
         X = PosLim(2).Text
 
         For Y = (PosLim(1).Text + 1) To (PosLim(0).Text - 1)
@@ -1086,7 +1062,7 @@ Private Sub cmdAplicar_Click()
     End If
 
     ' ABAJO
-    If Mapa(2).Text > -1 And Aplicar(2).Value = 1 Then
+    If Mapa(2).Text > -1 And Aplicar(2).value = 1 Then
         Y = PosLim(0).Text
 
         For X = (PosLim(3).Text + 1) To (PosLim(2).Text - 1)
@@ -1110,7 +1086,7 @@ Private Sub cmdAplicar_Click()
     End If
 
     ' IZQUIERDA
-    If Mapa(3).Text > -1 And Aplicar(3).Value = 1 Then
+    If Mapa(3).Text > -1 And Aplicar(3).value = 1 Then
         X = PosLim(3).Text
 
         For Y = (PosLim(1).Text + 1) To (PosLim(0).Text - 1)
@@ -1186,7 +1162,7 @@ Private Sub LeerMapaExit()
         End If
 
     Next
-    Aplicar(0).Value = 0
+    Aplicar(0).value = 0
 
     ' DERECHA
     Mapa(1).Text = 0
@@ -1201,7 +1177,7 @@ Private Sub LeerMapaExit()
         End If
 
     Next
-    Aplicar(1).Value = 0
+    Aplicar(1).value = 0
 
     ' ABAJO
     Mapa(2).Text = 0
@@ -1216,7 +1192,7 @@ Private Sub LeerMapaExit()
         End If
 
     Next
-    Aplicar(2).Value = 0
+    Aplicar(2).value = 0
 
     ' IZQUIERDA
     Mapa(3).Text = 0
@@ -1229,7 +1205,7 @@ Private Sub LeerMapaExit()
             Exit For
         End If
     Next
-    Aplicar(3).Value = 0
+    Aplicar(3).value = 0
 
 End Sub
 
@@ -1238,7 +1214,7 @@ Private Sub Form_Load()
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-        If frmMain.Option2.Value = True Then
+        If frmMain.Option2.value = True Then
             Call mnuBasica_Click
         Else
             Call mnuUlla_Click
@@ -1252,7 +1228,7 @@ Private Sub Mapa_Change(index As Integer)
     'Author: ^[GS]^
     'Last modified: 20/05/06
     '*************************************************
-    Aplicar(index).Value = 1
+    Aplicar(index).value = 1
 
 End Sub
 
@@ -1369,7 +1345,7 @@ Private Sub PosLim_KeyUp(index As Integer, KeyCode As Integer, Shift As Integer)
 
         If MapData(X, Y).TileExit.Map > 0 Then
             Mapa(0).Text = MapData(X, Y).TileExit.Map
-            Aplicar(0).Value = 0
+            Aplicar(0).value = 0
             Exit For
         End If
 
@@ -1382,7 +1358,7 @@ Private Sub PosLim_KeyUp(index As Integer, KeyCode As Integer, Shift As Integer)
 
         If MapData(X, Y).TileExit.Map > 0 Then
             Mapa(1).Text = MapData(X, Y).TileExit.Map
-            Aplicar(1).Value = 0
+            Aplicar(1).value = 0
             Exit For
 
         End If
@@ -1396,7 +1372,7 @@ Private Sub PosLim_KeyUp(index As Integer, KeyCode As Integer, Shift As Integer)
 
         If MapData(X, Y).TileExit.Map > 0 Then
             Mapa(2).Text = MapData(X, Y).TileExit.Map
-            Aplicar(2).Value = 0
+            Aplicar(2).value = 0
             Exit For
 
         End If
@@ -1410,7 +1386,7 @@ Private Sub PosLim_KeyUp(index As Integer, KeyCode As Integer, Shift As Integer)
 
         If MapData(X, Y).TileExit.Map > 0 Then
             Mapa(3).Text = MapData(X, Y).TileExit.Map
-            Aplicar(3).Value = 0
+            Aplicar(3).value = 0
             Exit For
 
         End If

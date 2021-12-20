@@ -63,7 +63,7 @@ Begin VB.Form frmCargando
    Begin VB.Image P6 
       Height          =   480
       Left            =   5000
-      Picture         =   "frmCargando.frx":628A
+      Picture         =   "frmCargando.frx":1E74E
       ToolTipText     =   "Función de Trigger"
       Top             =   2280
       Visible         =   0   'False
@@ -204,7 +204,7 @@ Begin VB.Form frmCargando
    Begin VB.Image P5 
       Height          =   480
       Left            =   3960
-      Picture         =   "frmCargando.frx":6ECC
+      Picture         =   "frmCargando.frx":1F390
       ToolTipText     =   "Objetos"
       Top             =   2280
       Visible         =   0   'False
@@ -213,7 +213,7 @@ Begin VB.Form frmCargando
    Begin VB.Image P1 
       Height          =   480
       Left            =   120
-      Picture         =   "frmCargando.frx":7710
+      Picture         =   "frmCargando.frx":1FBD4
       ToolTipText     =   "Base de Datos"
       Top             =   2280
       Visible         =   0   'False
@@ -222,7 +222,7 @@ Begin VB.Form frmCargando
    Begin VB.Image P3 
       Height          =   480
       Left            =   1920
-      Picture         =   "frmCargando.frx":7F54
+      Picture         =   "frmCargando.frx":20418
       ToolTipText     =   "Cabezas"
       Top             =   2280
       Visible         =   0   'False
@@ -231,7 +231,7 @@ Begin VB.Form frmCargando
    Begin VB.Image P4 
       Height          =   480
       Left            =   2880
-      Picture         =   "frmCargando.frx":8798
+      Picture         =   "frmCargando.frx":20C5C
       ToolTipText     =   "NPC's"
       Top             =   2280
       Visible         =   0   'False
@@ -240,7 +240,7 @@ Begin VB.Form frmCargando
    Begin VB.Image P2 
       Height          =   480
       Left            =   960
-      Picture         =   "frmCargando.frx":93DA
+      Picture         =   "frmCargando.frx":2189E
       ToolTipText     =   "Cuerpos"
       Top             =   2280
       Visible         =   0   'False

@@ -28,24 +28,16 @@ Begin VB.Form frmInformes
       TabIndex        =   1
       Top             =   4200
       Width           =   2055
-      _ExtentX        =   3625
-      _ExtentY        =   873
-      Caption         =   "&Objetos"
-      CapAlign        =   2
-      BackStyle       =   2
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      cGradient       =   0
-      Mode            =   0
-      Value           =   0   'False
-      cBack           =   -2147483633
+      _extentx        =   3625
+      _extenty        =   873
+      caption         =   "&Objetos"
+      capalign        =   2
+      backstyle       =   2
+      cgradient       =   0
+      font            =   "frmInformes.frx":1E74E
+      mode            =   0
+      value           =   0
+      cback           =   -2147483633
    End
    Begin WorldEditor.lvButtons_H cmdCerrar 
       Height          =   495
@@ -53,24 +45,16 @@ Begin VB.Form frmInformes
       TabIndex        =   2
       Top             =   4920
       Width           =   2175
-      _ExtentX        =   3836
-      _ExtentY        =   873
-      Caption         =   "&Cerrar"
-      CapAlign        =   2
-      BackStyle       =   2
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      cGradient       =   0
-      Mode            =   0
-      Value           =   0   'False
-      cBack           =   -2147483633
+      _extentx        =   3836
+      _extenty        =   873
+      caption         =   "&Cerrar"
+      capalign        =   2
+      backstyle       =   2
+      cgradient       =   0
+      font            =   "frmInformes.frx":1E77A
+      mode            =   0
+      value           =   0
+      cback           =   -2147483633
    End
    Begin WorldEditor.lvButtons_H cmdTranslados 
       Height          =   495
@@ -78,24 +62,16 @@ Begin VB.Form frmInformes
       TabIndex        =   3
       Top             =   4200
       Width           =   2175
-      _ExtentX        =   3836
-      _ExtentY        =   873
-      Caption         =   "&Translados"
-      CapAlign        =   2
-      BackStyle       =   2
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      cGradient       =   0
-      Mode            =   0
-      Value           =   0   'False
-      cBack           =   -2147483633
+      _extentx        =   3836
+      _extenty        =   873
+      caption         =   "&Translados"
+      capalign        =   2
+      backstyle       =   2
+      cgradient       =   0
+      font            =   "frmInformes.frx":1E7A6
+      mode            =   0
+      value           =   0
+      cback           =   -2147483633
    End
    Begin WorldEditor.lvButtons_H cmdNPCs 
       Height          =   495
@@ -103,24 +79,16 @@ Begin VB.Form frmInformes
       TabIndex        =   4
       Top             =   4200
       Width           =   1935
-      _ExtentX        =   3413
-      _ExtentY        =   873
-      Caption         =   "&NPCs/Hostiles"
-      CapAlign        =   2
-      BackStyle       =   2
-      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      cGradient       =   0
-      Mode            =   0
-      Value           =   0   'False
-      cBack           =   -2147483633
+      _extentx        =   3413
+      _extenty        =   873
+      caption         =   "&NPCs/Hostiles"
+      capalign        =   2
+      backstyle       =   2
+      cgradient       =   0
+      font            =   "frmInformes.frx":1E7D2
+      mode            =   0
+      value           =   0
+      cback           =   -2147483633
    End
    Begin VB.Line Line4 
       BorderColor     =   &H00808080&
